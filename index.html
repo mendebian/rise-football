@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rise Football</title>
+    <link rel="icon" type="image/png" href="https://orbitcloud.vaneltonmedia.com/fb8b4ce080e59805fcd247391a5574e8/rise.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #000000;
+            --secondary: #1a1a1a;
+            --accent: #333333;
+            --success: #4ecca3;
+            --warning: #f9a826;
+            --danger: #ff6b6b;
+            --background: #f5f5f5;
+            --card: #ffffff;
+            --text: #1a1a1a;
+            --text-light: #666666;
+            --border: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        .home-screen {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
+            padding: 20px;
+            position: relative;
+        }
+
+        .home-screen .logo-icon {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 24px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .home-screen .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .home-screen h1 {
+            font-size: 4em;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 8px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+        }
+
+        .home-screen .subtitle {
+            font-size: 1.2em;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 48px;
+            letter-spacing: 2px;
+        }
+
+        .home-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .home-btn {
+            padding: 16px 32px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 1px;
+            width: 100%;
+        }
+
+        .home-btn.primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .home-btn.primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .home-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .home-btn.secondary:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .footer-credit {
+            position: absolute;
+            bottom: 20px;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.8em;
+            letter-spacing: 1px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+        }
+
+        .main-content {
+            padding: 24px 32px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .teams-list {
+            margin-top: 16px;
+        }
+
+        .team-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .team-row:last-child {
+            border-bottom: none;
+        }
+
+        .team-row-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .team-shield {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9em;
+            overflow: visible;
+            flex-shrink: 0;
+        }
+
+        .team-shield img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .team-shield.large {
+            width: 56px;
+            height: 56px;
+            font-size: 1.2em;
+        }
+
+        .team-info h3 {
+            font-size: 1em;
+        }
+
+        .team-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            font-size: 0.85em;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #333333;
+        }
+
+        .btn-secondary {
+            background: #666666;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #555555;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #ff4757;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.8em;
+        }
+
+        .match-setup {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .team-selection {
+            text-align: center;
+        }
+
+        .team-selection .team-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .team-selection .team-display h3 {
+            font-size: 0.95em;
+            min-height: 24px;
+        }
+
+        .team-selection select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.9em;
+            background: var(--card);
+            transition: all 0.2s;
+        }
+
+        .team-selection select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .vs-badge {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: var(--text-light);
+            align-self: center;
+            padding-top: 40px;
+        }
+
+        .tactics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .tactic-card {
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--card);
+        }
+
+        .tactic-card:hover {
+            border-color: var(--primary);
+            background: var(--background);
+        }
+
+        .tactic-card.selected {
+            border-color: var(--primary);
+            background: var(--background);
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .tactic-card .tactic-icon {
+            font-size: 1em;
+            margin-bottom: 4px;
+        }
+
+        .tactic-card .tactic-name {
+            font-weight: 500;
+            font-size: 0.7em;
+        }
+
+        .match-live {
+            padding: 0;
+        }
+
+        .match-header {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 16px;
+            padding-bottom: 16px;
+        }
+
+        .match-team-display {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .match-team-display.home {
+            justify-content: flex-start;
+        }
+
+        .match-team-display.away {
+            justify-content: flex-end;
+        }
+
+        .match-team-display .team-name {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .match-score {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-self: center;
+        }
+
+        .score-box {
+            border-radius: 8px;
+            padding: 8px 16px;
+            min-width: 48px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+
+        .match-time-box {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--text-light);
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .match-narration-standalone {
+            text-align: center;
+            padding: 12px 0;
+            font-size: 1em;
+            line-height: 1.6;
+            color: var(--text);
+            min-height: 40px;
+        }
+
+        .narration-text {
+            display: inline;
+        }
+
+        .field-zone-container {
+            margin: 16px 0;
+            position: relative;
+        }
+
+        .field-zone {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .field-zone-home {
+            flex: 1;
+            height: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .field-zone-away {
+            flex: 1;
+            height: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .field-divider-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: white;
+            z-index: 1;
+            transition: left 0.3s ease;
+        }
+
+        .divider-line {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .stats-comparison {
+            margin: 20px 0;
+        }
+
+        .stat-row {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 16px;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .stat-home {
+            text-align: right;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        .stat-center {
+            text-align: center;
+            font-size: 0.75em;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            min-width: 100px;
+        }
+
+        .stat-away {
+            text-align: left;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        .events-timeline {
+            margin: 20px 0;
+            min-height: 40px;
+        }
+
+        .no-goals {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.9em;
+            padding: 12px 0;
+        }
+
+        .event-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 28px;
+            padding: 4px 0;
+        }
+
+        .event-home {
+            flex: 1;
+            text-align: left;
+            padding-left: 0;
+            font-size: 0.9em;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .event-away {
+            flex: 1;
+            text-align: right;
+            padding-right: 0;
+            font-size: 0.9em;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .event-spacer {
+            width: 60px;
+            flex-shrink: 0;
+        }
+
+        /* Match Controls - top right */
+        .match-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .control-btn {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.8em;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .control-btn:hover {
+            background: var(--background);
+            border-color: var(--primary);
+        }
+
+        .control-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 600px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.2em;
+            cursor: pointer;
+            color: var(--text-light);
+            padding: 4px;
+        }
+
+        .modal-close:hover {
+            color: var(--text);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 500;
+            font-size: 0.85em;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .player-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto auto;
+            gap: 8px;
+            margin-bottom: 8px;
+            align-items: center;
+            padding: 8px;
+            background: var(--background);
+            border-radius: 6px;
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toast {
+            background: var(--card);
+            border-radius: 8px;
+            padding: 12px 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: slideInRight 0.2s ease-out;
+            min-width: 250px;
+            border-left: 3px solid var(--primary);
+            font-size: 0.85em;
+        }
+
+        .toast.success { border-left-color: var(--success); }
+        .toast.error { border-left-color: var(--danger); }
+        .toast.warning { border-left-color: var(--warning); }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @media (max-width: 768px) {
+            .match-setup {
+                grid-template-columns: 1fr;
+            }
+            
+            .tactics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .player-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="home-screen" id="home-screen">
+        <div class="logo-icon">
+            <img src="https://orbitcloud.vaneltonmedia.com/fb8b4ce080e59805fcd247391a5574e8/rise.png" alt="Rise Football">
+        </div>
+        <h1>RISE</h1>
+        <p class="subtitle">Football Simulator</p>
+        <div class="home-buttons">
+            <button class="home-btn primary" onclick="showMatchTab()">Simulate Match</button>
+            <button class="home-btn secondary" onclick="showTeamsTab()">Team Editor</button>
+        </div>
+        <div class="footer-credit">© Volcam Studios - v1.0.0</div>
+    </div>
+
+    <div id="main-app" style="display: none;">
+        <div class="main-content">
+            <div class="tab-content" id="teams-tab">
+                <button class="back-btn" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i></button>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h2 style="font-size: 1.2em;">Teams</h2>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-secondary" onclick="showDataTab()"><i class="fa-solid fa-code"></i> Data</button>
+                        <button class="btn btn-primary" onclick="showEditor()"><i class="fa-solid fa-plus"></i> New Team</button>
+                    </div>
+                </div>
+                <div class="teams-list" id="teams-list"></div>
+            </div>
+
+            <div class="tab-content" id="match-tab">
+                <div id="match-setup">
+                    <button class="back-btn" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i></button>
+                    <div class="match-setup">
+                        <div class="team-selection">
+                            <div class="team-display">
+                                <div class="team-shield large" id="home-shield">🏠</div>
+                                <h3 id="home-name">Home Team</h3>
+                            </div>
+                            <select id="home-team-select" onchange="selectTeam('home')">
+                                <option value="">Select home team</option>
+                            </select>
+                            <div class="tactics-grid" id="home-tactics"></div>
+                        </div>
+                        
+                        <div class="vs-badge">VS</div>
+                        
+                        <div class="team-selection">
+                            <div class="team-display">
+                                <div class="team-shield large" id="away-shield">🏠</div>
+                                <h3 id="away-name">Away Team</h3>
+                            </div>
+                            <select id="away-team-select" onchange="selectTeam('away')">
+                                <option value="">Select away team</option>
+                            </select>
+                            <div class="tactics-grid" id="away-tactics"></div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="btn btn-primary" onclick="startMatch()"><i class="fa-solid fa-futbol"></i> Start Match</button>
+                    </div>
+                </div>
+
+                <div id="match-live" style="display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <button class="back-btn" onclick="returnToSetup()" style="margin-bottom: 0;"><i class="fa-solid fa-arrow-left"></i></button>
+                        <div class="match-controls">
+                            <button class="control-btn" id="pause-btn" onclick="togglePause()"><i class="fa-solid fa-pause" id="pause-icon"></i> <span id="pause-text">Pause</span></button>
+                            <button class="control-btn active" id="speed-1x" onclick="setSpeed(1)">1x</button>
+                            <button class="control-btn" id="speed-2x" onclick="setSpeed(2)">2x</button>
+                            <button class="control-btn" id="speed-4x" onclick="setSpeed(4)">4x</button>
+                        </div>
+                    </div>
+
+                    <div class="match-header">
+                        <div class="match-team-display home">
+                            <div class="team-shield large" id="live-home-shield">🏠</div>
+                            <span class="team-name" id="live-home-name">Home Team</span>
+                        </div>
+                        
+                        <div class="match-score">
+                            <div class="score-box" id="home-score">0</div>
+                            <div class="match-time-box" id="match-time">00'</div>
+                            <div class="score-box" id="away-score">0</div>
+                        </div>
+                        
+                        <div class="match-team-display away">
+                            <span class="team-name" id="live-away-name">Away Team</span>
+                            <div class="team-shield large" id="live-away-shield">🏠</div>
+                        </div>
+                    </div>
+
+                    <div class="match-narration-standalone">
+                        <span class="narration-text" id="narration-text"></span>
+                    </div>
+
+                    <div class="field-zone-container">
+                        <div class="field-zone" style="position: relative;">
+                            <div class="field-zone-home" id="field-zone-home"></div>
+                            <div class="field-divider-line" id="field-divider-line" style="left: 50%;"></div>
+                            <div class="field-zone-away" id="field-zone-away"></div>
+                        </div>
+                    </div>
+
+                    <hr class="divider-line">
+
+                    <div class="events-timeline" id="events-timeline">
+                        <div class="no-goals" id="no-goals">No goals yet</div>
+                    </div>
+
+                    <hr class="divider-line">
+
+                    <div class="stats-comparison" id="stats-comparison">
+                        <div class="stat-row">
+                            <div class="stat-home" id="home-possession-stat">50%</div>
+                            <div class="stat-center">Possession</div>
+                            <div class="stat-away" id="away-possession-stat">50%</div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-home" id="home-shots-stat">0</div>
+                            <div class="stat-center">Shots</div>
+                            <div class="stat-away" id="away-shots-stat">0</div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-home" id="home-shots-target-stat">0</div>
+                            <div class="stat-center">On Target</div>
+                            <div class="stat-away" id="away-shots-target-stat">0</div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-home" id="home-corners-stat">0</div>
+                            <div class="stat-center">Corners</div>
+                            <div class="stat-away" id="away-corners-stat">0</div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-home" id="home-fouls-stat">0</div>
+                            <div class="stat-center">Fouls</div>
+                            <div class="stat-away" id="away-fouls-stat">0</div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-home" id="home-offsides-stat">0</div>
+                            <div class="stat-center">Offsides</div>
+                            <div class="stat-away" id="away-offsides-stat">0</div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-home" id="home-cards-stat">0</div>
+                            <div class="stat-center">Cards</div>
+                            <div class="stat-away" id="away-cards-stat">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="data-tab">
+                <button class="back-btn" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i></button>
+                
+                <div style="margin-bottom: 16px;">
+                    <h3 style="font-size: 1em;">Export Teams</h3>
+                    <p style="color: var(--text-light); margin: 8px 0; font-size: 0.85em;">Export all teams in JSON format.</p>
+                    <button class="btn btn-primary" onclick="exportJSON()"><i class="fa-solid fa-download"></i> Export JSON</button>
+                    <textarea id="json-output" style="width: 100%; height: 120px; margin-top: 12px; padding: 10px; border: 1px solid var(--border); border-radius: 6px; font-family: monospace; font-size: 0.85em;"></textarea>
+                </div>
+
+                <div>
+                    <h3 style="font-size: 1em;">Import Teams</h3>
+                    <p style="color: var(--text-light); margin: 8px 0; font-size: 0.85em;">Paste JSON data to import teams.</p>
+                    <textarea id="json-input" style="width: 100%; height: 120px; margin-bottom: 12px; padding: 10px; border: 1px solid var(--border); border-radius: 6px; font-family: monospace; font-size: 0.85em;" placeholder="Paste JSON here..."></textarea>
+                    <button class="btn btn-success" onclick="importJSON()"><i class="fa-solid fa-upload"></i> Import JSON</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="confirm-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 style="font-size: 1em;">Confirm</h3>
+                <button class="modal-close" onclick="closeModal('confirm-modal')">×</button>
+            </div>
+            <p id="confirm-message" style="margin-bottom: 16px; font-size: 0.9em;"></p>
+            <div style="text-align: right; display: flex; gap: 8px; justify-content: flex-end;">
+                <button class="btn btn-secondary" onclick="closeModal('confirm-modal')">Cancel</button>
+                <button class="btn btn-primary" id="confirm-accept" onclick="closeModal('confirm-modal')">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="editor-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 style="font-size: 1.1em;">Team Editor</h2>
+                <button class="modal-close" onclick="hideEditor()">×</button>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Team Name:</label>
+                    <input type="text" id="team-name" placeholder="e.g. Flamengo">
+                </div>
+                <div class="form-group">
+                    <label>Abbreviation:</label>
+                    <input type="text" id="team-abbreviation" placeholder="e.g. FLA" maxlength="3">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Primary Color:</label>
+                    <input type="color" id="team-color1" value="#000000">
+                </div>
+                <div class="form-group">
+                    <label>Secondary Color:</label>
+                    <input type="color" id="team-color2" value="#ffffff">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Badge (URL):</label>
+                    <input type="text" id="team-shield-url" placeholder="https://... (optional)">
+                </div>
+                <div class="form-group">
+                    <label>Stadium:</label>
+                    <input type="text" id="team-stadium" placeholder="e.g. Maracanã">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>City:</label>
+                    <input type="text" id="team-city" placeholder="e.g. Rio de Janeiro">
+                </div>
+                <div class="form-group">
+                    <label>Country:</label>
+                    <input type="text" id="team-country" placeholder="e.g. Brazil">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Continent:</label>
+                <select id="team-continent">
+                    <option value="South America">South America</option>
+                    <option value="North America">North America</option>
+                    <option value="Europe">Europe</option>
+                    <option value="Africa">Africa</option>
+                    <option value="Asia">Asia</option>
+                    <option value="Oceania">Oceania</option>
+                </select>
+            </div>
+            
+            <h3 style="font-size: 0.95em; margin: 16px 0;">Squad (11 starters required)</h3>
+            <div id="players-list"></div>
+            <button class="btn btn-primary btn-sm" onclick="addPlayer()"><i class="fa-solid fa-plus"></i> Add Player</button>
+            
+            <div style="margin-top: 20px; text-align: right; display: flex; gap: 8px; justify-content: flex-end;">
+                <button class="btn btn-secondary" onclick="hideEditor()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveTeam()"><i class="fa-solid fa-floppy-disk"></i> Save Team</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <script>
+        const TACTICS = [
+            { id: 'ultra_defensivo', name: 'Catenaccio', icon: 'fa-shield', attack: 0.7, defense: 1.3, fouls: 1.2 },
+            { id: 'defensivo', name: 'Defensive', icon: 'fa-shield-halved', attack: 0.85, defense: 1.15, fouls: 1.1 },
+            { id: 'reativo', name: 'Counter-Attack', icon: 'fa-bolt', attack: 0.95, defense: 1.05, fouls: 1.0 },
+            { id: 'moderado', name: 'Balanced', icon: 'fa-scale-balanced', attack: 1.0, defense: 1.0, fouls: 1.0 },
+            { id: 'posse', name: 'Possession', icon: 'fa-futbol', attack: 1.05, defense: 0.95, fouls: 0.9 },
+            { id: 'ofensivo', name: 'Offensive', icon: 'fa-bolt', attack: 1.15, defense: 0.85, fouls: 0.9 },
+            { id: 'bolas_longas', name: 'Long Balls', icon: 'fa-arrow-up', attack: 1.1, defense: 0.9, fouls: 1.0 },
+            { id: 'ultra_ofensivo', name: 'All-Out Attack', icon: 'fa-fire', attack: 1.3, defense: 0.7, fouls: 0.8 }
+        ];
+
+        let teams = [];
+        let editingTeamId = null;
+        let currentMatch = null;
+        let matchInterval = null;
+        let selectedTactics = { home: 'moderado', away: 'moderado' };
+        let matchSpeed = 1;
+        let isPaused = false;
+
+        function generateShieldUrl(abbr, color1, color2) {
+            const cleanColor1 = color1.replace('#', '');
+            const cleanColor2 = color2.replace('#', '');
+            return `https://placehold.co/64/${cleanColor1}/${cleanColor2}/png?text=${abbr}`;
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icons = { success: 'fa-circle-check', error: 'fa-circle-xmark', warning: 'fa-triangle-exclamation', info: 'fa-circle-info' };
+            toast.innerHTML = `
+                <i class="fa-solid ${icons[type] || icons.info}"></i>
+                <span>${message}</span>
+                <button class="modal-close" onclick="this.parentElement.remove()" style="margin-left: auto;">×</button>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'slideInRight 0.2s ease-out reverse';
+                setTimeout(() => toast.remove(), 200);
+            }, 3000);
+        }
+
+        function showModal(modalId) { document.getElementById(modalId).classList.add('active'); }
+        function closeModal(modalId) { document.getElementById(modalId).classList.remove('active'); }
+
+        function showConfirm(message, onConfirm) {
+            document.getElementById('confirm-message').textContent = message;
+            document.getElementById('confirm-accept').onclick = () => { closeModal('confirm-modal'); onConfirm(); };
+            showModal('confirm-modal');
+        }
+
+        function goHome() {
+            if (matchInterval) { clearInterval(matchInterval); matchInterval = null; }
+            document.getElementById('main-app').style.display = 'none';
+            document.getElementById('home-screen').style.display = 'flex';
+            document.getElementById('match-setup').style.display = 'block';
+            document.getElementById('match-live').style.display = 'none';
+            currentMatch = null;
+        }
+
+        function showMatchTab() {
+            document.getElementById('home-screen').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('match-tab').classList.add('active');
+        }
+
+        function showTeamsTab() {
+            document.getElementById('home-screen').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('teams-tab').classList.add('active');
+        }
+
+        function showDataTab() {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('data-tab').classList.add('active');
+        }
+
+        function loadTeams() {
+            const saved = localStorage.getItem('sfa_teams');
+            if (saved) teams = JSON.parse(saved);
+            updateTeamsList();
+            updateTeamSelects();
+            createTacticCards();
+        }
+
+        function saveTeams() { localStorage.setItem('sfa_teams', JSON.stringify(teams)); }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(`${tab}-tab`).classList.add('active');
+        }
+
+        function updateTeamsList() {
+            const list = document.getElementById('teams-list');
+            list.innerHTML = '';
+            if (teams.length === 0) {
+                list.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--text-light);"><p style="font-size: 1.1em;">No teams registered</p><p style="font-size: 0.85em; margin-top: 8px;">Click "New Team" to get started</p></div>`;
+                return;
+            }
+            teams.forEach((team, index) => {
+                const row = document.createElement('div');
+                row.className = 'team-row';
+                const shieldUrl = team.shield || generateShieldUrl(team.abbreviation, team.colors[0], team.colors[1]);
+                row.innerHTML = `
+                    <div class="team-row-header">
+                        <div class="team-shield"><img src="${shieldUrl}" alt="${team.abbreviation}"></div>
+                        <div class="team-info"><h3>${team.name}</h3></div>
+                    </div>
+                    <div class="team-actions">
+                        <button class="btn btn-secondary btn-sm" onclick="editTeam(${index})"><i class="fa-solid fa-pen"></i></button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteTeam(${index})"><i class="fa-solid fa-trash"></i></button>
+                    </div>`;
+                list.appendChild(row);
+            });
+        }
+
+        function calculateTeamAverage(team) {
+            const starters = team.players.filter(p => p.starter);
+            if (starters.length === 0) return 0;
+            return starters.reduce((sum, p) => sum + p.rating, 0) / starters.length;
+        }
+
+        function updateTeamSelects() {
+            const homeSelect = document.getElementById('home-team-select');
+            const awaySelect = document.getElementById('away-team-select');
+            homeSelect.innerHTML = '<option value="">Select home team</option>';
+            awaySelect.innerHTML = '<option value="">Select away team</option>';
+            teams.forEach((team, index) => {
+                homeSelect.innerHTML += `<option value="${index}">${team.name}</option>`;
+                awaySelect.innerHTML += `<option value="${index}">${team.name}</option>`;
+            });
+        }
+
+        function createTacticCards() {
+            const homeTactics = document.getElementById('home-tactics');
+            const awayTactics = document.getElementById('away-tactics');
+            homeTactics.innerHTML = '';
+            awayTactics.innerHTML = '';
+            TACTICS.forEach(tactic => {
+                homeTactics.innerHTML += createTacticCard(tactic, 'home');
+                awayTactics.innerHTML += createTacticCard(tactic, 'away');
+            });
+        }
+
+        function createTacticCard(tactic, side) {
+            return `<div class="tactic-card ${selectedTactics[side] === tactic.id ? 'selected' : ''}" onclick="selectTactic('${side}', '${tactic.id}')"><i class="fa-solid ${tactic.icon}"></i><div class="tactic-name">${tactic.name}</div></div>`;
+        }
+
+        function selectTactic(side, tacticId) { selectedTactics[side] = tacticId; createTacticCards(); }
+
+        function selectTeam(side) {
+            const select = document.getElementById(`${side}-team-select`);
+            const teamIndex = select.value;
+            if (teamIndex !== '') {
+                const team = teams[teamIndex];
+                document.getElementById(`${side}-name`).textContent = team.name;
+                const shieldUrl = team.shield || generateShieldUrl(team.abbreviation, team.colors[0], team.colors[1]);
+                document.getElementById(`${side}-shield`).innerHTML = `<img src="${shieldUrl}" alt="${team.abbreviation}">`;
+            }
+        }
+
+        function showEditor(teamIndex = null) {
+            editingTeamId = teamIndex;
+            document.getElementById('team-name').value = '';
+            document.getElementById('team-abbreviation').value = '';
+            document.getElementById('team-shield-url').value = '';
+            document.getElementById('team-city').value = '';
+            document.getElementById('team-country').value = '';
+            document.getElementById('team-continent').value = 'South America';
+            document.getElementById('team-stadium').value = '';
+            document.getElementById('team-color1').value = '#000000';
+            document.getElementById('team-color2').value = '#ffffff';
+            document.getElementById('players-list').innerHTML = '';
+            if (teamIndex !== null) {
+                const team = teams[teamIndex];
+                document.getElementById('team-name').value = team.name;
+                document.getElementById('team-abbreviation').value = team.abbreviation;
+                document.getElementById('team-shield-url').value = team.shield || '';
+                document.getElementById('team-city').value = team.city;
+                document.getElementById('team-country').value = team.country;
+                document.getElementById('team-continent').value = team.continent;
+                document.getElementById('team-stadium').value = team.stadium;
+                if (team.colors && team.colors.length >= 2) {
+                    document.getElementById('team-color1').value = team.colors[0];
+                    document.getElementById('team-color2').value = team.colors[1];
+                }
+                team.players.forEach(player => addPlayer(player));
+            } else {
+                for (let i = 0; i < 11; i++) addPlayer();
+            }
+            showModal('editor-modal');
+        }
+
+        function hideEditor() { closeModal('editor-modal'); }
+
+        function addPlayer(playerData = null) {
+            const playersList = document.getElementById('players-list');
+            const playerRow = document.createElement('div');
+            playerRow.className = 'player-row';
+            const defaultPlayer = playerData || { name: '', position: 'DF', rating: 5, starter: true };
+            playerRow.innerHTML = `
+                <input type="text" placeholder="Name" value="${defaultPlayer.name}">
+                <select>
+                    <option value="GL" ${defaultPlayer.position === 'GL' ? 'selected' : ''}>Goalkeeper</option>
+                    <option value="DF" ${defaultPlayer.position === 'DF' ? 'selected' : ''}>Defender</option>
+                    <option value="MC" ${defaultPlayer.position === 'MC' ? 'selected' : ''}>Midfielder</option>
+                    <option value="AT" ${defaultPlayer.position === 'AT' ? 'selected' : ''}>Forward</option>
+                </select>
+                <input type="number" min="1" max="10" value="${defaultPlayer.rating}" placeholder="Rating">
+                <label style="display: flex; align-items: center; gap: 4px; font-size: 0.85em;"><input type="checkbox" ${defaultPlayer.starter ? 'checked' : ''}> Starter</label>
+                <button class="btn btn-danger btn-sm" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>`;
+            playersList.appendChild(playerRow);
+        }
+
+        function saveTeam() {
+            const name = document.getElementById('team-name').value;
+            const abbreviation = document.getElementById('team-abbreviation').value;
+            const shield = document.getElementById('team-shield-url').value;
+            const city = document.getElementById('team-city').value;
+            const country = document.getElementById('team-country').value;
+            const continent = document.getElementById('team-continent').value;
+            const stadium = document.getElementById('team-stadium').value;
+            const color1 = document.getElementById('team-color1').value;
+            const color2 = document.getElementById('team-color2').value;
+            if (!name || !abbreviation || !city || !country || !stadium) {
+                showToast('Fill in all required fields!', 'error');
+                return;
+            }
+            const players = [];
+            const playerRows = document.querySelectorAll('.player-row');
+            let starterCount = 0;
+            let goalkeeperCount = 0;
+            playerRows.forEach(row => {
+                const inputs = row.querySelectorAll('input[type="text"], input[type="number"]');
+                const select = row.querySelector('select');
+                const starterCheckbox = row.querySelector('input[type="checkbox"]');
+                const player = { name: inputs[0].value, position: select.value, rating: parseInt(inputs[1].value), starter: starterCheckbox.checked };
+                if (player.starter) {
+                    starterCount++;
+                    if (player.position === 'GL') goalkeeperCount++;
+                }
+                players.push(player);
+            });
+            if (starterCount !== 11) {
+                showToast(`Team must have exactly 11 starters! (Current: ${starterCount})`, 'error');
+                return;
+            }
+            if (goalkeeperCount < 1) {
+                showToast('Team must have at least 1 goalkeeper starter!', 'error');
+                return;
+            }
+            const teamData = { name, abbreviation, shield, city, country, continent, stadium, colors: [color1, color2], players };
+            if (editingTeamId !== null) {
+                teams[editingTeamId] = teamData;
+                showToast('Team updated successfully!', 'success');
+            } else {
+                teams.push(teamData);
+                showToast('Team created successfully!', 'success');
+            }
+            saveTeams();
+            updateTeamsList();
+            updateTeamSelects();
+            hideEditor();
+        }
+
+        function editTeam(index) { showEditor(index); }
+
+        function deleteTeam(index) {
+            showConfirm(`Are you sure you want to delete ${teams[index].name}?`, () => {
+                teams.splice(index, 1);
+                saveTeams();
+                updateTeamsList();
+                updateTeamSelects();
+                showToast('Team deleted successfully!', 'success');
+            });
+        }
+
+        function exportJSON() {
+            const json = JSON.stringify(teams, null, 2);
+            document.getElementById('json-output').value = json;
+            const textarea = document.getElementById('json-output');
+            textarea.select();
+            document.execCommand('copy');
+            showToast('JSON exported and copied!', 'success');
+        }
+
+        function importJSON() {
+            const jsonText = document.getElementById('json-input').value;
+            if (!jsonText) {
+                showToast('Paste JSON data first!', 'error');
+                return;
+            }
+            try {
+                const importedTeams = JSON.parse(jsonText);
+                if (Array.isArray(importedTeams)) {
+                    teams = importedTeams;
+                    saveTeams();
+                    updateTeamsList();
+                    updateTeamSelects();
+                    showToast('Teams imported successfully!', 'success');
+                    document.getElementById('json-input').value = '';
+                } else {
+                    showToast('Invalid JSON! Must be an array of teams.', 'error');
+                }
+            } catch (error) {
+                showToast('Error importing JSON: ' + error.message, 'error');
+            }
+        }
+
+        function calculateTeamStrength(team, tacticId) {
+            const averageRating = calculateTeamAverage(team);
+            const tactic = TACTICS.find(t => t.id === tacticId) || TACTICS.find(t => t.id === 'moderado');
+            return { attack: averageRating * tactic.attack, defense: averageRating * tactic.defense, fouls: tactic.fouls };
+        }
+
+        function getRandomPlayer(team, position = null, excludePlayer = null) {
+            const starters = team.players.filter(p => p.starter);
+            let availablePlayers = starters;
+            if (position) {
+                availablePlayers = starters.filter(p => p.position === position);
+            }
+            if (excludePlayer) {
+                availablePlayers = availablePlayers.filter(p => p.name !== excludePlayer.name);
+            }
+            if (availablePlayers.length === 0) {
+                availablePlayers = starters.filter(p => p.name !== excludePlayer?.name);
+            }
+            if (availablePlayers.length === 0) {
+                availablePlayers = starters;
+            }
+            return availablePlayers[Math.floor(Math.random() * availablePlayers.length)];
+        }
+
+        function startMatch() {
+            const homeIndex = document.getElementById('home-team-select').value;
+            const awayIndex = document.getElementById('away-team-select').value;
+            if (homeIndex === '' || awayIndex === '') {
+                showToast('Select both teams to start the match!', 'error');
+                return;
+            }
+            if (homeIndex === awayIndex) {
+                showToast('Teams must be different!', 'error');
+                return;
+            }
+            const homeTeam = teams[homeIndex];
+            const awayTeam = teams[awayIndex];
+            currentMatch = {
+                homeTeam, awayTeam,
+                homeTactic: selectedTactics.home,
+                awayTactic: selectedTactics.away,
+                homeScore: 0, awayScore: 0, minute: 0, zone: 2,
+                possessionTeam: 'home',
+                stats: {
+                    homePossession: 0, awayPossession: 0,
+                    homeShots: 0, awayShots: 0,
+                    homeShotsOnTarget: 0, awayShotsOnTarget: 0,
+                    homeFouls: 0, awayFouls: 0,
+                    homeTackles: 0, awayTackles: 0,
+                    homeCorners: 0, awayCorners: 0,
+                    homePenalties: 0, awayPenalties: 0,
+                    homeSaves: 0, awaySaves: 0,
+                    homeYellowCards: 0, awayYellowCards: 0,
+                    homeOffsides: 0, awayOffsides: 0
+                },
+                goalScorers: [], assists: [], keyEvents: []
+            };
+            document.getElementById('match-setup').style.display = 'none';
+            document.getElementById('match-live').style.display = 'block';
+            document.getElementById('live-home-name').textContent = homeTeam.name;
+            const homeShieldUrl = homeTeam.shield || generateShieldUrl(homeTeam.abbreviation, homeTeam.colors[0], homeTeam.colors[1]);
+            const awayShieldUrl = awayTeam.shield || generateShieldUrl(awayTeam.abbreviation, awayTeam.colors[0], awayTeam.colors[1]);
+            document.getElementById('live-home-shield').innerHTML = `<img src="${homeShieldUrl}" alt="${homeTeam.abbreviation}">`;
+            document.getElementById('live-away-name').textContent = awayTeam.name;
+            document.getElementById('live-away-shield').innerHTML = `<img src="${awayShieldUrl}" alt="${awayTeam.abbreviation}">`;
+            document.getElementById('narration-text').textContent = '';
+            document.getElementById('events-timeline').innerHTML = '<div class="no-goals" id="no-goals">No goals yet</div>';
+            
+            const homeScoreBox = document.getElementById('home-score');
+            const awayScoreBox = document.getElementById('away-score');
+            homeScoreBox.style.backgroundColor = homeTeam.colors[0];
+            homeScoreBox.style.color = homeTeam.colors[1] || homeTeam.colors[0];
+            awayScoreBox.style.backgroundColor = awayTeam.colors[0];
+            awayScoreBox.style.color = awayTeam.colors[1] || awayTeam.colors[0];
+            
+            applyTeamColors();
+            
+            updateMatchDisplay();
+            updateNarration('Match started!');
+            matchSpeed = 1;
+            isPaused = false;
+            updateSpeedButtons();
+            updatePauseButton();
+            startMatchInterval();
+        }
+
+        function startMatchInterval() {
+            if (matchInterval) { clearInterval(matchInterval); matchInterval = null; }
+            const intervalTime = 300 / matchSpeed;
+            matchInterval = setInterval(() => {
+                if (currentMatch.minute < 90) {
+                    simulateMinute();
+                } else {
+                    clearInterval(matchInterval);
+                    matchInterval = null;
+                    updateNarration('Full time!');
+                }
+            }, intervalTime);
+        }
+
+        function togglePause() {
+            isPaused = !isPaused;
+            if (isPaused) {
+                if (matchInterval) { clearInterval(matchInterval); matchInterval = null; }
+            } else {
+                startMatchInterval();
+            }
+            updatePauseButton();
+        }
+
+        function updatePauseButton() {
+            const icon = document.getElementById('pause-icon');
+            const text = document.getElementById('pause-text');
+            if (isPaused) {
+                icon.className = 'fa-solid fa-play';
+                text.textContent = 'Resume';
+            } else {
+                icon.className = 'fa-solid fa-pause';
+                text.textContent = 'Pause';
+            }
+        }
+
+        function setSpeed(speed) {
+            matchSpeed = speed;
+            updateSpeedButtons();
+            if (!isPaused) {
+                startMatchInterval();
+            }
+        }
+
+        function updateSpeedButtons() {
+            document.getElementById('speed-1x').classList.toggle('active', matchSpeed === 1);
+            document.getElementById('speed-2x').classList.toggle('active', matchSpeed === 2);
+            document.getElementById('speed-4x').classList.toggle('active', matchSpeed === 4);
+        }
+
+        function applyTeamColors() {
+            const fieldHome = document.getElementById('field-zone-home');
+            const fieldAway = document.getElementById('field-zone-away');
+            const homeColor = currentMatch.homeTeam.colors[0];
+            const awayColor = currentMatch.awayTeam.colors[0];
+            
+            fieldHome.style.background = homeColor;
+            fieldAway.style.background = awayColor;
+            
+            const dividerLine = document.getElementById('field-divider-line');
+            const zonePercentage = (currentMatch.zone / 5) * 100;
+            dividerLine.style.left = zonePercentage + '%';
+        }
+
+        function updateNarration(text) {
+            document.getElementById('narration-text').textContent = text;
+        }
+
+        function formatMinute(minute) {
+            return minute < 10 ? `0${minute}'` : `${minute}'`;
+        }
+
+        function addGoalEvent(minute, scorerName, assistName, teamSide, goalType = '') {
+            const noGoals = document.getElementById('no-goals');
+            if (noGoals) noGoals.remove();
+            
+            const timeline = document.getElementById('events-timeline');
+            const eventRow = document.createElement('div');
+            eventRow.className = 'event-row';
+            const formattedMinute = formatMinute(minute);
+            const scoreText = `[${currentMatch.homeScore}-${currentMatch.awayScore}]`;
+            const typeText = goalType ? ` (${goalType})` : '';
+            if (teamSide === 'home') {
+                eventRow.innerHTML = `
+                    <div class="event-home"><strong>${formattedMinute}</strong> ${scoreText} ${scorerName}${typeText}${assistName ? ` (${assistName})` : ''}</div>
+                    <div class="event-spacer"></div>`;
+            } else {
+                eventRow.innerHTML = `
+                    <div class="event-spacer"></div>
+                    <div class="event-away">${assistName ? `(${assistName}) ` : ''}${scorerName}${typeText} ${scoreText} <strong>${formattedMinute}</strong></div>`;
+            }
+            timeline.appendChild(eventRow);
+        }
+
+        function simulateMinute() {
+            if (!currentMatch || currentMatch.minute >= 90) return;
+            currentMatch.minute++;
+            const homeStrength = calculateTeamStrength(currentMatch.homeTeam, currentMatch.homeTactic);
+            const awayStrength = calculateTeamStrength(currentMatch.awayTeam, currentMatch.awayTactic);
+            const homePossessionChance = 50 + (homeStrength.attack - awayStrength.defense) * 2;
+            const possessionRoll = Math.random() * 100;
+            if (possessionRoll < homePossessionChance) {
+                currentMatch.possessionTeam = 'home';
+                currentMatch.stats.homePossession++;
+            } else {
+                currentMatch.possessionTeam = 'away';
+                currentMatch.stats.awayPossession++;
+            }
+            if (currentMatch.possessionTeam === 'home') {
+                simulateTeamAction('home', homeStrength, awayStrength);
+            } else {
+                simulateTeamAction('away', awayStrength, homeStrength);
+            }
+            updateMatchDisplay();
+        }
+
+        function simulateTeamAction(teamSide, teamStrength, opponentStrength) {
+            const isHome = teamSide === 'home';
+            const teamName = isHome ? currentMatch.homeTeam.name : currentMatch.awayTeam.name;
+            const team = isHome ? currentMatch.homeTeam : currentMatch.awayTeam;
+            const inAttackingZone = isHome ? currentMatch.zone === 0 : currentMatch.zone === 5;
+            const baseShotChance = inAttackingZone ? 30 : 18;
+            const shotChance = baseShotChance + teamStrength.attack * 1.2;
+            const actionRoll = Math.random() * 100;
+            if (actionRoll < shotChance) {
+                simulateShot(teamSide, teamStrength, opponentStrength, isHome, teamName, team);
+                return;
+            }
+            const advanceChance = 40 + teamStrength.attack - opponentStrength.defense;
+            if (actionRoll < advanceChance) {
+                const oldZone = currentMatch.zone;
+                const advanceAmount = Math.random() < 0.25 ? 2 : 1;
+                if (isHome) currentMatch.zone = Math.max(0, currentMatch.zone - advanceAmount);
+                else currentMatch.zone = Math.min(5, currentMatch.zone + advanceAmount);
+                if (oldZone !== currentMatch.zone) updateNarration(`${teamName} moves forward`);
+                return;
+            }
+            const tackleChance = advanceChance + 25;
+            if (actionRoll < tackleChance) {
+                const tacklingTeam = isHome ? 'away' : 'home';
+                const tacklingName = isHome ? currentMatch.awayTeam.name : currentMatch.homeTeam.name;
+                if (tacklingTeam === 'home') currentMatch.stats.homeTackles++;
+                else currentMatch.stats.awayTackles++;
+                updateNarration(`Tackle by ${tacklingName}`);
+                if (Math.random() < 0.25) {
+                    if (tacklingTeam === 'home') currentMatch.stats.homeFouls++;
+                    else currentMatch.stats.awayFouls++;
+                    const defendingSide = isHome ? 'away' : 'home';
+                    const isDefendingInOwnArea = defendingSide === 'home' ? currentMatch.zone === 0 : currentMatch.zone === 5;
+                    if (isDefendingInOwnArea && Math.random() < 0.15) {
+                        updateNarration(`Penalty for ${teamName}!`);
+                        simulatePenalty(teamSide, teamName);
+                    } else {
+                        updateNarration(`Foul by ${tacklingName}`);
+                        if (Math.random() < 0.15) {
+                            if (tacklingTeam === 'home') currentMatch.stats.homeYellowCards++;
+                            else currentMatch.stats.awayYellowCards++;
+                            updateNarration(`Yellow card for ${tacklingName}`);
+                        }
+                        if (Math.random() < 0.12 && teamStrength.attack > 6) simulateFreeKickGoal(teamSide, teamName, team);
+                    }
+                }
+                return;
+            }
+            if (actionRoll < tackleChance + 8) {
+                if (isHome) currentMatch.stats.homeOffsides++;
+                else currentMatch.stats.awayOffsides++;
+                updateNarration(`Offside ${teamName}!`);
+                return;
+            }
+            updateNarration(`${teamName} loses possession`);
+        }
+
+        function simulateShot(teamSide, teamStrength, opponentStrength, isHome, teamName, team) {
+            if (isHome) currentMatch.stats.homeShots++;
+            else currentMatch.stats.awayShots++;
+            const shotRoll = Math.random() * 100;
+            const goalChance = 15 + (teamStrength.attack - opponentStrength.defense) * 3;
+            if (shotRoll < goalChance) {
+                if (isHome) { currentMatch.homeScore++; currentMatch.stats.homeShotsOnTarget++; }
+                else { currentMatch.awayScore++; currentMatch.stats.awayShotsOnTarget++; }
+                const scorer = getRandomPlayer(team, 'AT');
+                const assistRoll = Math.random();
+                let assister = null;
+                if (assistRoll < 0.5) {
+                    assister = getRandomPlayer(team, 'MC', scorer);
+                }
+                currentMatch.goalScorers.push(scorer);
+                updateNarration(`GOAL by ${scorer.name}${assister ? ` (assist: ${assister.name})` : ''}`);
+                addGoalEvent(currentMatch.minute, scorer.name, assister ? assister.name : null, teamSide);
+                currentMatch.zone = 2;
+                return;
+            }
+            if (shotRoll < goalChance + 10) {
+                updateNarration(`Hit the post!`);
+                if (Math.random() < 0.3) {
+                    if (Math.random() < 0.4) {
+                        if (isHome) { currentMatch.homeScore++; currentMatch.stats.homeShotsOnTarget++; }
+                        else { currentMatch.awayScore++; currentMatch.stats.awayShotsOnTarget++; }
+                        const scorer = getRandomPlayer(team);
+                        updateNarration(`REBOUND GOAL by ${scorer.name}`);
+                        addGoalEvent(currentMatch.minute, scorer.name, null, teamSide, 'rebound');
+                        currentMatch.zone = 2;
+                    } else {
+                        if (isHome) currentMatch.stats.awaySaves++;
+                        else currentMatch.stats.homeSaves++;
+                        updateNarration(`Goalkeeper saves the rebound!`);
+                    }
+                }
+                return;
+            }
+            if (shotRoll < goalChance + 30) {
+                if (isHome) currentMatch.stats.awaySaves++;
+                else currentMatch.stats.homeSaves++;
+                updateNarration(`Goalkeeper save!`);
+                currentMatch.zone = 2;
+                return;
+            }
+            if (shotRoll < goalChance + 45) {
+                if (isHome) currentMatch.stats.awaySaves++;
+                else currentMatch.stats.homeSaves++;
+                updateNarration(`Goalkeeper save! Goal kick.`);
+                if (Math.random() < 0.7) currentMatch.zone = 2;
+                else currentMatch.zone = isHome ? 1 : 4;
+                return;
+            }
+            if (shotRoll < goalChance + 55) {
+                if (isHome) currentMatch.stats.homeCorners++;
+                else currentMatch.stats.awayCorners++;
+                updateNarration(`Corner kick!`);
+                if (Math.random() < 0.02) {
+                    if (isHome) { currentMatch.homeScore++; currentMatch.stats.homeShotsOnTarget++; }
+                    else { currentMatch.awayScore++; currentMatch.stats.awayShotsOnTarget++; }
+                    const scorer = getRandomPlayer(team, 'MC');
+                    updateNarration(`OLYMPIC GOAL by ${scorer.name}! UNBELIEVABLE!`);
+                    addGoalEvent(currentMatch.minute, scorer.name, null, teamSide, 'olympic');
+                    currentMatch.goalScorers.push(scorer);
+                    currentMatch.zone = 2;
+                } else {
+                    currentMatch.zone = isHome ? 0 : 5;
+                }
+                return;
+            }
+            updateNarration(`Shot goes wide!`);
+            currentMatch.zone = 2;
+        }
+
+        function simulatePenalty(teamSide, teamName) {
+            const penaltyRoll = Math.random() * 100;
+            const isHome = teamSide === 'home';
+            const team = isHome ? currentMatch.homeTeam : currentMatch.awayTeam;
+            if (isHome) currentMatch.stats.homePenalties++;
+            else currentMatch.stats.awayPenalties++;
+            if (penaltyRoll < 75) {
+                if (isHome) currentMatch.homeScore++;
+                else currentMatch.awayScore++;
+                const scorer = getRandomPlayer(team, 'AT');
+                updateNarration(`PENALTY GOAL by ${scorer.name}`);
+                addGoalEvent(currentMatch.minute, `${scorer.name} (pen.)`, null, teamSide, 'penalty');
+                currentMatch.goalScorers.push(scorer);
+            } else {
+                updateNarration(`Penalty missed!`);
+            }
+            currentMatch.zone = 2;
+        }
+
+        function simulateFreeKickGoal(teamSide, teamName, team) {
+            const freeKickRoll = Math.random() * 100;
+            const isHome = teamSide === 'home';
+            if (freeKickRoll < 20) {
+                if (isHome) currentMatch.homeScore++;
+                else currentMatch.awayScore++;
+                const scorer = getRandomPlayer(team, 'MC');
+                updateNarration(`FREE KICK GOAL by ${scorer.name}`);
+                addGoalEvent(currentMatch.minute, `${scorer.name} (fk)`, null, teamSide, 'free kick');
+                currentMatch.goalScorers.push(scorer);
+                currentMatch.zone = 2;
+            }
+        }
+
+        function updateMatchDisplay() {
+            document.getElementById('home-score').textContent = currentMatch.homeScore;
+            document.getElementById('away-score').textContent = currentMatch.awayScore;
+            document.getElementById('match-time').textContent = formatMinute(currentMatch.minute);
+            
+            const totalPossession = currentMatch.stats.homePossession + currentMatch.stats.awayPossession;
+            if (totalPossession > 0) {
+                const homePossession = Math.round((currentMatch.stats.homePossession / totalPossession) * 100);
+                const awayPossession = 100 - homePossession;
+                document.getElementById('home-possession-stat').textContent = homePossession + '%';
+                document.getElementById('away-possession-stat').textContent = awayPossession + '%';
+            }
+            document.getElementById('home-shots-stat').textContent = currentMatch.stats.homeShots;
+            document.getElementById('away-shots-stat').textContent = currentMatch.stats.awayShots;
+            document.getElementById('home-shots-target-stat').textContent = currentMatch.stats.homeShotsOnTarget;
+            document.getElementById('away-shots-target-stat').textContent = currentMatch.stats.awayShotsOnTarget;
+            document.getElementById('home-corners-stat').textContent = currentMatch.stats.homeCorners;
+            document.getElementById('away-corners-stat').textContent = currentMatch.stats.awayCorners;
+            document.getElementById('home-fouls-stat').textContent = currentMatch.stats.homeFouls;
+            document.getElementById('away-fouls-stat').textContent = currentMatch.stats.awayFouls;
+            document.getElementById('home-offsides-stat').textContent = currentMatch.stats.homeOffsides;
+            document.getElementById('away-offsides-stat').textContent = currentMatch.stats.awayOffsides;
+            document.getElementById('home-cards-stat').textContent = currentMatch.stats.homeYellowCards;
+            document.getElementById('away-cards-stat').textContent = currentMatch.stats.awayYellowCards;
+            
+            const fieldHome = document.getElementById('field-zone-home');
+            const fieldAway = document.getElementById('field-zone-away');
+            const dividerLine = document.getElementById('field-divider-line');
+            const zonePercentage = (currentMatch.zone / 5) * 100;
+            fieldHome.style.flex = `${zonePercentage} 1 0%`;
+            fieldAway.style.flex = `${100 - zonePercentage} 1 0%`;
+            dividerLine.style.left = zonePercentage + '%';
+        }
+
+        function returnToSetup() {
+            if (matchInterval) { clearInterval(matchInterval); matchInterval = null; }
+            document.getElementById('match-live').style.display = 'none';
+            document.getElementById('match-setup').style.display = 'block';
+            currentMatch = null;
+        }
+
+        loadTeams();
+    </script>
+</body>
+</html>

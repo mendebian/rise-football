@@ -307,6 +307,7 @@
             font-size: 0.9em;
             background: var(--card);
             transition: all 0.2s;
+            margin-bottom: 8px;
         }
 
         .team-selection select:focus {
@@ -784,8 +785,11 @@
                                 <div class="team-shield large" id="home-shield">🏠</div>
                                 <h3 id="home-name">Home Team</h3>
                             </div>
+                            <select id="home-continent-select" onchange="updateHomeTeams()">
+                                <option value="">All Continents</option>
+                            </select>
                             <select id="home-team-select" onchange="selectTeam('home')">
-                                <option value="">Select home team</option>
+                                <option value="">Select Team</option>
                             </select>
                             <div class="tactics-grid" id="home-tactics"></div>
                         </div>
@@ -797,8 +801,11 @@
                                 <div class="team-shield large" id="away-shield">🏠</div>
                                 <h3 id="away-name">Away Team</h3>
                             </div>
+                            <select id="away-continent-select" onchange="updateAwayTeams()">
+                                <option value="">All Continents</option>
+                            </select>
                             <select id="away-team-select" onchange="selectTeam('away')">
-                                <option value="">Select away team</option>
+                                <option value="">Select Team</option>
                             </select>
                             <div class="tactics-grid" id="away-tactics"></div>
                         </div>
@@ -1027,6 +1034,7 @@
         let selectedTactics = { home: 'moderado', away: 'moderado' };
         let matchSpeed = 1;
         let isPaused = false;
+        let addedTime = 0;
 
         function generateShieldUrl(abbr, color1, color2) {
             const cleanColor1 = color1.replace('#', '');
@@ -1091,6 +1099,7 @@
             const saved = localStorage.getItem('sfa_teams');
             if (saved) teams = JSON.parse(saved);
             updateTeamsList();
+            updateContinentSelects();
             updateTeamSelects();
             createTacticCards();
         }
@@ -1132,15 +1141,60 @@
             return starters.reduce((sum, p) => sum + p.rating, 0) / starters.length;
         }
 
-        function updateTeamSelects() {
-            const homeSelect = document.getElementById('home-team-select');
-            const awaySelect = document.getElementById('away-team-select');
-            homeSelect.innerHTML = '<option value="">Select home team</option>';
-            awaySelect.innerHTML = '<option value="">Select away team</option>';
-            teams.forEach((team, index) => {
-                homeSelect.innerHTML += `<option value="${index}">${team.name}</option>`;
-                awaySelect.innerHTML += `<option value="${index}">${team.name}</option>`;
+        function updateContinentSelects() {
+            const continents = [...new Set(teams.map(t => t.continent))].sort();
+            const homeSelect = document.getElementById('home-continent-select');
+            const awaySelect = document.getElementById('away-continent-select');
+            
+            homeSelect.innerHTML = '';
+            awaySelect.innerHTML = '';
+            
+            continents.forEach(continent => {
+                homeSelect.innerHTML += `<option value="${continent}">${continent}</option>`;
+                awaySelect.innerHTML += `<option value="${continent}">${continent}</option>`;
             });
+            
+            if (continents.length > 0) {
+                updateHomeTeams();
+                updateAwayTeams();
+            }
+        }
+
+        function updateTeamSelects() {
+            updateHomeTeams();
+            updateAwayTeams();
+        }
+
+        function updateHomeTeams() {
+            const continent = document.getElementById('home-continent-select').value;
+            const select = document.getElementById('home-team-select');
+            select.innerHTML = '';
+            
+            const filteredTeams = continent ? teams.filter(t => t.continent === continent) : teams;
+            filteredTeams.forEach((team) => {
+                const originalIndex = teams.indexOf(team);
+                select.innerHTML += `<option value="${originalIndex}">${team.name}</option>`;
+            });
+            
+            if (filteredTeams.length > 0) {
+                selectTeam('home');
+            }
+        }
+
+        function updateAwayTeams() {
+            const continent = document.getElementById('away-continent-select').value;
+            const select = document.getElementById('away-team-select');
+            select.innerHTML = '';
+            
+            const filteredTeams = continent ? teams.filter(t => t.continent === continent) : teams;
+            filteredTeams.forEach((team) => {
+                const originalIndex = teams.indexOf(team);
+                select.innerHTML += `<option value="${originalIndex}">${team.name}</option>`;
+            });
+            
+            if (filteredTeams.length > 0) {
+                selectTeam('away');
+            }
         }
 
         function createTacticCards() {
@@ -1271,6 +1325,7 @@
             }
             saveTeams();
             updateTeamsList();
+            updateContinentSelects();
             updateTeamSelects();
             hideEditor();
         }
@@ -1282,6 +1337,7 @@
                 teams.splice(index, 1);
                 saveTeams();
                 updateTeamsList();
+                updateContinentSelects();
                 updateTeamSelects();
                 showToast('Team deleted successfully!', 'success');
             });
@@ -1308,6 +1364,7 @@
                     teams = importedTeams;
                     saveTeams();
                     updateTeamsList();
+                    updateContinentSelects();
                     updateTeamSelects();
                     showToast('Teams imported successfully!', 'success');
                     document.getElementById('json-input').value = '';
@@ -1356,6 +1413,7 @@
             }
             const homeTeam = teams[homeIndex];
             const awayTeam = teams[awayIndex];
+            addedTime = Math.floor(Math.random() * 5) + 4;
             currentMatch = {
                 homeTeam, awayTeam,
                 homeTactic: selectedTactics.home,
@@ -1397,7 +1455,7 @@
             applyTeamColors();
             
             updateMatchDisplay();
-            updateNarration('Match started!');
+            updateNarration(`Match started! (+${addedTime} min added time)`);
             matchSpeed = 1;
             isPaused = false;
             updateSpeedButtons();
@@ -1409,7 +1467,8 @@
             if (matchInterval) { clearInterval(matchInterval); matchInterval = null; }
             const intervalTime = 300 / matchSpeed;
             matchInterval = setInterval(() => {
-                if (currentMatch.minute < 90) {
+                const totalMinutes = 90 + addedTime;
+                if (currentMatch.minute < totalMinutes) {
                     simulateMinute();
                 } else {
                     clearInterval(matchInterval);
@@ -1477,7 +1536,7 @@
             return minute < 10 ? `0${minute}'` : `${minute}'`;
         }
 
-        function addGoalEvent(minute, scorerName, assistName, teamSide, goalType = '') {
+        function addGoalEvent(minute, scorerName, assistName, teamSide) {
             const noGoals = document.getElementById('no-goals');
             if (noGoals) noGoals.remove();
             
@@ -1486,21 +1545,20 @@
             eventRow.className = 'event-row';
             const formattedMinute = formatMinute(minute);
             const scoreText = `[${currentMatch.homeScore}-${currentMatch.awayScore}]`;
-            const typeText = goalType ? ` (${goalType})` : '';
             if (teamSide === 'home') {
                 eventRow.innerHTML = `
-                    <div class="event-home"><strong>${formattedMinute}</strong> ${scoreText} ${scorerName}${typeText}${assistName ? ` (${assistName})` : ''}</div>
+                    <div class="event-home"><strong>${formattedMinute}</strong> ${scoreText} ${scorerName}${assistName ? ` (${assistName})` : ''}</div>
                     <div class="event-spacer"></div>`;
             } else {
                 eventRow.innerHTML = `
                     <div class="event-spacer"></div>
-                    <div class="event-away">${assistName ? `(${assistName}) ` : ''}${scorerName}${typeText} ${scoreText} <strong>${formattedMinute}</strong></div>`;
+                    <div class="event-away">${assistName ? `(${assistName}) ` : ''}${scorerName} ${scoreText} <strong>${formattedMinute}</strong></div>`;
             }
             timeline.appendChild(eventRow);
         }
 
         function simulateMinute() {
-            if (!currentMatch || currentMatch.minute >= 90) return;
+            if (!currentMatch || currentMatch.minute >= 90 + addedTime) return;
             currentMatch.minute++;
             const homeStrength = calculateTeamStrength(currentMatch.homeTeam, currentMatch.homeTactic);
             const awayStrength = calculateTeamStrength(currentMatch.awayTeam, currentMatch.awayTactic);
@@ -1605,13 +1663,13 @@
                         if (isHome) { currentMatch.homeScore++; currentMatch.stats.homeShotsOnTarget++; }
                         else { currentMatch.awayScore++; currentMatch.stats.awayShotsOnTarget++; }
                         const scorer = getRandomPlayer(team);
-                        updateNarration(`REBOUND GOAL by ${scorer.name}`);
-                        addGoalEvent(currentMatch.minute, scorer.name, null, teamSide, 'rebound');
+                        updateNarration(`GOAL by ${scorer.name}`);
+                        addGoalEvent(currentMatch.minute, scorer.name, null, teamSide);
                         currentMatch.zone = 2;
                     } else {
                         if (isHome) currentMatch.stats.awaySaves++;
                         else currentMatch.stats.homeSaves++;
-                        updateNarration(`Goalkeeper saves the rebound!`);
+                        updateNarration(`Goalkeeper saves!`);
                     }
                 }
                 return;
@@ -1639,8 +1697,8 @@
                     if (isHome) { currentMatch.homeScore++; currentMatch.stats.homeShotsOnTarget++; }
                     else { currentMatch.awayScore++; currentMatch.stats.awayShotsOnTarget++; }
                     const scorer = getRandomPlayer(team, 'MC');
-                    updateNarration(`OLYMPIC GOAL by ${scorer.name}! UNBELIEVABLE!`);
-                    addGoalEvent(currentMatch.minute, scorer.name, null, teamSide, 'olympic');
+                    updateNarration(`OLYMPIC GOAL by ${scorer.name}!`);
+                    addGoalEvent(currentMatch.minute, scorer.name, null, teamSide);
                     currentMatch.goalScorers.push(scorer);
                     currentMatch.zone = 2;
                 } else {
@@ -1663,7 +1721,7 @@
                 else currentMatch.awayScore++;
                 const scorer = getRandomPlayer(team, 'AT');
                 updateNarration(`PENALTY GOAL by ${scorer.name}`);
-                addGoalEvent(currentMatch.minute, `${scorer.name} (pen.)`, null, teamSide, 'penalty');
+                addGoalEvent(currentMatch.minute, scorer.name, null, teamSide);
                 currentMatch.goalScorers.push(scorer);
             } else {
                 updateNarration(`Penalty missed!`);

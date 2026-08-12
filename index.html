@@ -365,6 +365,45 @@
             padding: 0;
         }
 
+        .match-controls-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .match-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .control-btn {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.8em;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .control-btn:hover {
+            background: var(--background);
+            border-color: var(--primary);
+        }
+
+        .control-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
         .match-header {
             display: grid;
             grid-template-columns: 1fr auto 1fr;
@@ -561,39 +600,6 @@
         .event-spacer {
             width: 60px;
             flex-shrink: 0;
-        }
-
-        /* Match Controls - top right */
-        .match-controls {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .control-btn {
-            background: none;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 6px 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.8em;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            color: var(--text);
-            font-weight: 500;
-        }
-
-        .control-btn:hover {
-            background: var(--background);
-            border-color: var(--primary);
-        }
-
-        .control-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
         }
 
         .modal {
@@ -804,7 +810,7 @@
                 </div>
 
                 <div id="match-live" style="display: none;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <div class="match-controls-header">
                         <button class="back-btn" onclick="returnToSetup()" style="margin-bottom: 0;"><i class="fa-solid fa-arrow-left"></i></button>
                         <div class="match-controls">
                             <button class="control-btn" id="pause-btn" onclick="togglePause()"><i class="fa-solid fa-pause" id="pause-icon"></i> <span id="pause-text">Pause</span></button>
@@ -1673,7 +1679,7 @@
                 else currentMatch.awayScore++;
                 const scorer = getRandomPlayer(team, 'MC');
                 updateNarration(`FREE KICK GOAL by ${scorer.name}`);
-                addGoalEvent(currentMatch.minute, `${scorer.name} (fk)`, null, teamSide, 'free kick');
+                addGoalEvent(currentMatch.minute, scorer.name, null, teamSide);
                 currentMatch.goalScorers.push(scorer);
                 currentMatch.zone = 2;
             }

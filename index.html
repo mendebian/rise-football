@@ -317,11 +317,79 @@
         }
 
         .vs-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            align-self: center;
+            padding-top: 40px;
+        }
+
+        .vs-badge .vs-text {
             font-size: 1.5em;
             font-weight: 600;
             color: var(--text-light);
-            align-self: center;
-            padding-top: 40px;
+        }
+
+        .swap-btn {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 1.2em;
+        }
+
+        .swap-btn:hover {
+            background: var(--background);
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: rotate(180deg);
+        }
+
+        .neutral-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85em;
+            color: var(--text-light);
+        }
+
+        .neutral-toggle input[type="checkbox"] {
+            width: 40px;
+            height: 20px;
+            appearance: none;
+            background: var(--border);
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .neutral-toggle input[type="checkbox"]:checked {
+            background: var(--primary);
+        }
+
+        .neutral-toggle input[type="checkbox"]::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .neutral-toggle input[type="checkbox"]:checked::before {
+            left: 22px;
         }
 
         .tactics-grid {
@@ -794,7 +862,14 @@
                             <div class="tactics-grid" id="home-tactics"></div>
                         </div>
                         
-                        <div class="vs-badge">VS</div>
+                        <div class="vs-badge">
+                            <div class="vs-text">VS</div>
+                            <button class="swap-btn" onclick="swapTeams()" title="Swap teams"><i class="fa-solid fa-right-left"></i></button>
+                            <label class="neutral-toggle">
+                                <input type="checkbox" id="neutral-venue" onchange="toggleNeutralVenue()">
+                                <span>Neutral Venue</span>
+                            </label>
+                        </div>
                         
                         <div class="team-selection">
                             <div class="team-display">
@@ -1024,17 +1099,19 @@
             { id: 'posse', name: 'Possession', icon: 'fa-futbol', attack: 1.05, defense: 0.95, fouls: 0.9 },
             { id: 'ofensivo', name: 'Offensive', icon: 'fa-bolt', attack: 1.15, defense: 0.85, fouls: 0.9 },
             { id: 'bolas_longas', name: 'Long Balls', icon: 'fa-arrow-up', attack: 1.1, defense: 0.9, fouls: 1.0 },
-            { id: 'ultra_ofensivo', name: 'All-Out Attack', icon: 'fa-fire', attack: 1.3, defense: 0.7, fouls: 0.8 }
+            { id: 'ultra_ofensivo', name: 'All-Out Attack', icon: 'fa-fire', attack: 1.3, defense: 0.7, fouls: 0.8 },
+            { id: 'auto', name: 'Auto', icon: 'fa-robot', attack: 1.0, defense: 1.0, fouls: 1.0 }
         ];
 
         let teams = [];
         let editingTeamId = null;
         let currentMatch = null;
         let matchInterval = null;
-        let selectedTactics = { home: 'moderado', away: 'moderado' };
+        let selectedTactics = { home: 'auto', away: 'auto' };
         let matchSpeed = 1;
         let isPaused = false;
         let addedTime = 0;
+        let neutralVenue = false;
 
         function generateShieldUrl(abbr, color1, color2) {
             const cleanColor1 = color1.replace('#', '');
@@ -1225,6 +1302,29 @@
             }
         }
 
+        function swapTeams() {
+            const homeContinent = document.getElementById('home-continent-select').value;
+            const homeTeam = document.getElementById('home-team-select').value;
+            const awayContinent = document.getElementById('away-continent-select').value;
+            const awayTeam = document.getElementById('away-team-select').value;
+            
+            document.getElementById('home-continent-select').value = awayContinent;
+            document.getElementById('away-continent-select').value = homeContinent;
+            
+            updateHomeTeams();
+            updateAwayTeams();
+            
+            document.getElementById('home-team-select').value = awayTeam;
+            document.getElementById('away-team-select').value = homeTeam;
+            
+            selectTeam('home');
+            selectTeam('away');
+        }
+
+        function toggleNeutralVenue() {
+            neutralVenue = document.getElementById('neutral-venue').checked;
+        }
+
         function showEditor(teamIndex = null) {
             editingTeamId = teamIndex;
             document.getElementById('team-name').value = '';
@@ -1400,6 +1500,27 @@
             return availablePlayers[Math.floor(Math.random() * availablePlayers.length)];
         }
 
+        function determineAutoTactic(team, opponent, isHome) {
+            const teamAvg = calculateTeamAverage(team);
+            const opponentAvg = calculateTeamAverage(opponent);
+            
+            if (isHome && !neutralVenue) {
+                // Home team has advantage
+                if (teamAvg > opponentAvg + 1.5) return 'ofensivo';
+                if (teamAvg > opponentAvg + 0.5) return 'moderado';
+                if (teamAvg < opponentAvg - 1.5) return 'defensivo';
+                if (teamAvg < opponentAvg - 0.5) return 'reativo';
+                return 'moderado';
+            } else {
+                // Away team or neutral venue
+                if (teamAvg > opponentAvg + 1.5) return 'moderado';
+                if (teamAvg > opponentAvg + 0.5) return 'reativo';
+                if (teamAvg < opponentAvg - 1.5) return 'ultra_defensivo';
+                if (teamAvg < opponentAvg - 0.5) return 'defensivo';
+                return 'moderado';
+            }
+        }
+
         function startMatch() {
             const homeIndex = document.getElementById('home-team-select').value;
             const awayIndex = document.getElementById('away-team-select').value;
@@ -1413,6 +1534,15 @@
             }
             const homeTeam = teams[homeIndex];
             const awayTeam = teams[awayIndex];
+            
+            // Determine auto tactics if selected
+            if (selectedTactics.home === 'auto') {
+                selectedTactics.home = determineAutoTactic(homeTeam, awayTeam, true);
+            }
+            if (selectedTactics.away === 'auto') {
+                selectedTactics.away = determineAutoTactic(awayTeam, homeTeam, false);
+            }
+            
             addedTime = Math.floor(Math.random() * 5) + 4;
             currentMatch = {
                 homeTeam, awayTeam,
@@ -1455,7 +1585,7 @@
             applyTeamColors();
             
             updateMatchDisplay();
-            updateNarration(`Match started! (+${addedTime} min added time)`);
+            updateNarration(`Match started! (+${addedTime} min added time${neutralVenue ? ' - Neutral Venue' : ''})`);
             matchSpeed = 1;
             isPaused = false;
             updateSpeedButtons();
@@ -1562,7 +1692,21 @@
             currentMatch.minute++;
             const homeStrength = calculateTeamStrength(currentMatch.homeTeam, currentMatch.homeTactic);
             const awayStrength = calculateTeamStrength(currentMatch.awayTeam, currentMatch.awayTactic);
-            const homePossessionChance = 50 + (homeStrength.attack - awayStrength.defense) * 2;
+            
+            // Apply home advantage if not neutral venue
+            let homeAdvantage = 0;
+            let awayAdvantage = 0;
+            if (!neutralVenue) {
+                homeAdvantage = 0.4; // Home team gets slight boost
+                awayAdvantage = -0.2; // Away team gets slight penalty
+            }
+            
+            const homeEffectiveAttack = homeStrength.attack + homeAdvantage;
+            const homeEffectiveDefense = homeStrength.defense + homeAdvantage;
+            const awayEffectiveAttack = awayStrength.attack + awayAdvantage;
+            const awayEffectiveDefense = awayStrength.defense + awayAdvantage;
+            
+            const homePossessionChance = 50 + (homeEffectiveAttack - awayEffectiveDefense) * 2;
             const possessionRoll = Math.random() * 100;
             if (possessionRoll < homePossessionChance) {
                 currentMatch.possessionTeam = 'home';
@@ -1572,9 +1716,9 @@
                 currentMatch.stats.awayPossession++;
             }
             if (currentMatch.possessionTeam === 'home') {
-                simulateTeamAction('home', homeStrength, awayStrength);
+                simulateTeamAction('home', { attack: homeEffectiveAttack, defense: homeEffectiveDefense }, { attack: awayEffectiveAttack, defense: awayEffectiveDefense });
             } else {
-                simulateTeamAction('away', awayStrength, homeStrength);
+                simulateTeamAction('away', { attack: awayEffectiveAttack, defense: awayEffectiveDefense }, { attack: homeEffectiveAttack, defense: homeEffectiveDefense });
             }
             updateMatchDisplay();
         }
@@ -1584,8 +1728,8 @@
             const teamName = isHome ? currentMatch.homeTeam.name : currentMatch.awayTeam.name;
             const team = isHome ? currentMatch.homeTeam : currentMatch.awayTeam;
             const inAttackingZone = isHome ? currentMatch.zone === 0 : currentMatch.zone === 5;
-            const baseShotChance = inAttackingZone ? 30 : 18;
-            const shotChance = baseShotChance + teamStrength.attack * 1.2;
+            const baseShotChance = inAttackingZone ? 25 : 14;
+            const shotChance = baseShotChance + teamStrength.attack * 0.9;
             const actionRoll = Math.random() * 100;
             if (actionRoll < shotChance) {
                 simulateShot(teamSide, teamStrength, opponentStrength, isHome, teamName, team);
@@ -1607,27 +1751,27 @@
                 if (tacklingTeam === 'home') currentMatch.stats.homeTackles++;
                 else currentMatch.stats.awayTackles++;
                 updateNarration(`Tackle by ${tacklingName}`);
-                if (Math.random() < 0.25) {
+                if (Math.random() < 0.22) {
                     if (tacklingTeam === 'home') currentMatch.stats.homeFouls++;
                     else currentMatch.stats.awayFouls++;
                     const defendingSide = isHome ? 'away' : 'home';
                     const isDefendingInOwnArea = defendingSide === 'home' ? currentMatch.zone === 0 : currentMatch.zone === 5;
-                    if (isDefendingInOwnArea && Math.random() < 0.15) {
+                    if (isDefendingInOwnArea && Math.random() < 0.12) {
                         updateNarration(`Penalty for ${teamName}!`);
                         simulatePenalty(teamSide, teamName);
                     } else {
                         updateNarration(`Foul by ${tacklingName}`);
-                        if (Math.random() < 0.15) {
+                        if (Math.random() < 0.12) {
                             if (tacklingTeam === 'home') currentMatch.stats.homeYellowCards++;
                             else currentMatch.stats.awayYellowCards++;
                             updateNarration(`Yellow card for ${tacklingName}`);
                         }
-                        if (Math.random() < 0.12 && teamStrength.attack > 6) simulateFreeKickGoal(teamSide, teamName, team);
+                        if (Math.random() < 0.08 && teamStrength.attack > 6) simulateFreeKickGoal(teamSide, teamName, team);
                     }
                 }
                 return;
             }
-            if (actionRoll < tackleChance + 8) {
+            if (actionRoll < tackleChance + 6) {
                 if (isHome) currentMatch.stats.homeOffsides++;
                 else currentMatch.stats.awayOffsides++;
                 updateNarration(`Offside ${teamName}!`);
@@ -1640,14 +1784,14 @@
             if (isHome) currentMatch.stats.homeShots++;
             else currentMatch.stats.awayShots++;
             const shotRoll = Math.random() * 100;
-            const goalChance = 15 + (teamStrength.attack - opponentStrength.defense) * 3;
+            const goalChance = 10 + (teamStrength.attack - opponentStrength.defense) * 2.5;
             if (shotRoll < goalChance) {
                 if (isHome) { currentMatch.homeScore++; currentMatch.stats.homeShotsOnTarget++; }
                 else { currentMatch.awayScore++; currentMatch.stats.awayShotsOnTarget++; }
                 const scorer = getRandomPlayer(team, 'AT');
                 const assistRoll = Math.random();
                 let assister = null;
-                if (assistRoll < 0.5) {
+                if (assistRoll < 0.4) {
                     assister = getRandomPlayer(team, 'MC', scorer);
                 }
                 currentMatch.goalScorers.push(scorer);
@@ -1656,10 +1800,10 @@
                 currentMatch.zone = 2;
                 return;
             }
-            if (shotRoll < goalChance + 10) {
+            if (shotRoll < goalChance + 8) {
                 updateNarration(`Hit the post!`);
-                if (Math.random() < 0.3) {
-                    if (Math.random() < 0.4) {
+                if (Math.random() < 0.25) {
+                    if (Math.random() < 0.35) {
                         if (isHome) { currentMatch.homeScore++; currentMatch.stats.homeShotsOnTarget++; }
                         else { currentMatch.awayScore++; currentMatch.stats.awayShotsOnTarget++; }
                         const scorer = getRandomPlayer(team);
@@ -1674,14 +1818,14 @@
                 }
                 return;
             }
-            if (shotRoll < goalChance + 30) {
+            if (shotRoll < goalChance + 28) {
                 if (isHome) currentMatch.stats.awaySaves++;
                 else currentMatch.stats.homeSaves++;
                 updateNarration(`Goalkeeper save!`);
                 currentMatch.zone = 2;
                 return;
             }
-            if (shotRoll < goalChance + 45) {
+            if (shotRoll < goalChance + 43) {
                 if (isHome) currentMatch.stats.awaySaves++;
                 else currentMatch.stats.homeSaves++;
                 updateNarration(`Goalkeeper save! Goal kick.`);
@@ -1689,11 +1833,11 @@
                 else currentMatch.zone = isHome ? 1 : 4;
                 return;
             }
-            if (shotRoll < goalChance + 55) {
+            if (shotRoll < goalChance + 53) {
                 if (isHome) currentMatch.stats.homeCorners++;
                 else currentMatch.stats.awayCorners++;
                 updateNarration(`Corner kick!`);
-                if (Math.random() < 0.02) {
+                if (Math.random() < 0.015) {
                     if (isHome) { currentMatch.homeScore++; currentMatch.stats.homeShotsOnTarget++; }
                     else { currentMatch.awayScore++; currentMatch.stats.awayShotsOnTarget++; }
                     const scorer = getRandomPlayer(team, 'MC');
@@ -1716,7 +1860,7 @@
             const team = isHome ? currentMatch.homeTeam : currentMatch.awayTeam;
             if (isHome) currentMatch.stats.homePenalties++;
             else currentMatch.stats.awayPenalties++;
-            if (penaltyRoll < 75) {
+            if (penaltyRoll < 70) {
                 if (isHome) currentMatch.homeScore++;
                 else currentMatch.awayScore++;
                 const scorer = getRandomPlayer(team, 'AT');
@@ -1732,7 +1876,7 @@
         function simulateFreeKickGoal(teamSide, teamName, team) {
             const freeKickRoll = Math.random() * 100;
             const isHome = teamSide === 'home';
-            if (freeKickRoll < 20) {
+            if (freeKickRoll < 15) {
                 if (isHome) currentMatch.homeScore++;
                 else currentMatch.awayScore++;
                 const scorer = getRandomPlayer(team, 'MC');

@@ -947,7 +947,7 @@
                         <button class="back-btn" onclick="returnToSetup()" style="margin-bottom: 0;"><i class="fa-solid fa-arrow-left"></i></button>
                         <div class="match-controls">
                             <button class="control-btn" id="pause-btn" onclick="togglePause()"><i class="fa-solid fa-pause" id="pause-icon"></i> <span id="pause-text">Pause</span></button>
-                            <button class="control-btn active" id="speed-1x" onclick="setSpeed(1)">1x</button>
+                            <button class="control-btn" id="speed-1x" onclick="setSpeed(1)">1x</button>
                             <button class="control-btn" id="speed-2x" onclick="setSpeed(2)">2x</button>
                             <button class="control-btn" id="speed-4x" onclick="setSpeed(4)">4x</button>
                         </div>
@@ -1159,10 +1159,11 @@
         let currentMatch = null;
         let matchInterval = null;
         let selectedTactics = { home: 'auto', away: 'auto' };
-        let matchSpeed = 1;
+        let matchSpeed = parseInt(localStorage.getItem('rise_match_speed')) || 1;
         let isPaused = false;
         let addedTime = 0;
         let neutralVenue = false;
+        let addedTimeAnnounced = false;
 
         function generateShieldUrl(abbr, color1, color2) {
             const cleanColor1 = color1.replace('#', '');
@@ -1593,6 +1594,7 @@
             }
             
             addedTime = Math.floor(Math.random() * 5) + 4;
+            addedTimeAnnounced = false;
             currentMatch = {
                 homeTeam, awayTeam,
                 homeTactic: selectedTactics.home,
@@ -1634,8 +1636,7 @@
             applyTeamColors();
             
             updateMatchDisplay();
-            updateNarration(`Match started! (+${addedTime} min added time${neutralVenue ? ' - Neutral Venue' : ''})`);
-            matchSpeed = 1;
+            updateNarration('Match started!');
             isPaused = false;
             updateSpeedButtons();
             updatePauseButton();
@@ -1681,8 +1682,9 @@
 
         function setSpeed(speed) {
             matchSpeed = speed;
+            localStorage.setItem('rise_match_speed', speed);
             updateSpeedButtons();
-            if (!isPaused) {
+            if (!isPaused && matchInterval) {
                 startMatchInterval();
             }
         }
@@ -1715,30 +1717,61 @@
             return minute < 10 ? `0${minute}'` : `${minute}'`;
         }
 
-        function addGoalEvent(minute, scorerName, assistName, teamSide) {
+        function addEventToTimeline(minute, eventText, teamSide, eventType = 'goal') {
             const noGoals = document.getElementById('no-goals');
-            if (noGoals) noGoals.remove();
+            if (noGoals && eventType === 'goal') noGoals.remove();
             
             const timeline = document.getElementById('events-timeline');
             const eventRow = document.createElement('div');
             eventRow.className = 'event-row';
             const formattedMinute = formatMinute(minute);
-            const scoreText = `[${currentMatch.homeScore}-${currentMatch.awayScore}]`;
+            
             if (teamSide === 'home') {
                 eventRow.innerHTML = `
-                    <div class="event-home"><strong>${formattedMinute}</strong> ${scoreText} ${scorerName}${assistName ? ` (${assistName})` : ''}</div>
+                    <div class="event-home"><strong>${formattedMinute}</strong> ${eventText}</div>
                     <div class="event-spacer"></div>`;
+            } else if (teamSide === 'away') {
+                eventRow.innerHTML = `
+                    <div class="event-spacer"></div>
+                    <div class="event-away">${eventText} <strong>${formattedMinute}</strong></div>`;
             } else {
                 eventRow.innerHTML = `
                     <div class="event-spacer"></div>
-                    <div class="event-away">${assistName ? `(${assistName}) ` : ''}${scorerName} ${scoreText} <strong>${formattedMinute}</strong></div>`;
+                    <div class="event-away">${eventText} <strong>${formattedMinute}</strong></div>`;
             }
             timeline.appendChild(eventRow);
+        }
+
+        function addGoalEvent(minute, scorerName, assistName, teamSide) {
+            const scoreText = `[${currentMatch.homeScore}-${currentMatch.awayScore}]`;
+            const assistText = assistName ? ` (${assistName})` : '';
+            addEventToTimeline(minute, `${scoreText} ${scorerName}${assistText}`, teamSide, 'goal');
+        }
+
+        function addCardEvent(minute, playerName, cardType, teamSide) {
+            const cardIcon = cardType === 'yellow' ? '🟨' : '🟥';
+            const cardText = cardType === 'yellow' ? 'Yellow card' : 'Red card';
+            addEventToTimeline(minute, `${cardIcon} ${cardText} - ${playerName}`, teamSide, 'card');
+        }
+
+        function addPenaltyMissEvent(minute, playerName, teamSide) {
+            addEventToTimeline(minute, `❌ Penalty missed - ${playerName}`, teamSide, 'penalty');
+        }
+
+        function addDisallowedGoalEvent(minute, scorerName, reason, teamSide, varUsed = false) {
+            const varText = varUsed ? ' [VAR]' : '';
+            addEventToTimeline(minute, `🚫 Goal disallowed - ${scorerName} (${reason})${varText}`, teamSide, 'disallowed');
         }
 
         function simulateMinute() {
             if (!currentMatch || currentMatch.minute >= 90 + addedTime) return;
             currentMatch.minute++;
+            
+            if (currentMatch.minute === 90 && !addedTimeAnnounced) {
+                updateNarration(`90 minutes played. ${addedTime} minutes added time.`);
+                addedTimeAnnounced = true;
+            }
+            
             const homeStrength = calculateTeamStrength(currentMatch.homeTeam, currentMatch.homeTactic);
             const awayStrength = calculateTeamStrength(currentMatch.awayTeam, currentMatch.awayTactic);
             
@@ -1796,6 +1829,7 @@
             if (actionRoll < tackleChance) {
                 const tacklingTeam = isHome ? 'away' : 'home';
                 const tacklingName = isHome ? currentMatch.awayTeam.name : currentMatch.homeTeam.name;
+                const tacklingPlayer = getRandomPlayer(isHome ? currentMatch.awayTeam : currentMatch.homeTeam);
                 if (tacklingTeam === 'home') currentMatch.stats.homeTackles++;
                 else currentMatch.stats.awayTackles++;
                 updateNarration(`Tackle by ${tacklingName}`);
@@ -1813,6 +1847,7 @@
                             if (tacklingTeam === 'home') currentMatch.stats.homeYellowCards++;
                             else currentMatch.stats.awayYellowCards++;
                             updateNarration(`Yellow card for ${tacklingName}`);
+                            addCardEvent(currentMatch.minute, tacklingPlayer.name, 'yellow', tacklingTeam);
                         }
                         if (Math.random() < 0.08 && teamStrength.attack > 6) simulateFreeKickGoal(teamSide, teamName, team);
                     }
@@ -1834,6 +1869,18 @@
             const shotRoll = Math.random() * 100;
             const goalChance = 10 + (teamStrength.attack - opponentStrength.defense) * 2.5;
             if (shotRoll < goalChance) {
+                // Check for disallowed goal
+                if (Math.random() < 0.04) {
+                    const scorer = getRandomPlayer(team, 'AT');
+                    const reasons = ['offside', 'foul'];
+                    const reason = reasons[Math.floor(Math.random() * reasons.length)];
+                    const varUsed = Math.random() < 0.5;
+                    updateNarration(`Goal disallowed - ${scorer.name} (${reason})${varUsed ? ' [VAR]' : ''}`);
+                    addDisallowedGoalEvent(currentMatch.minute, scorer.name, reason, teamSide, varUsed);
+                    currentMatch.zone = 2;
+                    return;
+                }
+                
                 if (isHome) { currentMatch.homeScore++; currentMatch.stats.homeShotsOnTarget++; }
                 else { currentMatch.awayScore++; currentMatch.stats.awayShotsOnTarget++; }
                 const scorer = getRandomPlayer(team, 'AT');
@@ -1916,7 +1963,9 @@
                 addGoalEvent(currentMatch.minute, scorer.name, null, teamSide);
                 currentMatch.goalScorers.push(scorer);
             } else {
-                updateNarration(`Penalty missed!`);
+                const scorer = getRandomPlayer(team, 'AT');
+                updateNarration(`Penalty missed by ${scorer.name}!`);
+                addPenaltyMissEvent(currentMatch.minute, scorer.name, teamSide);
             }
             currentMatch.zone = 2;
         }

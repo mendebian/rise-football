@@ -120,6 +120,33 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+
+        .control-btn.active {
+            background: #000000 !important;
+            color: #ffffff !important;
+            border-color: #000000 !important;
+        }
+
+        .control-btn:hover {
+            background: #f5f5f5 !important;
+            border-color: #000000 !important;
+            color: #000000 !important;
+        }
+
+        .back-btn:hover {
+            color: #000000 !important;
+        }
+
+        .swap-btn:hover {
+            background: #f5f5f5 !important;
+            border-color: #000000 !important;
+            color: #000000 !important;
+        }
+
+        .tactic-card:hover {
+            border-color: #000000 !important;
+            background: #f5f5f5 !important;
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-900">
@@ -203,10 +230,10 @@
                     <div class="flex justify-between items-center mb-8">
                         <button class="back-btn bg-transparent border-none text-gray-500 text-2xl cursor-pointer p-2 transition-all duration-200 flex items-center gap-2 hover:text-black" onclick="returnToSetup()"><i class="fa-solid fa-arrow-left"></i></button>
                         <div class="flex gap-2 items-center">
-                            <button class="control-btn bg-transparent border border-gray-200 rounded-md px-3 py-1.5 cursor-pointer transition-all duration-200 text-xs flex items-center gap-1 text-gray-900 font-medium hover:bg-gray-100 hover:border-black" id="pause-btn" onclick="togglePause()"><i class="fa-solid fa-pause" id="pause-icon"></i> <span id="pause-text">Pause</span></button>
-                            <button class="control-btn bg-transparent border border-gray-200 rounded-md px-3 py-1.5 cursor-pointer transition-all duration-200 text-xs flex items-center gap-1 text-gray-900 font-medium hover:bg-gray-100 hover:border-black active" id="speed-1x" onclick="setSpeed(1)">1x</button>
-                            <button class="control-btn bg-transparent border border-gray-200 rounded-md px-3 py-1.5 cursor-pointer transition-all duration-200 text-xs flex items-center gap-1 text-gray-900 font-medium hover:bg-gray-100 hover:border-black" id="speed-2x" onclick="setSpeed(2)">2x</button>
-                            <button class="control-btn bg-transparent border border-gray-200 rounded-md px-3 py-1.5 cursor-pointer transition-all duration-200 text-xs flex items-center gap-1 text-gray-900 font-medium hover:bg-gray-100 hover:border-black" id="speed-4x" onclick="setSpeed(4)">4x</button>
+                            <button class="control-btn bg-transparent border border-gray-200 rounded-md px-3 py-1.5 cursor-pointer transition-all duration-200 text-xs flex items-center gap-1 text-gray-900 font-medium" id="pause-btn" onclick="togglePause()"><i class="fa-solid fa-pause" id="pause-icon"></i> <span id="pause-text">Pause</span></button>
+                            <button class="control-btn bg-transparent border border-gray-200 rounded-md px-3 py-1.5 cursor-pointer transition-all duration-200 text-xs flex items-center gap-1 text-gray-900 font-medium active" id="speed-1x" onclick="setSpeed(1)">1x</button>
+                            <button class="control-btn bg-transparent border border-gray-200 rounded-md px-3 py-1.5 cursor-pointer transition-all duration-200 text-xs flex items-center gap-1 text-gray-900 font-medium" id="speed-2x" onclick="setSpeed(2)">2x</button>
+                            <button class="control-btn bg-transparent border border-gray-200 rounded-md px-3 py-1.5 cursor-pointer transition-all duration-200 text-xs flex items-center gap-1 text-gray-900 font-medium" id="speed-4x" onclick="setSpeed(4)">4x</button>
                         </div>
                     </div>
 
@@ -954,6 +981,7 @@
             });
             const active = matchSpeed === 1 ? elements.speed1x : matchSpeed === 2 ? elements.speed2x : elements.speed4x;
             active.classList.add('bg-black', 'text-white', 'active');
+            active.classList.remove('bg-transparent', 'text-gray-900');
         };
 
         const applyTeamColors = () => {

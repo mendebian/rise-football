@@ -909,10 +909,8 @@
                                 <h3 id="home-name">Home Team</h3>
                             </div>
                             <select id="home-continent-select" onchange="updateHomeTeams()">
-                                <option value="">All Continents</option>
                             </select>
                             <select id="home-team-select" onchange="selectTeam('home')">
-                                <option value="">Select Team</option>
                             </select>
                             <div class="tactics-grid" id="home-tactics"></div>
                         </div>
@@ -932,10 +930,8 @@
                                 <h3 id="away-name">Away Team</h3>
                             </div>
                             <select id="away-continent-select" onchange="updateAwayTeams()">
-                                <option value="">All Continents</option>
                             </select>
                             <select id="away-team-select" onchange="selectTeam('away')">
-                                <option value="">Select Team</option>
                             </select>
                             <div class="tactics-grid" id="away-tactics"></div>
                         </div>
@@ -1237,7 +1233,6 @@
             sortTeamsAlphabetically();
             updateTeamsList();
             updateContinentSelects();
-            updateTeamSelects();
             createTacticCards();
         }
 
@@ -1286,8 +1281,8 @@
             const homeSelect = document.getElementById('home-continent-select');
             const awaySelect = document.getElementById('away-continent-select');
             
-            homeSelect.innerHTML = '<option value="">All Continents</option>';
-            awaySelect.innerHTML = '<option value="">All Continents</option>';
+            homeSelect.innerHTML = '';
+            awaySelect.innerHTML = '';
             
             continents.forEach(continent => {
                 homeSelect.innerHTML += `<option value="${continent}">${continent}</option>`;
@@ -1298,15 +1293,10 @@
             updateAwayTeams();
         }
 
-        function updateTeamSelects() {
-            updateHomeTeams();
-            updateAwayTeams();
-        }
-
         function updateHomeTeams() {
             const continent = document.getElementById('home-continent-select').value;
             const select = document.getElementById('home-team-select');
-            select.innerHTML = '<option value="">Select Team</option>';
+            select.innerHTML = '';
             
             const filteredTeams = continent ? teams.filter(t => t.continent === continent) : teams;
             filteredTeams.forEach((team) => {
@@ -1322,7 +1312,7 @@
         function updateAwayTeams() {
             const continent = document.getElementById('away-continent-select').value;
             const select = document.getElementById('away-team-select');
-            select.innerHTML = '<option value="">Select Team</option>';
+            select.innerHTML = '';
             
             const filteredTeams = continent ? teams.filter(t => t.continent === continent) : teams;
             filteredTeams.forEach((team) => {
@@ -1489,7 +1479,6 @@
             saveTeams();
             updateTeamsList();
             updateContinentSelects();
-            updateTeamSelects();
             hideEditor();
         }
 
@@ -1501,7 +1490,6 @@
                 saveTeams();
                 updateTeamsList();
                 updateContinentSelects();
-                updateTeamSelects();
                 showToast('Team deleted successfully!', 'success');
             });
         }
@@ -1530,7 +1518,6 @@
                     saveTeams();
                     updateTeamsList();
                     updateContinentSelects();
-                    updateTeamSelects();
                     showToast('Teams imported successfully!', 'success');
                     document.getElementById('json-input').value = '';
                 } else {

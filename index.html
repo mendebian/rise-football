@@ -107,7 +107,12 @@
             to { opacity: 1; transform: translateX(0); }
         }
 
+        .tab-content {
+            display: none !important;
+        }
+
         .tab-content.active {
+            display: block !important;
             animation: fadeIn 0.3s;
         }
 
@@ -154,12 +159,12 @@
                     <button class="back-btn bg-transparent border-none text-gray-500 text-2xl cursor-pointer p-2 transition-all duration-200 flex items-center gap-2 mb-6 hover:text-black" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i></button>
                     <div class="grid grid-cols-[1fr_auto_1fr] gap-6 items-start">
                         <div class="text-center">
-                            <div class="flex flex-col items-center gap-2 mb-3">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-14 h-14 flex items-center justify-center font-semibold text-lg overflow-visible flex-shrink-0" id="home-shield">🏠</div>
-                                    <div class="team-overall-circle w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 transition-all duration-300" id="home-overall" style="display: none;">0</div>
+                            <div class="flex flex-col items-center gap-1 mb-3">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-12 h-12 flex items-center justify-center font-semibold text-base overflow-visible flex-shrink-0" id="home-shield">🏠</div>
+                                    <div class="team-overall-circle w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0 transition-all duration-300" id="home-overall" style="display: none;">0</div>
                                 </div>
-                                <h3 class="text-base" id="home-name">Home Team</h3>
+                                <h3 class="text-sm" id="home-name">Home Team</h3>
                             </div>
                             <select id="home-continent-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 mb-2 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateHomeTeams()"></select>
                             <select id="home-team-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 mb-2 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="selectTeam('home')"></select>
@@ -176,12 +181,12 @@
                         </div>
                         
                         <div class="text-center">
-                            <div class="flex flex-col items-center gap-2 mb-3">
-                                <div class="flex items-center gap-3">
-                                    <div class="team-overall-circle w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 transition-all duration-300" id="away-overall" style="display: none;">0</div>
-                                    <div class="w-14 h-14 flex items-center justify-center font-semibold text-lg overflow-visible flex-shrink-0" id="away-shield">🏠</div>
+                            <div class="flex flex-col items-center gap-1 mb-3">
+                                <div class="flex items-center gap-2">
+                                    <div class="team-overall-circle w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0 transition-all duration-300" id="away-overall" style="display: none;">0</div>
+                                    <div class="w-12 h-12 flex items-center justify-center font-semibold text-base overflow-visible flex-shrink-0" id="away-shield">🏠</div>
                                 </div>
-                                <h3 class="text-base" id="away-name">Away Team</h3>
+                                <h3 class="text-sm" id="away-name">Away Team</h3>
                             </div>
                             <select id="away-continent-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 mb-2 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateAwayTeams()"></select>
                             <select id="away-team-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 mb-2 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="selectTeam('away')"></select>
@@ -207,8 +212,8 @@
 
                     <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-4 pb-4">
                         <div class="flex items-center gap-3 min-w-0 justify-start">
-                            <div class="w-14 h-14 flex items-center justify-center font-semibold text-lg overflow-visible flex-shrink-0" id="live-home-shield">🏠</div>
-                            <span class="text-lg font-semibold whitespace-nowrap overflow-hidden text-ellipsis" id="live-home-name">Home Team</span>
+                            <div class="w-12 h-12 flex items-center justify-center font-semibold text-base overflow-visible flex-shrink-0" id="live-home-shield">🏠</div>
+                            <span class="text-base font-semibold whitespace-nowrap overflow-hidden text-ellipsis" id="live-home-name">Home Team</span>
                         </div>
                         
                         <div class="flex items-center gap-3 justify-self-center">
@@ -218,8 +223,8 @@
                         </div>
                         
                         <div class="flex items-center gap-3 min-w-0 justify-end">
-                            <span class="text-lg font-semibold whitespace-nowrap overflow-hidden text-ellipsis" id="live-away-name">Away Team</span>
-                            <div class="w-14 h-14 flex items-center justify-center font-semibold text-lg overflow-visible flex-shrink-0" id="live-away-shield">🏠</div>
+                            <span class="text-base font-semibold whitespace-nowrap overflow-hidden text-ellipsis" id="live-away-name">Away Team</span>
+                            <div class="w-12 h-12 flex items-center justify-center font-semibold text-base overflow-visible flex-shrink-0" id="live-away-shield">🏠</div>
                         </div>
                     </div>
 
@@ -508,8 +513,8 @@
             setTimeout(() => toast.remove(), 3000);
         };
 
-        const showModal = (id) => $(id).classList.add('flex');
-        const closeModal = (id) => $(id).classList.remove('flex');
+        const showModal = (id) => { $(id).classList.remove('hidden'); $(id).classList.add('flex'); };
+        const closeModal = (id) => { $(id).classList.add('hidden'); $(id).classList.remove('flex'); };
 
         const showConfirm = (message, onConfirm) => {
             elements.confirmMessage.textContent = message;
@@ -520,7 +525,9 @@
         const goHome = () => {
             if (matchInterval) { clearInterval(matchInterval); matchInterval = null; }
             elements.mainApp.classList.add('hidden');
+            elements.mainApp.classList.remove('block');
             elements.homeScreen.classList.remove('hidden');
+            elements.homeScreen.classList.add('flex');
             elements.matchSetup.style.display = 'block';
             elements.matchLive.style.display = 'none';
             currentMatch = null;
@@ -528,14 +535,20 @@
 
         const showMatchTab = () => {
             elements.homeScreen.classList.add('hidden');
+            elements.homeScreen.classList.remove('flex');
             elements.mainApp.classList.remove('hidden');
+            elements.mainApp.classList.add('block');
             $$('.tab-content').forEach(c => c.classList.remove('active'));
             $('match-tab').classList.add('active');
+            elements.matchSetup.style.display = 'block';
+            elements.matchLive.style.display = 'none';
         };
 
         const showTeamsTab = () => {
             elements.homeScreen.classList.add('hidden');
+            elements.homeScreen.classList.remove('flex');
             elements.mainApp.classList.remove('hidden');
+            elements.mainApp.classList.add('block');
             $$('.tab-content').forEach(c => c.classList.remove('active'));
             $('teams-tab').classList.add('active');
         };
@@ -946,7 +959,8 @@
         const applyTeamColors = () => {
             elements.fieldHome.style.background = currentMatch.homeTeam.colors[0];
             elements.fieldAway.style.background = currentMatch.awayTeam.colors[0];
-            elements.fieldDivider.style.left = (currentMatch.zone / 5) * 100 + '%';
+            const zp = ((5 - currentMatch.zone) / 5) * 100;
+            elements.fieldDivider.style.left = zp + '%';
         };
 
         const updateNarration = (text) => { elements.narrationText.textContent = text; };
@@ -1185,12 +1199,10 @@
             elements.awayOffsidesStat.textContent = currentMatch.stats.awayOffsides;
             elements.homeCardsStat.textContent = currentMatch.stats.homeYellowCards;
             elements.awayCardsStat.textContent = currentMatch.stats.awayYellowCards;
-            const zp = (currentMatch.zone / 5) * 100;
-            // Home is on the left (zone 0 = home defense, zone 5 = away defense)
-            // Home progress grows from left (home advantage), Away from right
-            elements.fieldHome.style.flex = `${(5 - currentMatch.zone) / 5 * 100} 1 0%`;
-            elements.fieldAway.style.flex = `${currentMatch.zone / 5 * 100} 1 0%`;
-            elements.fieldDivider.style.left = ((5 - currentMatch.zone) / 5 * 100) + '%';
+            const homeProgress = ((5 - currentMatch.zone) / 5) * 100;
+            elements.fieldHome.style.flex = `${homeProgress} 1 0%`;
+            elements.fieldAway.style.flex = `${100 - homeProgress} 1 0%`;
+            elements.fieldDivider.style.left = homeProgress + '%';
         };
 
         const returnToSetup = () => {

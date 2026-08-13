@@ -6,55 +6,33 @@
     <title>Rise Football</title>
     <link rel="icon" type="image/png" href="https://orbitcloud.vaneltonmedia.com/fb8b4ce080e59805fcd247391a5574e8/rise.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#000000',
+                        secondary: '#1a1a1a',
+                        accent: '#333333',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --primary: #000000;
-            --secondary: #1a1a1a;
-            --accent: #333333;
-            --success: #4ecca3;
-            --warning: #f9a826;
-            --danger: #ff6b6b;
-            --background: #f5f5f5;
-            --card: #ffffff;
-            --text: #1a1a1a;
-            --text-light: #666666;
-            --border: #e0e0e0;
-        }
-
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--background);
-            color: var(--text);
+            font-family: 'Inter', sans-serif;
         }
 
         .home-screen {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
-            padding: 20px;
-            position: relative;
         }
 
-        .home-screen .logo-icon {
-            width: 120px;
-            height: 120px;
-            margin-bottom: 24px;
+        .logo-icon {
             animation: float 3s ease-in-out infinite;
-        }
-
-        .home-screen .logo-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
         }
 
         @keyframes float {
@@ -62,312 +40,33 @@
             50% { transform: translateY(-10px); }
         }
 
-        .home-screen h1 {
-            font-size: 4em;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 8px;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-        }
-
-        .home-screen .subtitle {
-            font-size: 1.2em;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 48px;
-            letter-spacing: 2px;
-        }
-
-        .home-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            width: 100%;
-            max-width: 320px;
-        }
-
-        .home-btn {
-            padding: 16px 32px;
-            font-size: 1.1em;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            letter-spacing: 1px;
-            width: 100%;
-        }
-
-        .home-btn.primary {
-            background: white;
-            color: var(--primary);
-        }
-
-        .home-btn.primary:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-        }
-
-        .home-btn.secondary {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-
-        .home-btn.secondary:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateY(-4px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-        }
-
-        .footer-credit {
-            position: absolute;
-            bottom: 20px;
-            color: rgba(255,255,255,0.4);
-            font-size: 0.8em;
-            letter-spacing: 1px;
-        }
-
-        .back-btn {
-            background: none;
-            border: none;
-            color: var(--text-light);
-            font-size: 1.5em;
-            cursor: pointer;
-            padding: 8px;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 24px;
-        }
-
-        .back-btn:hover {
-            color: var(--primary);
-        }
-
-        .main-content {
-            padding: 24px 32px;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.3s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .teams-list {
-            margin-top: 16px;
-        }
-
-        .team-row {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .team-row:last-child {
-            border-bottom: none;
-        }
-
-        .team-row-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex: 1;
-            min-width: 0;
-        }
-
-        .team-shield {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.9em;
-            overflow: visible;
-            flex-shrink: 0;
-        }
-
         .team-shield img {
-            width: 100%;
-            height: 100%;
             object-fit: contain;
         }
 
-        .team-shield.large {
-            width: 56px;
-            height: 56px;
-            font-size: 1.2em;
+        .tactic-card.auto-card {
+            border-style: dashed;
+            background: #fafafa;
         }
 
-        .team-info h3 {
-            font-size: 1em;
+        .tactic-card.auto-card.selected {
+            border-style: solid;
+            background: #f5f5f5;
         }
 
-        .team-actions {
-            display: flex;
-            gap: 8px;
-            flex-shrink: 0;
+        .field-zone-home, .field-zone-away {
+            transition: all 0.3s ease;
         }
 
-        .btn {
-            padding: 8px 16px;
-            font-size: 0.85em;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #333333;
-        }
-
-        .btn-secondary {
-            background: #666666;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #555555;
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background: #ff4757;
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 0.8em;
-        }
-
-        .match-setup {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 24px;
-            align-items: start;
-        }
-
-        .team-selection {
-            text-align: center;
-        }
-
-        .team-selection .team-display {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .team-selection .team-display h3 {
-            font-size: 0.95em;
-            min-height: 24px;
-        }
-
-        .team-selection select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 0.9em;
-            background: var(--card);
-            transition: all 0.2s;
-            margin-bottom: 8px;
-        }
-
-        .team-selection select:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .vs-badge {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            align-self: center;
-            padding-top: 40px;
-        }
-
-        .vs-badge .vs-text {
-            font-size: 1.5em;
-            font-weight: 600;
-            color: var(--text-light);
-        }
-
-        .swap-btn {
-            background: none;
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            width: 44px;
-            height: 44px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-light);
-            font-size: 1.1em;
-        }
-
-        .swap-btn:hover {
-            background: var(--background);
-            border-color: var(--primary);
-            color: var(--primary);
-            transform: rotate(180deg);
-        }
-
-        .neutral-toggle {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.8em;
-            color: var(--text-light);
-            cursor: pointer;
-            user-select: none;
+        .field-divider-line {
+            transition: left 0.3s ease;
         }
 
         .neutral-toggle input[type="checkbox"] {
             width: 36px;
             height: 18px;
             appearance: none;
-            background: var(--border);
+            background: #e0e0e0;
             border-radius: 9px;
             position: relative;
             cursor: pointer;
@@ -375,7 +74,7 @@
         }
 
         .neutral-toggle input[type="checkbox"]:checked {
-            background: var(--primary);
+            background: #000000;
         }
 
         .neutral-toggle input[type="checkbox"]::before {
@@ -394,731 +93,287 @@
             left: 20px;
         }
 
-        .tactics-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-top: 12px;
-        }
-
-        .tactic-card {
-            padding: 8px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: var(--card);
-        }
-
-        .tactic-card:hover {
-            border-color: var(--primary);
-            background: var(--background);
-        }
-
-        .tactic-card.selected {
-            border-color: var(--primary);
-            background: var(--background);
-            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .tactic-card.auto-card {
-            border-style: dashed;
-            background: #fafafa;
-        }
-
-        .tactic-card.auto-card.selected {
-            border-style: solid;
-            background: var(--background);
-        }
-
-        .tactic-card .tactic-icon {
-            font-size: 1em;
-            margin-bottom: 4px;
-        }
-
-        .tactic-card .tactic-name {
-            font-weight: 500;
-            font-size: 0.7em;
-        }
-
-        .match-live {
-            padding: 0;
-        }
-
-        .match-controls-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
-        }
-
-        .match-controls {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .control-btn {
-            background: none;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 6px 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.8em;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            color: var(--text);
-            font-weight: 500;
-        }
-
-        .control-btn:hover {
-            background: var(--background);
-            border-color: var(--primary);
-        }
-
-        .control-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .match-header {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            align-items: center;
-            gap: 16px;
-            padding-bottom: 16px;
-        }
-
-        .match-team-display {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-width: 0;
-        }
-
-        .match-team-display.home {
-            justify-content: flex-start;
-        }
-
-        .match-team-display.away {
-            justify-content: flex-end;
-        }
-
-        .match-team-display .team-name {
-            font-size: 1.1em;
-            font-weight: 600;
-            color: var(--text);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .match-score {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            justify-self: center;
-        }
-
-        .score-box {
-            border-radius: 8px;
-            padding: 8px 16px;
-            min-width: 48px;
-            text-align: center;
-            font-size: 1.3em;
-            font-weight: 700;
-        }
-
-        .match-time-box {
-            font-size: 1.1em;
-            font-weight: 600;
-            color: var(--text-light);
-            min-width: 40px;
-            text-align: center;
-        }
-
-        .match-narration-standalone {
-            text-align: center;
-            padding: 12px 0;
-            font-size: 1em;
-            line-height: 1.6;
-            color: var(--text);
-            min-height: 40px;
-        }
-
-        .narration-text {
-            display: inline;
-        }
-
-        .field-zone-container {
-            margin: 16px 0;
-            position: relative;
-        }
-
-        .field-zone {
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 4px;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-        }
-
-        .field-zone-home {
-            flex: 1;
-            height: 100%;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .field-zone-away {
-            flex: 1;
-            height: 100%;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .field-divider-line {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: white;
-            z-index: 1;
-            transition: left 0.3s ease;
-        }
-
-        .divider-line {
-            border: none;
-            border-top: 1px solid var(--border);
-            margin: 20px 0;
-        }
-
-        .stats-comparison {
-            margin: 20px 0;
-        }
-
-        .stat-row {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 16px;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .stat-row:last-child {
-            border-bottom: none;
-        }
-
-        .stat-home {
-            text-align: right;
-            font-weight: 500;
-            font-size: 0.9em;
-        }
-
-        .stat-center {
-            text-align: center;
-            font-size: 0.75em;
-            color: var(--text-light);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            min-width: 100px;
-        }
-
-        .stat-away {
-            text-align: left;
-            font-weight: 500;
-            font-size: 0.9em;
-        }
-
-        .events-timeline {
-            margin: 20px 0;
-            min-height: 40px;
-        }
-
-        .no-goals {
-            text-align: center;
-            color: var(--text-light);
-            font-size: 0.9em;
-            padding: 12px 0;
-        }
-
-        .event-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            min-height: 28px;
-            padding: 4px 0;
-        }
-
-        .event-home {
-            flex: 1;
-            text-align: left;
-            padding-left: 0;
-            font-size: 0.9em;
-            font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .event-away {
-            flex: 1;
-            text-align: right;
-            padding-right: 0;
-            font-size: 0.9em;
-            font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .event-spacer {
-            width: 60px;
-            flex-shrink: 0;
-        }
-
-        .data-section {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 24px;
-        }
-
-        .data-section:last-child {
-            margin-bottom: 0;
-        }
-
-        .data-section h3 {
-            font-size: 1.1em;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .data-section p {
-            color: var(--text-light);
-            margin-bottom: 16px;
-            font-size: 0.9em;
-        }
-
-        .data-section textarea {
-            width: 100%;
-            height: 150px;
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-family: monospace;
-            font-size: 0.85em;
-            resize: vertical;
-        }
-
-        .data-section textarea:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--card);
-            border-radius: 12px;
-            padding: 24px;
-            max-width: 600px;
-            width: 95%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.2em;
-            cursor: pointer;
-            color: var(--text-light);
-            padding: 4px;
-        }
-
-        .modal-close:hover {
-            color: var(--text);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .form-group {
-            margin-bottom: 12px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 4px;
-            font-weight: 500;
-            font-size: 0.85em;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 0.9em;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .player-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr auto auto;
-            gap: 8px;
-            margin-bottom: 8px;
-            align-items: center;
-            padding: 8px;
-            background: var(--background);
-            border-radius: 6px;
-        }
-
-        .toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
         .toast {
-            background: var(--card);
-            border-radius: 8px;
-            padding: 12px 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            display: flex;
-            align-items: center;
-            gap: 8px;
             animation: slideInRight 0.2s ease-out;
-            min-width: 250px;
-            border-left: 3px solid var(--primary);
-            font-size: 0.85em;
+            border-left: 3px solid #000000;
         }
 
-        .toast.success { border-left-color: var(--success); }
-        .toast.error { border-left-color: var(--danger); }
-        .toast.warning { border-left-color: var(--warning); }
+        .toast.success { border-left-color: #4ecca3; }
+        .toast.error { border-left-color: #ff6b6b; }
+        .toast.warning { border-left-color: #f9a826; }
 
         @keyframes slideInRight {
             from { opacity: 0; transform: translateX(100px); }
             to { opacity: 1; transform: translateX(0); }
         }
 
-        @media (max-width: 768px) {
-            .match-setup {
-                grid-template-columns: 1fr;
-            }
-            
-            .tactics-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .player-row {
-                grid-template-columns: 1fr;
-            }
+        .tab-content.active {
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
-<body>
-    <div class="home-screen" id="home-screen">
-        <div class="logo-icon">
-            <img src="https://orbitcloud.vaneltonmedia.com/fb8b4ce080e59805fcd247391a5574e8/rise.png" alt="Rise Football">
+<body class="bg-gray-100 text-gray-900">
+    <!-- Home Screen -->
+    <div class="home-screen min-h-screen flex flex-col items-center justify-center p-5 relative" id="home-screen">
+        <div class="logo-icon w-32 h-32 mb-6">
+            <img src="https://orbitcloud.vaneltonmedia.com/fb8b4ce080e59805fcd247391a5574e8/rise.png" alt="Rise Football" class="w-full h-full object-contain">
         </div>
-        <h1>RISE</h1>
-        <p class="subtitle">Football Simulator</p>
-        <div class="home-buttons">
-            <button class="home-btn primary" onclick="showMatchTab()">Simulate Match</button>
-            <button class="home-btn secondary" onclick="showTeamsTab()">Team Editor</button>
+        <h1 class="text-6xl font-extrabold text-white mb-2 tracking-widest uppercase">RISE</h1>
+        <p class="text-xl text-white/70 mb-12 tracking-wider">Football Simulator</p>
+        <div class="flex flex-col gap-4 w-full max-w-xs">
+            <button class="home-btn primary bg-white text-black px-8 py-4 text-lg border-none rounded-xl cursor-pointer transition-all duration-300 font-semibold flex items-center justify-center tracking-wide w-full hover:-translate-y-1 hover:shadow-2xl" onclick="showMatchTab()">Simulate Match</button>
+            <button class="home-btn secondary bg-white/10 text-white border border-white/30 px-8 py-4 text-lg rounded-xl cursor-pointer transition-all duration-300 font-semibold flex items-center justify-center tracking-wide w-full hover:bg-white/20 hover:-translate-y-1 hover:shadow-2xl" onclick="showTeamsTab()">Team Editor</button>
         </div>
-        <div class="footer-credit">© Volcam Studios - v1.0.0</div>
+        <div class="absolute bottom-5 text-white/40 text-sm tracking-wider">© Volcam Studios - v1.0.0</div>
     </div>
 
-    <div id="main-app" style="display: none;">
-        <div class="main-content">
+    <!-- Main App -->
+    <div id="main-app" class="hidden">
+        <div class="px-8 py-6">
+            <!-- Teams Tab -->
             <div class="tab-content" id="teams-tab">
-                <button class="back-btn" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i></button>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                    <h2 style="font-size: 1.2em;">Teams</h2>
-                    <div style="display: flex; gap: 8px;">
-                        <button class="btn btn-secondary" onclick="showDataTab()"><i class="fa-solid fa-code"></i> Data</button>
-                        <button class="btn btn-primary" onclick="showEditor()"><i class="fa-solid fa-plus"></i> New Team</button>
+                <button class="back-btn bg-transparent border-none text-gray-500 text-2xl cursor-pointer p-2 transition-all duration-200 flex items-center gap-2 mb-6 hover:text-black" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold">Teams</h2>
+                    <div class="flex gap-2">
+                        <button class="bg-gray-500 text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-2 hover:bg-gray-600" onclick="showDataTab()"><i class="fa-solid fa-code"></i> Data</button>
+                        <button class="bg-black text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-2 hover:bg-gray-800" onclick="showEditor()"><i class="fa-solid fa-plus"></i> New Team</button>
                     </div>
                 </div>
-                <div class="teams-list" id="teams-list"></div>
+                <div id="teams-list"></div>
             </div>
 
+            <!-- Match Tab -->
             <div class="tab-content" id="match-tab">
                 <div id="match-setup">
-                    <button class="back-btn" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i></button>
-                    <div class="match-setup">
-                        <div class="team-selection">
-                            <div class="team-display">
-                                <div class="team-shield large" id="home-shield">🏠</div>
-                                <h3 id="home-name">Home Team</h3>
+                    <button class="back-btn bg-transparent border-none text-gray-500 text-2xl cursor-pointer p-2 transition-all duration-200 flex items-center gap-2 mb-6 hover:text-black" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i></button>
+                    <div class="grid grid-cols-[1fr_auto_1fr] gap-6 items-start">
+                        <div class="text-center">
+                            <div class="flex flex-col items-center gap-2 mb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-14 h-14 flex items-center justify-center font-semibold text-lg overflow-visible flex-shrink-0" id="home-shield">🏠</div>
+                                    <div class="team-overall-circle w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 transition-all duration-300" id="home-overall" style="display: none;">0</div>
+                                </div>
+                                <h3 class="text-base" id="home-name">Home Team</h3>
                             </div>
-                            <select id="home-continent-select" onchange="updateHomeTeams()">
-                            </select>
-                            <select id="home-team-select" onchange="selectTeam('home')">
-                            </select>
-                            <div class="tactics-grid" id="home-tactics"></div>
+                            <select id="home-continent-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 mb-2 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateHomeTeams()"></select>
+                            <select id="home-team-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 mb-2 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="selectTeam('home')"></select>
+                            <div class="grid grid-cols-3 gap-2 mt-3" id="home-tactics"></div>
                         </div>
                         
-                        <div class="vs-badge">
-                            <div class="vs-text">VS</div>
-                            <button class="swap-btn" onclick="swapTeams()" title="Swap teams"><i class="fa-solid fa-right-left"></i></button>
-                            <label class="neutral-toggle">
+                        <div class="flex flex-col items-center gap-3 self-center pt-10">
+                            <div class="text-2xl font-semibold text-gray-500">VS</div>
+                            <button class="swap-btn bg-transparent border border-gray-200 rounded-full w-11 h-11 cursor-pointer transition-all duration-300 flex items-center justify-center text-gray-500 text-lg hover:bg-gray-100 hover:border-black hover:text-black hover:rotate-180" onclick="swapTeams()" title="Swap teams"><i class="fa-solid fa-right-left"></i></button>
+                            <label class="neutral-toggle flex items-center gap-2 text-sm text-gray-500 cursor-pointer select-none">
                                 <input type="checkbox" id="neutral-venue" onchange="toggleNeutralVenue()">
                                 <span>Neutral Venue</span>
                             </label>
                         </div>
                         
-                        <div class="team-selection">
-                            <div class="team-display">
-                                <div class="team-shield large" id="away-shield">🏠</div>
-                                <h3 id="away-name">Away Team</h3>
+                        <div class="text-center">
+                            <div class="flex flex-col items-center gap-2 mb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="team-overall-circle w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 transition-all duration-300" id="away-overall" style="display: none;">0</div>
+                                    <div class="w-14 h-14 flex items-center justify-center font-semibold text-lg overflow-visible flex-shrink-0" id="away-shield">🏠</div>
+                                </div>
+                                <h3 class="text-base" id="away-name">Away Team</h3>
                             </div>
-                            <select id="away-continent-select" onchange="updateAwayTeams()">
-                            </select>
-                            <select id="away-team-select" onchange="selectTeam('away')">
-                            </select>
-                            <div class="tactics-grid" id="away-tactics"></div>
+                            <select id="away-continent-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 mb-2 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateAwayTeams()"></select>
+                            <select id="away-team-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 mb-2 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="selectTeam('away')"></select>
+                            <div class="grid grid-cols-3 gap-2 mt-3" id="away-tactics"></div>
                         </div>
                     </div>
 
-                    <div style="text-align: center; margin-top: 20px;">
-                        <button class="btn btn-primary" onclick="startMatch()"><i class="fa-solid fa-futbol"></i> Start Match</button>
+                    <div class="text-center mt-5">
+                        <button class="bg-black text-white px-6 py-3 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-2 hover:bg-gray-800" onclick="startMatch()"><i class="fa-solid fa-futbol"></i> Start Match</button>
                     </div>
                 </div>
 
-                <div id="match-live" style="display: none;">
-                    <div class="match-controls-header">
-                        <button class="back-btn" onclick="returnToSetup()" style="margin-bottom: 0;"><i class="fa-solid fa-arrow-left"></i></button>
-                        <div class="match-controls">
-                            <button class="control-btn" id="pause-btn" onclick="togglePause()"><i class="fa-solid fa-pause" id="pause-icon"></i> <span id="pause-text">Pause</span></button>
-                            <button class="control-btn active" id="speed-1x" onclick="setSpeed(1)">1x</button>
-                            <button class="control-btn" id="speed-2x" onclick="setSpeed(2)">2x</button>
-                            <button class="control-btn" id="speed-4x" onclick="setSpeed(4)">4x</button>
+                <div id="match-live" class="hidden">
+                    <div class="flex justify-between items-center mb-8">
+                        <button class="back-btn bg-transparent border-none text-gray-500 text-2xl cursor-pointer p-2 transition-all duration-200 flex items-center gap-2 hover:text-black" onclick="returnToSetup()"><i class="fa-solid fa-arrow-left"></i></button>
+                        <div class="flex gap-2 items-center">
+                            <button class="control-btn bg-transparent border border-gray-200 rounded-md px-3 py-1.5 cursor-pointer transition-all duration-200 text-xs flex items-center gap-1 text-gray-900 font-medium hover:bg-gray-100 hover:border-black" id="pause-btn" onclick="togglePause()"><i class="fa-solid fa-pause" id="pause-icon"></i> <span id="pause-text">Pause</span></button>
+                            <button class="control-btn bg-transparent border border-gray-200 rounded-md px-3 py-1.5 cursor-pointer transition-all duration-200 text-xs flex items-center gap-1 text-gray-900 font-medium hover:bg-gray-100 hover:border-black active" id="speed-1x" onclick="setSpeed(1)">1x</button>
+                            <button class="control-btn bg-transparent border border-gray-200 rounded-md px-3 py-1.5 cursor-pointer transition-all duration-200 text-xs flex items-center gap-1 text-gray-900 font-medium hover:bg-gray-100 hover:border-black" id="speed-2x" onclick="setSpeed(2)">2x</button>
+                            <button class="control-btn bg-transparent border border-gray-200 rounded-md px-3 py-1.5 cursor-pointer transition-all duration-200 text-xs flex items-center gap-1 text-gray-900 font-medium hover:bg-gray-100 hover:border-black" id="speed-4x" onclick="setSpeed(4)">4x</button>
                         </div>
                     </div>
 
-                    <div class="match-header">
-                        <div class="match-team-display home">
-                            <div class="team-shield large" id="live-home-shield">🏠</div>
-                            <span class="team-name" id="live-home-name">Home Team</span>
+                    <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-4 pb-4">
+                        <div class="flex items-center gap-3 min-w-0 justify-start">
+                            <div class="w-14 h-14 flex items-center justify-center font-semibold text-lg overflow-visible flex-shrink-0" id="live-home-shield">🏠</div>
+                            <span class="text-lg font-semibold whitespace-nowrap overflow-hidden text-ellipsis" id="live-home-name">Home Team</span>
                         </div>
                         
-                        <div class="match-score">
-                            <div class="score-box" id="home-score">0</div>
-                            <div class="match-time-box" id="match-time">00'</div>
-                            <div class="score-box" id="away-score">0</div>
+                        <div class="flex items-center gap-3 justify-self-center">
+                            <div class="rounded-lg px-4 py-2 min-w-[48px] text-center text-xl font-bold" id="home-score">0</div>
+                            <div class="text-lg font-semibold text-gray-500 min-w-[40px] text-center" id="match-time">00'</div>
+                            <div class="rounded-lg px-4 py-2 min-w-[48px] text-center text-xl font-bold" id="away-score">0</div>
                         </div>
                         
-                        <div class="match-team-display away">
-                            <span class="team-name" id="live-away-name">Away Team</span>
-                            <div class="team-shield large" id="live-away-shield">🏠</div>
+                        <div class="flex items-center gap-3 min-w-0 justify-end">
+                            <span class="text-lg font-semibold whitespace-nowrap overflow-hidden text-ellipsis" id="live-away-name">Away Team</span>
+                            <div class="w-14 h-14 flex items-center justify-center font-semibold text-lg overflow-visible flex-shrink-0" id="live-away-shield">🏠</div>
                         </div>
                     </div>
 
-                    <div class="match-narration-standalone">
-                        <span class="narration-text" id="narration-text"></span>
+                    <div class="text-center py-3 text-base leading-relaxed text-gray-900 min-h-[40px]">
+                        <span id="narration-text"></span>
                     </div>
 
-                    <div class="field-zone-container">
-                        <div class="field-zone" style="position: relative;">
-                            <div class="field-zone-home" id="field-zone-home"></div>
-                            <div class="field-divider-line" id="field-divider-line" style="left: 50%;"></div>
-                            <div class="field-zone-away" id="field-zone-away"></div>
+                    <div class="my-4 relative">
+                        <div class="h-2 bg-gray-200 rounded overflow-hidden flex relative">
+                            <div class="flex-1 h-full transition-all duration-300 relative" id="field-zone-home" style="background: #cccccc;"></div>
+                            <div class="absolute top-0 bottom-0 w-0.5 bg-white z-10 transition-all duration-300" id="field-divider-line" style="left: 50%;"></div>
+                            <div class="flex-1 h-full transition-all duration-300 relative" id="field-zone-away" style="background: #cccccc;"></div>
                         </div>
                     </div>
 
-                    <hr class="divider-line">
+                    <hr class="border-gray-200 my-5">
 
-                    <div class="events-timeline" id="events-timeline">
-                        <div class="no-goals" id="no-goals">No goals yet</div>
+                    <div class="my-5 min-h-[40px]" id="events-timeline">
+                        <div class="text-center text-gray-500 text-sm py-3" id="no-goals">No goals yet</div>
                     </div>
 
-                    <hr class="divider-line">
+                    <hr class="border-gray-200 my-5">
 
-                    <div class="stats-comparison" id="stats-comparison">
-                        <div class="stat-row">
-                            <div class="stat-home" id="home-possession-stat">50%</div>
-                            <div class="stat-center">Possession</div>
-                            <div class="stat-away" id="away-possession-stat">50%</div>
+                    <div class="my-5" id="stats-comparison">
+                        <div class="grid grid-cols-[1fr_auto_1fr] gap-4 items-center py-2 border-b border-gray-100">
+                            <div class="text-right font-medium text-sm" id="home-possession-stat">50%</div>
+                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[100px]">Possession</div>
+                            <div class="text-left font-medium text-sm" id="away-possession-stat">50%</div>
                         </div>
-                        <div class="stat-row">
-                            <div class="stat-home" id="home-shots-stat">0</div>
-                            <div class="stat-center">Shots</div>
-                            <div class="stat-away" id="away-shots-stat">0</div>
+                        <div class="grid grid-cols-[1fr_auto_1fr] gap-4 items-center py-2 border-b border-gray-100">
+                            <div class="text-right font-medium text-sm" id="home-shots-stat">0</div>
+                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[100px]">Shots</div>
+                            <div class="text-left font-medium text-sm" id="away-shots-stat">0</div>
                         </div>
-                        <div class="stat-row">
-                            <div class="stat-home" id="home-shots-target-stat">0</div>
-                            <div class="stat-center">On Target</div>
-                            <div class="stat-away" id="away-shots-target-stat">0</div>
+                        <div class="grid grid-cols-[1fr_auto_1fr] gap-4 items-center py-2 border-b border-gray-100">
+                            <div class="text-right font-medium text-sm" id="home-shots-target-stat">0</div>
+                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[100px]">On Target</div>
+                            <div class="text-left font-medium text-sm" id="away-shots-target-stat">0</div>
                         </div>
-                        <div class="stat-row">
-                            <div class="stat-home" id="home-corners-stat">0</div>
-                            <div class="stat-center">Corners</div>
-                            <div class="stat-away" id="away-corners-stat">0</div>
+                        <div class="grid grid-cols-[1fr_auto_1fr] gap-4 items-center py-2 border-b border-gray-100">
+                            <div class="text-right font-medium text-sm" id="home-corners-stat">0</div>
+                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[100px]">Corners</div>
+                            <div class="text-left font-medium text-sm" id="away-corners-stat">0</div>
                         </div>
-                        <div class="stat-row">
-                            <div class="stat-home" id="home-fouls-stat">0</div>
-                            <div class="stat-center">Fouls</div>
-                            <div class="stat-away" id="away-fouls-stat">0</div>
+                        <div class="grid grid-cols-[1fr_auto_1fr] gap-4 items-center py-2 border-b border-gray-100">
+                            <div class="text-right font-medium text-sm" id="home-fouls-stat">0</div>
+                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[100px]">Fouls</div>
+                            <div class="text-left font-medium text-sm" id="away-fouls-stat">0</div>
                         </div>
-                        <div class="stat-row">
-                            <div class="stat-home" id="home-offsides-stat">0</div>
-                            <div class="stat-center">Offsides</div>
-                            <div class="stat-away" id="away-offsides-stat">0</div>
+                        <div class="grid grid-cols-[1fr_auto_1fr] gap-4 items-center py-2 border-b border-gray-100">
+                            <div class="text-right font-medium text-sm" id="home-offsides-stat">0</div>
+                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[100px]">Offsides</div>
+                            <div class="text-left font-medium text-sm" id="away-offsides-stat">0</div>
                         </div>
-                        <div class="stat-row">
-                            <div class="stat-home" id="home-cards-stat">0</div>
-                            <div class="stat-center">Cards</div>
-                            <div class="stat-away" id="away-cards-stat">0</div>
+                        <div class="grid grid-cols-[1fr_auto_1fr] gap-4 items-center py-2">
+                            <div class="text-right font-medium text-sm" id="home-cards-stat">0</div>
+                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[100px]">Cards</div>
+                            <div class="text-left font-medium text-sm" id="away-cards-stat">0</div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Data Tab -->
             <div class="tab-content" id="data-tab">
-                <button class="back-btn" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i></button>
+                <button class="back-btn bg-transparent border-none text-gray-500 text-2xl cursor-pointer p-2 transition-all duration-200 flex items-center gap-2 mb-6 hover:text-black" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i></button>
                 
-                <div class="data-section">
-                    <h3><i class="fa-solid fa-file-export"></i> Export Teams</h3>
-                    <p>Export all teams in JSON format for backup or sharing.</p>
-                    <button class="btn btn-primary" onclick="exportJSON()"><i class="fa-solid fa-download"></i> Export JSON</button>
-                    <textarea id="json-output" style="margin-top: 12px;" placeholder="JSON data will appear here..."></textarea>
+                <div class="bg-white border border-gray-200 rounded-xl p-6 mb-6">
+                    <h3 class="text-lg font-semibold mb-3 flex items-center gap-2"><i class="fa-solid fa-file-export"></i> Export Teams</h3>
+                    <p class="text-gray-500 mb-4 text-sm">Export all teams in JSON format for backup or sharing.</p>
+                    <button class="bg-black text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-2 hover:bg-gray-800" onclick="exportJSON()"><i class="fa-solid fa-download"></i> Export JSON</button>
+                    <textarea id="json-output" class="w-full h-40 mt-3 p-3 border border-gray-200 rounded-md font-mono text-sm resize-y focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" placeholder="JSON data will appear here..."></textarea>
                 </div>
 
-                <div class="data-section">
-                    <h3><i class="fa-solid fa-file-import"></i> Import Teams</h3>
-                    <p>Paste JSON data below to import teams.</p>
-                    <textarea id="json-input" placeholder="Paste JSON here..."></textarea>
-                    <button class="btn btn-success" onclick="importJSON()" style="margin-top: 12px;"><i class="fa-solid fa-upload"></i> Import JSON</button>
+                <div class="bg-white border border-gray-200 rounded-xl p-6">
+                    <h3 class="text-lg font-semibold mb-3 flex items-center gap-2"><i class="fa-solid fa-file-import"></i> Import Teams</h3>
+                    <p class="text-gray-500 mb-4 text-sm">Paste JSON data below to import teams.</p>
+                    <textarea id="json-input" class="w-full h-40 p-3 border border-gray-200 rounded-md font-mono text-sm resize-y focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" placeholder="Paste JSON here..."></textarea>
+                    <button class="bg-emerald-400 text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-2 mt-3 hover:bg-emerald-500" onclick="importJSON()"><i class="fa-solid fa-upload"></i> Import JSON</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal" id="confirm-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 style="font-size: 1em;">Confirm</h3>
-                <button class="modal-close" onclick="closeModal('confirm-modal')">×</button>
+    <!-- Confirm Modal -->
+    <div class="hidden fixed inset-0 bg-black/50 z-[1000] justify-center items-center" id="confirm-modal">
+        <div class="bg-white rounded-xl p-6 max-w-md w-[95%] shadow-2xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-base font-semibold">Confirm</h3>
+                <button class="bg-transparent border-none text-lg cursor-pointer text-gray-500 p-1 hover:text-gray-900" onclick="closeModal('confirm-modal')">×</button>
             </div>
-            <p id="confirm-message" style="margin-bottom: 16px; font-size: 0.9em;"></p>
-            <div style="text-align: right; display: flex; gap: 8px; justify-content: flex-end;">
-                <button class="btn btn-secondary" onclick="closeModal('confirm-modal')">Cancel</button>
-                <button class="btn btn-primary" id="confirm-accept" onclick="closeModal('confirm-modal')">Confirm</button>
+            <p class="mb-4 text-sm" id="confirm-message"></p>
+            <div class="text-right flex gap-2 justify-end">
+                <button class="bg-gray-500 text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium hover:bg-gray-600" onclick="closeModal('confirm-modal')">Cancel</button>
+                <button class="bg-black text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium hover:bg-gray-800" id="confirm-accept" onclick="closeModal('confirm-modal')">Confirm</button>
             </div>
         </div>
     </div>
 
-    <div class="modal" id="editor-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 style="font-size: 1.1em;">Team Editor</h2>
-                <button class="modal-close" onclick="hideEditor()">×</button>
+    <!-- Editor Modal -->
+    <div class="hidden fixed inset-0 bg-black/50 z-[1000] justify-center items-center" id="editor-modal">
+        <div class="bg-white rounded-xl p-6 max-w-lg w-[95%] max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-semibold">Team Editor</h2>
+                <button class="bg-transparent border-none text-lg cursor-pointer text-gray-500 p-1 hover:text-gray-900" onclick="hideEditor()">×</button>
             </div>
             
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Team Name:</label>
-                    <input type="text" id="team-name" placeholder="e.g. Flamengo">
+            <div class="grid grid-cols-2 gap-3 mb-3">
+                <div class="mb-3">
+                    <label class="block mb-1 font-medium text-sm">Team Name:</label>
+                    <input type="text" id="team-name" class="w-full p-2.5 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" placeholder="e.g. Flamengo">
                 </div>
-                <div class="form-group">
-                    <label>Abbreviation:</label>
-                    <input type="text" id="team-abbreviation" placeholder="e.g. FLA" maxlength="3">
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Primary Color:</label>
-                    <input type="color" id="team-color1" value="#000000">
-                </div>
-                <div class="form-group">
-                    <label>Secondary Color:</label>
-                    <input type="color" id="team-color2" value="#ffffff">
+                <div class="mb-3">
+                    <label class="block mb-1 font-medium text-sm">Abbreviation:</label>
+                    <input type="text" id="team-abbreviation" class="w-full p-2.5 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" placeholder="e.g. FLA" maxlength="3">
                 </div>
             </div>
             
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Badge (URL):</label>
-                    <input type="text" id="team-shield-url" placeholder="https://... (optional)">
+            <div class="grid grid-cols-2 gap-3 mb-3">
+                <div class="mb-3">
+                    <label class="block mb-1 font-medium text-sm">Primary Color:</label>
+                    <input type="color" id="team-color1" class="w-full p-1 border border-gray-200 rounded-md text-sm" value="#000000">
                 </div>
-                <div class="form-group">
-                    <label>Stadium:</label>
-                    <input type="text" id="team-stadium" placeholder="e.g. Maracanã">
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label>City:</label>
-                    <input type="text" id="team-city" placeholder="e.g. Rio de Janeiro">
-                </div>
-                <div class="form-group">
-                    <label>Country:</label>
-                    <input type="text" id="team-country" placeholder="e.g. Brazil">
+                <div class="mb-3">
+                    <label class="block mb-1 font-medium text-sm">Secondary Color:</label>
+                    <input type="color" id="team-color2" class="w-full p-1 border border-gray-200 rounded-md text-sm" value="#ffffff">
                 </div>
             </div>
             
-            <div class="form-group">
-                <label>Continent:</label>
-                <select id="team-continent">
+            <div class="grid grid-cols-2 gap-3 mb-3">
+                <div class="mb-3">
+                    <label class="block mb-1 font-medium text-sm">Badge (URL):</label>
+                    <input type="text" id="team-shield-url" class="w-full p-2.5 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" placeholder="https://... (optional)">
+                </div>
+                <div class="mb-3">
+                    <label class="block mb-1 font-medium text-sm">Stadium:</label>
+                    <input type="text" id="team-stadium" class="w-full p-2.5 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" placeholder="e.g. Maracanã">
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-3 mb-3">
+                <div class="mb-3">
+                    <label class="block mb-1 font-medium text-sm">City:</label>
+                    <input type="text" id="team-city" class="w-full p-2.5 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" placeholder="e.g. Rio de Janeiro">
+                </div>
+                <div class="mb-3">
+                    <label class="block mb-1 font-medium text-sm">Country:</label>
+                    <input type="text" id="team-country" class="w-full p-2.5 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" placeholder="e.g. Brazil">
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label class="block mb-1 font-medium text-sm">Continent:</label>
+                <select id="team-continent" class="w-full p-2.5 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10">
                     <option value="South America">South America</option>
                     <option value="North America">North America</option>
                     <option value="Europe">Europe</option>
@@ -1128,18 +383,19 @@
                 </select>
             </div>
             
-            <h3 style="font-size: 0.95em; margin: 16px 0;">Squad (11 starters required)</h3>
+            <h3 class="text-sm font-semibold my-4">Squad (11 starters required)</h3>
             <div id="players-list"></div>
-            <button class="btn btn-primary btn-sm" onclick="addPlayer()"><i class="fa-solid fa-plus"></i> Add Player</button>
+            <button class="bg-black text-white px-3 py-1.5 text-xs rounded-md cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-1 hover:bg-gray-800" onclick="addPlayer()"><i class="fa-solid fa-plus"></i> Add Player</button>
             
-            <div style="margin-top: 20px; text-align: right; display: flex; gap: 8px; justify-content: flex-end;">
-                <button class="btn btn-secondary" onclick="hideEditor()">Cancel</button>
-                <button class="btn btn-primary" onclick="saveTeam()"><i class="fa-solid fa-floppy-disk"></i> Save Team</button>
+            <div class="mt-5 text-right flex gap-2 justify-end">
+                <button class="bg-gray-500 text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium hover:bg-gray-600" onclick="hideEditor()">Cancel</button>
+                <button class="bg-black text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium hover:bg-gray-800" onclick="saveTeam()"><i class="fa-solid fa-floppy-disk"></i> Save Team</button>
             </div>
         </div>
     </div>
 
-    <div class="toast-container" id="toast-container"></div>
+    <!-- Toast Container -->
+    <div class="fixed top-5 right-5 z-[2000] flex flex-col gap-2" id="toast-container"></div>
 
     <script>
         const TACTICS = [
@@ -1154,6 +410,79 @@
             { id: 'auto', name: 'Auto', icon: 'fa-robot', attack: 1.0, defense: 1.0, fouls: 1.0, isAuto: true }
         ];
 
+        const $ = (id) => document.getElementById(id);
+        const $$ = (sel) => document.querySelectorAll(sel);
+
+        const elements = {
+            homeScreen: $('home-screen'),
+            mainApp: $('main-app'),
+            matchSetup: $('match-setup'),
+            matchLive: $('match-live'),
+            teamsList: $('teams-list'),
+            homeContinent: $('home-continent-select'),
+            awayContinent: $('away-continent-select'),
+            homeTeamSelect: $('home-team-select'),
+            awayTeamSelect: $('away-team-select'),
+            homeTactics: $('home-tactics'),
+            awayTactics: $('away-tactics'),
+            homeShield: $('home-shield'),
+            awayShield: $('away-shield'),
+            homeName: $('home-name'),
+            awayName: $('away-name'),
+            homeOverall: $('home-overall'),
+            awayOverall: $('away-overall'),
+            liveHomeShield: $('live-home-shield'),
+            liveAwayShield: $('live-away-shield'),
+            liveHomeName: $('live-home-name'),
+            liveAwayName: $('live-away-name'),
+            homeScore: $('home-score'),
+            awayScore: $('away-score'),
+            matchTime: $('match-time'),
+            narrationText: $('narration-text'),
+            eventsTimeline: $('events-timeline'),
+            fieldHome: $('field-zone-home'),
+            fieldAway: $('field-zone-away'),
+            fieldDivider: $('field-divider-line'),
+            jsonOutput: $('json-output'),
+            jsonInput: $('json-input'),
+            pauseBtn: $('pause-btn'),
+            pauseIcon: $('pause-icon'),
+            pauseText: $('pause-text'),
+            speed1x: $('speed-1x'),
+            speed2x: $('speed-2x'),
+            speed4x: $('speed-4x'),
+            neutralVenue: $('neutral-venue'),
+            editorModal: $('editor-modal'),
+            confirmModal: $('confirm-modal'),
+            confirmMessage: $('confirm-message'),
+            confirmAccept: $('confirm-accept'),
+            teamName: $('team-name'),
+            teamAbbr: $('team-abbreviation'),
+            teamShieldUrl: $('team-shield-url'),
+            teamCity: $('team-city'),
+            teamCountry: $('team-country'),
+            teamContinent: $('team-continent'),
+            teamStadium: $('team-stadium'),
+            teamColor1: $('team-color1'),
+            teamColor2: $('team-color2'),
+            playersList: $('players-list'),
+            toastContainer: $('toast-container'),
+            homePossessionStat: $('home-possession-stat'),
+            awayPossessionStat: $('away-possession-stat'),
+            homeShotsStat: $('home-shots-stat'),
+            awayShotsStat: $('away-shots-stat'),
+            homeShotsTargetStat: $('home-shots-target-stat'),
+            awayShotsTargetStat: $('away-shots-target-stat'),
+            homeCornersStat: $('home-corners-stat'),
+            awayCornersStat: $('away-corners-stat'),
+            homeFoulsStat: $('home-fouls-stat'),
+            awayFoulsStat: $('away-fouls-stat'),
+            homeOffsidesStat: $('home-offsides-stat'),
+            awayOffsidesStat: $('away-offsides-stat'),
+            homeCardsStat: $('home-cards-stat'),
+            awayCardsStat: $('away-cards-stat'),
+        };
+
         let teams = [];
         let editingTeamId = null;
         let currentMatch = null;
@@ -1162,312 +491,260 @@
         let matchSpeed = parseInt(localStorage.getItem('rise_match_speed')) || 1;
         let isPaused = false;
         let addedTime = 0;
-        let neutralVenue = false;
+        let neutralVenueActive = false;
         let addedTimeAnnounced = false;
 
-        function generateShieldUrl(abbr, color1, color2) {
-            const cleanColor1 = color1.replace('#', '');
-            const cleanColor2 = color2.replace('#', '');
-            return `https://placehold.co/64/${cleanColor1}/${cleanColor2}/png?text=${abbr}`;
-        }
+        const generateShieldUrl = (abbr, c1, c2) =>
+            `https://placehold.co/64/${c1.replace('#','')}/${c2.replace('#','')}/png?text=${abbr}`;
 
-        function sortTeamsAlphabetically() {
-            teams.sort((a, b) => a.name.localeCompare(b.name));
-        }
+        const sortTeamsAlphabetically = () => teams.sort((a, b) => a.name.localeCompare(b.name));
 
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
+        const showToast = (message, type = 'info') => {
             const icons = { success: 'fa-circle-check', error: 'fa-circle-xmark', warning: 'fa-triangle-exclamation', info: 'fa-circle-info' };
-            toast.innerHTML = `
-                <i class="fa-solid ${icons[type] || icons.info}"></i>
-                <span>${message}</span>
-                <button class="modal-close" onclick="this.parentElement.remove()" style="margin-left: auto;">×</button>`;
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.style.animation = 'slideInRight 0.2s ease-out reverse';
-                setTimeout(() => toast.remove(), 200);
-            }, 3000);
-        }
+            const toast = document.createElement('div');
+            toast.className = `toast bg-white rounded-lg px-4 py-3 shadow-lg flex items-center gap-2 min-w-[250px] text-sm`;
+            toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info}"></i><span>${message}</span><button class="bg-transparent border-none text-base cursor-pointer text-gray-500 p-0.5 hover:text-gray-900" onclick="this.parentElement.remove()">×</button>`;
+            elements.toastContainer.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        };
 
-        function showModal(modalId) { document.getElementById(modalId).classList.add('active'); }
-        function closeModal(modalId) { document.getElementById(modalId).classList.remove('active'); }
+        const showModal = (id) => $(id).classList.add('flex');
+        const closeModal = (id) => $(id).classList.remove('flex');
 
-        function showConfirm(message, onConfirm) {
-            document.getElementById('confirm-message').textContent = message;
-            document.getElementById('confirm-accept').onclick = () => { closeModal('confirm-modal'); onConfirm(); };
+        const showConfirm = (message, onConfirm) => {
+            elements.confirmMessage.textContent = message;
+            elements.confirmAccept.onclick = () => { closeModal('confirm-modal'); onConfirm(); };
             showModal('confirm-modal');
-        }
+        };
 
-        function goHome() {
+        const goHome = () => {
             if (matchInterval) { clearInterval(matchInterval); matchInterval = null; }
-            document.getElementById('main-app').style.display = 'none';
-            document.getElementById('home-screen').style.display = 'flex';
-            document.getElementById('match-setup').style.display = 'block';
-            document.getElementById('match-live').style.display = 'none';
+            elements.mainApp.classList.add('hidden');
+            elements.homeScreen.classList.remove('hidden');
+            elements.matchSetup.style.display = 'block';
+            elements.matchLive.style.display = 'none';
             currentMatch = null;
-        }
+        };
 
-        function showMatchTab() {
-            document.getElementById('home-screen').style.display = 'none';
-            document.getElementById('main-app').style.display = 'block';
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.getElementById('match-tab').classList.add('active');
-        }
+        const showMatchTab = () => {
+            elements.homeScreen.classList.add('hidden');
+            elements.mainApp.classList.remove('hidden');
+            $$('.tab-content').forEach(c => c.classList.remove('active'));
+            $('match-tab').classList.add('active');
+        };
 
-        function showTeamsTab() {
-            document.getElementById('home-screen').style.display = 'none';
-            document.getElementById('main-app').style.display = 'block';
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.getElementById('teams-tab').classList.add('active');
-        }
+        const showTeamsTab = () => {
+            elements.homeScreen.classList.add('hidden');
+            elements.mainApp.classList.remove('hidden');
+            $$('.tab-content').forEach(c => c.classList.remove('active'));
+            $('teams-tab').classList.add('active');
+        };
 
-        function showDataTab() {
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.getElementById('data-tab').classList.add('active');
-        }
+        const showDataTab = () => {
+            $$('.tab-content').forEach(c => c.classList.remove('active'));
+            $('data-tab').classList.add('active');
+        };
 
-        function loadTeams() {
+        const loadTeams = () => {
             const saved = localStorage.getItem('sfa_teams');
             if (saved) teams = JSON.parse(saved);
             sortTeamsAlphabetically();
             updateTeamsList();
             updateContinentSelects();
             createTacticCards();
-        }
+        };
 
-        function saveTeams() {
+        const saveTeams = () => {
             sortTeamsAlphabetically();
             localStorage.setItem('sfa_teams', JSON.stringify(teams));
-        }
+        };
 
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.getElementById(`${tab}-tab`).classList.add('active');
-        }
-
-        function updateTeamsList() {
-            const list = document.getElementById('teams-list');
-            list.innerHTML = '';
-            if (teams.length === 0) {
-                list.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--text-light);"><p style="font-size: 1.1em;">No teams registered</p><p style="font-size: 0.85em; margin-top: 8px;">Click "New Team" to get started</p></div>`;
+        const updateTeamsList = () => {
+            elements.teamsList.innerHTML = '';
+            if (!teams.length) {
+                elements.teamsList.innerHTML = `<div class="text-center p-10 text-gray-500"><p class="text-lg">No teams registered</p><p class="text-sm mt-2">Click "New Team" to get started</p></div>`;
                 return;
             }
             teams.forEach((team, index) => {
+                const shieldUrl = team.shield || generateShieldUrl(team.abbreviation, team.colors[0], team.colors[1]);
+                const overall = calculateTeamOverall(team);
                 const row = document.createElement('div');
-                row.className = 'team-row';
-                const shieldUrl = team.shield || generateShieldUrl(team.abbreviation, team.colors[0], team.colors[1]);
+                row.className = 'flex items-center gap-4 py-3 border-b border-gray-200 last:border-b-0';
                 row.innerHTML = `
-                    <div class="team-row-header">
-                        <div class="team-shield"><img src="${shieldUrl}" alt="${team.abbreviation}"></div>
-                        <div class="team-info"><h3>${team.name}</h3><p style="font-size: 0.8em; color: var(--text-light);">${team.country} · ${team.continent}</p></div>
+                    <div class="flex items-center gap-3 flex-1 min-w-0">
+                        <div class="w-9 h-9 flex items-center justify-center font-semibold text-sm overflow-visible flex-shrink-0"><img src="${shieldUrl}" alt="${team.abbreviation}" class="w-full h-full object-contain"></div>
+                        <div><h3 class="text-base">${team.name}</h3><p class="text-xs text-gray-500">${team.country} · ${team.continent} · OVR ${overall}</p></div>
                     </div>
-                    <div class="team-actions">
-                        <button class="btn btn-secondary btn-sm" onclick="editTeam(${index})"><i class="fa-solid fa-pen"></i></button>
-                        <button class="btn btn-danger btn-sm" onclick="deleteTeam(${index})"><i class="fa-solid fa-trash"></i></button>
+                    <div class="flex gap-2 flex-shrink-0">
+                        <button class="bg-gray-500 text-white px-2.5 py-1.5 text-xs rounded-md cursor-pointer transition-all duration-200 hover:bg-gray-600" onclick="editTeam(${index})"><i class="fa-solid fa-pen"></i></button>
+                        <button class="bg-red-400 text-white px-2.5 py-1.5 text-xs rounded-md cursor-pointer transition-all duration-200 hover:bg-red-500" onclick="deleteTeam(${index})"><i class="fa-solid fa-trash"></i></button>
                     </div>`;
-                list.appendChild(row);
+                elements.teamsList.appendChild(row);
             });
-        }
+        };
 
-        function calculateTeamOverall(team) {
+        const calculateTeamOverall = (team) => {
             const starters = team.players.filter(p => p.starter);
-            if (starters.length === 0) return 50;
-            
-            // Weighted average based on position
-            const positionWeights = {
-                'GL': 1.0,
-                'DF': 0.9,
-                'MC': 1.0,
-                'AT': 1.1
-            };
-            
-            let totalWeight = 0;
-            let weightedSum = 0;
-            
-            starters.forEach(player => {
-                const weight = positionWeights[player.position] || 1.0;
-                weightedSum += player.rating * weight;
-                totalWeight += weight;
+            if (!starters.length) return 50;
+            const weights = { GL: 1.0, DF: 0.9, MC: 1.0, AT: 1.1 };
+            let totalWeight = 0, weightedSum = 0;
+            starters.forEach(p => {
+                const w = weights[p.position] || 1.0;
+                weightedSum += p.rating * w;
+                totalWeight += w;
             });
-            
             return Math.round(weightedSum / totalWeight);
-        }
+        };
 
-        function updateContinentSelects() {
+        const updateContinentSelects = () => {
             const continents = [...new Set(teams.map(t => t.continent))].sort();
-            const homeSelect = document.getElementById('home-continent-select');
-            const awaySelect = document.getElementById('away-continent-select');
-            
-            homeSelect.innerHTML = '';
-            awaySelect.innerHTML = '';
-            
-            continents.forEach(continent => {
-                homeSelect.innerHTML += `<option value="${continent}">${continent}</option>`;
-                awaySelect.innerHTML += `<option value="${continent}">${continent}</option>`;
+            elements.homeContinent.innerHTML = '';
+            elements.awayContinent.innerHTML = '';
+            continents.forEach(c => {
+                elements.homeContinent.innerHTML += `<option value="${c}">${c}</option>`;
+                elements.awayContinent.innerHTML += `<option value="${c}">${c}</option>`;
             });
-            
             updateHomeTeams();
             updateAwayTeams();
-        }
+        };
 
-        function updateHomeTeams() {
-            const continent = document.getElementById('home-continent-select').value;
-            const select = document.getElementById('home-team-select');
-            select.innerHTML = '';
-            
-            const filteredTeams = continent ? teams.filter(t => t.continent === continent) : teams;
-            filteredTeams.forEach((team) => {
-                const originalIndex = teams.indexOf(team);
-                select.innerHTML += `<option value="${originalIndex}">${team.name}</option>`;
+        const updateHomeTeams = () => {
+            const continent = elements.homeContinent.value;
+            elements.homeTeamSelect.innerHTML = '';
+            const filtered = continent ? teams.filter(t => t.continent === continent) : teams;
+            filtered.forEach(team => {
+                const idx = teams.indexOf(team);
+                elements.homeTeamSelect.innerHTML += `<option value="${idx}">${team.name}</option>`;
             });
-            
-            if (filteredTeams.length > 0) {
-                selectTeam('home');
-            }
-        }
+            if (filtered.length) selectTeam('home');
+        };
 
-        function updateAwayTeams() {
-            const continent = document.getElementById('away-continent-select').value;
-            const select = document.getElementById('away-team-select');
-            select.innerHTML = '';
-            
-            const filteredTeams = continent ? teams.filter(t => t.continent === continent) : teams;
-            filteredTeams.forEach((team) => {
-                const originalIndex = teams.indexOf(team);
-                select.innerHTML += `<option value="${originalIndex}">${team.name}</option>`;
+        const updateAwayTeams = () => {
+            const continent = elements.awayContinent.value;
+            elements.awayTeamSelect.innerHTML = '';
+            const filtered = continent ? teams.filter(t => t.continent === continent) : teams;
+            filtered.forEach(team => {
+                const idx = teams.indexOf(team);
+                elements.awayTeamSelect.innerHTML += `<option value="${idx}">${team.name}</option>`;
             });
-            
-            if (filteredTeams.length > 0) {
-                selectTeam('away');
-            }
-        }
+            if (filtered.length) selectTeam('away');
+        };
 
-        function createTacticCards() {
-            const homeTactics = document.getElementById('home-tactics');
-            const awayTactics = document.getElementById('away-tactics');
-            homeTactics.innerHTML = '';
-            awayTactics.innerHTML = '';
-            TACTICS.forEach(tactic => {
-                homeTactics.innerHTML += createTacticCard(tactic, 'home');
-                awayTactics.innerHTML += createTacticCard(tactic, 'away');
+        const createTacticCards = () => {
+            elements.homeTactics.innerHTML = '';
+            elements.awayTactics.innerHTML = '';
+            TACTICS.forEach(t => {
+                elements.homeTactics.innerHTML += createTacticCard(t, 'home');
+                elements.awayTactics.innerHTML += createTacticCard(t, 'away');
             });
-        }
+        };
 
-        function createTacticCard(tactic, side) {
+        const createTacticCard = (tactic, side) => {
             const autoClass = tactic.isAuto ? 'auto-card' : '';
-            return `<div class="tactic-card ${autoClass} ${selectedTactics[side] === tactic.id ? 'selected' : ''}" onclick="selectTactic('${side}', '${tactic.id}')"><i class="fa-solid ${tactic.icon}"></i><div class="tactic-name">${tactic.name}</div></div>`;
-        }
+            const selected = selectedTactics[side] === tactic.id;
+            return `<div class="tactic-card ${autoClass} p-2 border rounded-md text-center cursor-pointer transition-all duration-200 bg-white ${selected ? 'border-black bg-gray-100 ring-2 ring-black/10' : 'border-gray-200 hover:border-black hover:bg-gray-100'}" onclick="selectTactic('${side}', '${tactic.id}')"><i class="fa-solid ${tactic.icon} text-sm mb-1"></i><div class="font-medium text-xs">${tactic.name}</div></div>`;
+        };
 
-        function selectTactic(side, tacticId) { selectedTactics[side] = tacticId; createTacticCards(); }
+        const selectTactic = (side, id) => { selectedTactics[side] = id; createTacticCards(); };
 
-        function selectTeam(side) {
-            const select = document.getElementById(`${side}-team-select`);
-            const teamIndex = select.value;
-            if (teamIndex !== '') {
-                const team = teams[teamIndex];
-                document.getElementById(`${side}-name`).textContent = team.name;
+        const selectTeam = (side) => {
+            const select = side === 'home' ? elements.homeTeamSelect : elements.awayTeamSelect;
+            const idx = select.value;
+            if (idx !== '') {
+                const team = teams[idx];
+                const nameEl = side === 'home' ? elements.homeName : elements.awayName;
+                const shieldEl = side === 'home' ? elements.homeShield : elements.awayShield;
+                const overallEl = side === 'home' ? elements.homeOverall : elements.awayOverall;
+                nameEl.textContent = team.name;
                 const shieldUrl = team.shield || generateShieldUrl(team.abbreviation, team.colors[0], team.colors[1]);
-                document.getElementById(`${side}-shield`).innerHTML = `<img src="${shieldUrl}" alt="${team.abbreviation}">`;
+                shieldEl.innerHTML = `<img src="${shieldUrl}" alt="${team.abbreviation}" class="w-full h-full object-contain">`;
+                const overall = calculateTeamOverall(team);
+                overallEl.textContent = overall;
+                overallEl.style.display = 'flex';
+                overallEl.style.backgroundColor = team.colors[0];
+                overallEl.style.color = team.colors[1] || '#ffffff';
             }
-        }
+        };
 
-        function swapTeams() {
-            const homeContinent = document.getElementById('home-continent-select').value;
-            const homeTeam = document.getElementById('home-team-select').value;
-            const awayContinent = document.getElementById('away-continent-select').value;
-            const awayTeam = document.getElementById('away-team-select').value;
-            
-            document.getElementById('home-continent-select').value = awayContinent;
-            document.getElementById('away-continent-select').value = homeContinent;
-            
+        const swapTeams = () => {
+            const hc = elements.homeContinent.value, ht = elements.homeTeamSelect.value;
+            const ac = elements.awayContinent.value, at = elements.awayTeamSelect.value;
+            elements.homeContinent.value = ac;
+            elements.awayContinent.value = hc;
             updateHomeTeams();
             updateAwayTeams();
-            
-            document.getElementById('home-team-select').value = awayTeam;
-            document.getElementById('away-team-select').value = homeTeam;
-            
+            elements.homeTeamSelect.value = at;
+            elements.awayTeamSelect.value = ht;
             selectTeam('home');
             selectTeam('away');
-        }
+        };
 
-        function toggleNeutralVenue() {
-            neutralVenue = document.getElementById('neutral-venue').checked;
-        }
+        const toggleNeutralVenue = () => { neutralVenueActive = elements.neutralVenue.checked; };
 
-        function showEditor(teamIndex = null) {
+        const showEditor = (teamIndex = null) => {
             editingTeamId = teamIndex;
-            document.getElementById('team-name').value = '';
-            document.getElementById('team-abbreviation').value = '';
-            document.getElementById('team-shield-url').value = '';
-            document.getElementById('team-city').value = '';
-            document.getElementById('team-country').value = '';
-            document.getElementById('team-continent').value = 'South America';
-            document.getElementById('team-stadium').value = '';
-            document.getElementById('team-color1').value = '#000000';
-            document.getElementById('team-color2').value = '#ffffff';
-            document.getElementById('players-list').innerHTML = '';
+            ['team-name','team-abbreviation','team-shield-url','team-city','team-country','team-stadium'].forEach(id => $(id).value = '');
+            elements.teamContinent.value = 'South America';
+            elements.teamColor1.value = '#000000';
+            elements.teamColor2.value = '#ffffff';
+            elements.playersList.innerHTML = '';
             if (teamIndex !== null) {
-                const team = teams[teamIndex];
-                document.getElementById('team-name').value = team.name;
-                document.getElementById('team-abbreviation').value = team.abbreviation;
-                document.getElementById('team-shield-url').value = team.shield || '';
-                document.getElementById('team-city').value = team.city;
-                document.getElementById('team-country').value = team.country;
-                document.getElementById('team-continent').value = team.continent;
-                document.getElementById('team-stadium').value = team.stadium;
-                if (team.colors && team.colors.length >= 2) {
-                    document.getElementById('team-color1').value = team.colors[0];
-                    document.getElementById('team-color2').value = team.colors[1];
+                const t = teams[teamIndex];
+                elements.teamName.value = t.name;
+                elements.teamAbbr.value = t.abbreviation;
+                elements.teamShieldUrl.value = t.shield || '';
+                elements.teamCity.value = t.city;
+                elements.teamCountry.value = t.country;
+                elements.teamContinent.value = t.continent;
+                elements.teamStadium.value = t.stadium;
+                if (t.colors?.length >= 2) {
+                    elements.teamColor1.value = t.colors[0];
+                    elements.teamColor2.value = t.colors[1];
                 }
-                team.players.forEach(player => addPlayer(player));
+                t.players.forEach(p => addPlayer(p));
             } else {
                 for (let i = 0; i < 11; i++) addPlayer();
             }
             showModal('editor-modal');
-        }
+        };
 
-        function hideEditor() { closeModal('editor-modal'); }
+        const hideEditor = () => closeModal('editor-modal');
 
-        function addPlayer(playerData = null) {
-            const playersList = document.getElementById('players-list');
-            const playerRow = document.createElement('div');
-            playerRow.className = 'player-row';
-            const defaultPlayer = playerData || { name: '', position: 'DF', rating: 50, starter: true };
-            playerRow.innerHTML = `
-                <input type="text" placeholder="Name" value="${defaultPlayer.name}">
-                <select>
-                    <option value="GL" ${defaultPlayer.position === 'GL' ? 'selected' : ''}>Goalkeeper</option>
-                    <option value="DF" ${defaultPlayer.position === 'DF' ? 'selected' : ''}>Defender</option>
-                    <option value="MC" ${defaultPlayer.position === 'MC' ? 'selected' : ''}>Midfielder</option>
-                    <option value="AT" ${defaultPlayer.position === 'AT' ? 'selected' : ''}>Forward</option>
+        const addPlayer = (playerData = null) => {
+            const p = playerData || { name: '', position: 'DF', rating: 50, starter: true };
+            const row = document.createElement('div');
+            row.className = 'grid grid-cols-[2fr_1fr_1fr_auto_auto] gap-2 mb-2 items-center p-2 bg-gray-100 rounded-md';
+            row.innerHTML = `
+                <input type="text" placeholder="Name" value="${p.name}" class="w-full p-2 border border-gray-200 rounded-md text-sm">
+                <select class="w-full p-2 border border-gray-200 rounded-md text-sm">
+                    <option value="GL" ${p.position === 'GL' ? 'selected' : ''}>Goalkeeper</option>
+                    <option value="DF" ${p.position === 'DF' ? 'selected' : ''}>Defender</option>
+                    <option value="MC" ${p.position === 'MC' ? 'selected' : ''}>Midfielder</option>
+                    <option value="AT" ${p.position === 'AT' ? 'selected' : ''}>Forward</option>
                 </select>
-                <input type="number" min="1" max="100" value="${defaultPlayer.rating}" placeholder="Overall (1-100)">
-                <label style="display: flex; align-items: center; gap: 4px; font-size: 0.85em;"><input type="checkbox" ${defaultPlayer.starter ? 'checked' : ''}> Starter</label>
-                <button class="btn btn-danger btn-sm" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>`;
-            playersList.appendChild(playerRow);
-        }
+                <input type="number" min="1" max="100" value="${p.rating}" placeholder="Overall" class="w-full p-2 border border-gray-200 rounded-md text-sm">
+                <label class="flex items-center gap-1 text-xs"><input type="checkbox" ${p.starter ? 'checked' : ''}> Starter</label>
+                <button class="bg-red-400 text-white px-2 py-1 text-xs rounded-md cursor-pointer hover:bg-red-500" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>`;
+            elements.playersList.appendChild(row);
+        };
 
-        function saveTeam() {
-            const name = document.getElementById('team-name').value;
-            const abbreviation = document.getElementById('team-abbreviation').value;
-            const shield = document.getElementById('team-shield-url').value;
-            const city = document.getElementById('team-city').value;
-            const country = document.getElementById('team-country').value;
-            const continent = document.getElementById('team-continent').value;
-            const stadium = document.getElementById('team-stadium').value;
-            const color1 = document.getElementById('team-color1').value;
-            const color2 = document.getElementById('team-color2').value;
+        const saveTeam = () => {
+            const name = elements.teamName.value;
+            const abbreviation = elements.teamAbbr.value;
+            const shield = elements.teamShieldUrl.value;
+            const city = elements.teamCity.value;
+            const country = elements.teamCountry.value;
+            const continent = elements.teamContinent.value;
+            const stadium = elements.teamStadium.value;
+            const color1 = elements.teamColor1.value;
+            const color2 = elements.teamColor2.value;
             if (!name || !abbreviation || !city || !country || !stadium) {
                 showToast('Fill in all required fields!', 'error');
                 return;
             }
             const players = [];
-            const playerRows = document.querySelectorAll('.player-row');
-            let starterCount = 0;
-            let goalkeeperCount = 0;
-            playerRows.forEach(row => {
+            let starterCount = 0, goalkeeperCount = 0;
+            $$('#players-list > div').forEach(row => {
                 const inputs = row.querySelectorAll('input[type="text"], input[type="number"]');
                 const select = row.querySelector('select');
                 const starterCheckbox = row.querySelector('input[type="checkbox"]');
@@ -1499,11 +776,11 @@
             updateTeamsList();
             updateContinentSelects();
             hideEditor();
-        }
+        };
 
-        function editTeam(index) { showEditor(index); }
+        const editTeam = (index) => showEditor(index);
 
-        function deleteTeam(index) {
+        const deleteTeam = (index) => {
             showConfirm(`Are you sure you want to delete ${teams[index].name}?`, () => {
                 teams.splice(index, 1);
                 saveTeams();
@@ -1511,106 +788,86 @@
                 updateContinentSelects();
                 showToast('Team deleted successfully!', 'success');
             });
-        }
+        };
 
-        function exportJSON() {
+        const exportJSON = () => {
             sortTeamsAlphabetically();
             const json = JSON.stringify(teams, null, 2);
-            document.getElementById('json-output').value = json;
-            const textarea = document.getElementById('json-output');
-            textarea.select();
+            elements.jsonOutput.value = json;
+            elements.jsonOutput.select();
             document.execCommand('copy');
             showToast('JSON exported and copied!', 'success');
-        }
+        };
 
-        function importJSON() {
-            const jsonText = document.getElementById('json-input').value;
-            if (!jsonText) {
+        const importJSON = () => {
+            const text = elements.jsonInput.value;
+            if (!text) {
                 showToast('Paste JSON data first!', 'error');
                 return;
             }
             try {
-                const importedTeams = JSON.parse(jsonText);
-                if (Array.isArray(importedTeams)) {
-                    teams = importedTeams;
+                const imported = JSON.parse(text);
+                if (Array.isArray(imported)) {
+                    teams = imported;
                     sortTeamsAlphabetically();
                     saveTeams();
                     updateTeamsList();
                     updateContinentSelects();
                     showToast('Teams imported successfully!', 'success');
-                    document.getElementById('json-input').value = '';
+                    elements.jsonInput.value = '';
                 } else {
                     showToast('Invalid JSON! Must be an array of teams.', 'error');
                 }
-            } catch (error) {
-                showToast('Error importing JSON: ' + error.message, 'error');
+            } catch (e) {
+                showToast('Error importing JSON: ' + e.message, 'error');
             }
-        }
+        };
 
-        function calculateTeamStrength(team, tacticId) {
-            const teamOverall = calculateTeamOverall(team);
+        const calculateTeamStrength = (team, tacticId) => {
+            const overall = calculateTeamOverall(team);
             const tactic = TACTICS.find(t => t.id === tacticId) || TACTICS.find(t => t.id === 'moderado');
-            return { attack: teamOverall * tactic.attack, defense: teamOverall * tactic.defense, fouls: tactic.fouls };
-        }
+            return { attack: overall * tactic.attack, defense: overall * tactic.defense, fouls: tactic.fouls };
+        };
 
-        function getRandomPlayer(team, position = null, excludePlayer = null) {
+        const getRandomPlayer = (team, position = null, exclude = null) => {
             const starters = team.players.filter(p => p.starter);
-            let availablePlayers = starters;
-            if (position) {
-                availablePlayers = starters.filter(p => p.position === position);
-            }
-            if (excludePlayer) {
-                availablePlayers = availablePlayers.filter(p => p.name !== excludePlayer.name);
-            }
-            if (availablePlayers.length === 0) {
-                availablePlayers = starters.filter(p => p.name !== excludePlayer?.name);
-            }
-            if (availablePlayers.length === 0) {
-                availablePlayers = starters;
-            }
-            return availablePlayers[Math.floor(Math.random() * availablePlayers.length)];
-        }
+            let pool = starters;
+            if (position) pool = starters.filter(p => p.position === position);
+            if (exclude) pool = pool.filter(p => p.name !== exclude.name);
+            if (!pool.length) pool = starters.filter(p => p.name !== exclude?.name);
+            if (!pool.length) pool = starters;
+            return pool[Math.floor(Math.random() * pool.length)];
+        };
 
-        function determineAutoTactic(team, opponent, isHome) {
-            const teamOverall = calculateTeamOverall(team);
-            const opponentOverall = calculateTeamOverall(opponent);
-            
-            if (isHome && !neutralVenue) {
-                if (teamOverall > opponentOverall + 10) return 'ofensivo';
-                if (teamOverall > opponentOverall + 3) return 'moderado';
-                if (teamOverall < opponentOverall - 10) return 'defensivo';
-                if (teamOverall < opponentOverall - 3) return 'reativo';
-                return 'moderado';
-            } else {
-                if (teamOverall > opponentOverall + 10) return 'moderado';
-                if (teamOverall > opponentOverall + 3) return 'reativo';
-                if (teamOverall < opponentOverall - 10) return 'ultra_defensivo';
-                if (teamOverall < opponentOverall - 3) return 'defensivo';
+        const determineAutoTactic = (team, opp, isHome) => {
+            const to = calculateTeamOverall(team), oo = calculateTeamOverall(opp);
+            if (isHome && !neutralVenueActive) {
+                if (to > oo + 10) return 'ofensivo';
+                if (to > oo + 3) return 'moderado';
+                if (to < oo - 10) return 'defensivo';
+                if (to < oo - 3) return 'reativo';
                 return 'moderado';
             }
-        }
+            if (to > oo + 10) return 'moderado';
+            if (to > oo + 3) return 'reativo';
+            if (to < oo - 10) return 'ultra_defensivo';
+            if (to < oo - 3) return 'defensivo';
+            return 'moderado';
+        };
 
-        function startMatch() {
-            const homeIndex = document.getElementById('home-team-select').value;
-            const awayIndex = document.getElementById('away-team-select').value;
-            if (homeIndex === '' || awayIndex === '') {
+        const startMatch = () => {
+            const hi = elements.homeTeamSelect.value, ai = elements.awayTeamSelect.value;
+            if (!hi || !ai) {
                 showToast('Select both teams to start the match!', 'error');
                 return;
             }
-            if (homeIndex === awayIndex) {
+            if (hi === ai) {
                 showToast('Teams must be different!', 'error');
                 return;
             }
-            const homeTeam = teams[homeIndex];
-            const awayTeam = teams[awayIndex];
-            
-            if (selectedTactics.home === 'auto') {
-                selectedTactics.home = determineAutoTactic(homeTeam, awayTeam, true);
-            }
-            if (selectedTactics.away === 'auto') {
-                selectedTactics.away = determineAutoTactic(awayTeam, homeTeam, false);
-            }
-            
+            const homeTeam = teams[hi], awayTeam = teams[ai];
+            if (selectedTactics.home === 'auto') selectedTactics.home = determineAutoTactic(homeTeam, awayTeam, true);
+            if (selectedTactics.away === 'auto') selectedTactics.away = determineAutoTactic(awayTeam, homeTeam, false);
             addedTime = Math.floor(Math.random() * 5) + 4;
             addedTimeAnnounced = false;
             currentMatch = {
@@ -1619,301 +876,216 @@
                 awayTactic: selectedTactics.away,
                 homeScore: 0, awayScore: 0, minute: 0, zone: 2,
                 possessionTeam: 'home',
-                stats: {
-                    homePossession: 0, awayPossession: 0,
-                    homeShots: 0, awayShots: 0,
-                    homeShotsOnTarget: 0, awayShotsOnTarget: 0,
-                    homeFouls: 0, awayFouls: 0,
-                    homeTackles: 0, awayTackles: 0,
-                    homeCorners: 0, awayCorners: 0,
-                    homePenalties: 0, awayPenalties: 0,
-                    homeSaves: 0, awaySaves: 0,
-                    homeYellowCards: 0, awayYellowCards: 0,
-                    homeOffsides: 0, awayOffsides: 0
-                },
+                stats: { homePossession: 0, awayPossession: 0, homeShots: 0, awayShots: 0, homeShotsOnTarget: 0, awayShotsOnTarget: 0, homeFouls: 0, awayFouls: 0, homeTackles: 0, awayTackles: 0, homeCorners: 0, awayCorners: 0, homePenalties: 0, awayPenalties: 0, homeSaves: 0, awaySaves: 0, homeYellowCards: 0, awayYellowCards: 0, homeOffsides: 0, awayOffsides: 0 },
                 goalScorers: [], assists: [], keyEvents: []
             };
-            document.getElementById('match-setup').style.display = 'none';
-            document.getElementById('match-live').style.display = 'block';
-            document.getElementById('live-home-name').textContent = homeTeam.name;
-            const homeShieldUrl = homeTeam.shield || generateShieldUrl(homeTeam.abbreviation, homeTeam.colors[0], homeTeam.colors[1]);
-            const awayShieldUrl = awayTeam.shield || generateShieldUrl(awayTeam.abbreviation, awayTeam.colors[0], awayTeam.colors[1]);
-            document.getElementById('live-home-shield').innerHTML = `<img src="${homeShieldUrl}" alt="${homeTeam.abbreviation}">`;
-            document.getElementById('live-away-name').textContent = awayTeam.name;
-            document.getElementById('live-away-shield').innerHTML = `<img src="${awayShieldUrl}" alt="${awayTeam.abbreviation}">`;
-            document.getElementById('narration-text').textContent = '';
-            document.getElementById('events-timeline').innerHTML = '<div class="no-goals" id="no-goals">No goals yet</div>';
-            
-            const homeScoreBox = document.getElementById('home-score');
-            const awayScoreBox = document.getElementById('away-score');
-            homeScoreBox.style.backgroundColor = homeTeam.colors[0];
-            homeScoreBox.style.color = homeTeam.colors[1] || homeTeam.colors[0];
-            awayScoreBox.style.backgroundColor = awayTeam.colors[0];
-            awayScoreBox.style.color = awayTeam.colors[1] || awayTeam.colors[0];
-            
+            elements.matchSetup.style.display = 'none';
+            elements.matchLive.style.display = 'block';
+            elements.liveHomeName.textContent = homeTeam.name;
+            const hs = homeTeam.shield || generateShieldUrl(homeTeam.abbreviation, homeTeam.colors[0], homeTeam.colors[1]);
+            const as = awayTeam.shield || generateShieldUrl(awayTeam.abbreviation, awayTeam.colors[0], awayTeam.colors[1]);
+            elements.liveHomeShield.innerHTML = `<img src="${hs}" alt="${homeTeam.abbreviation}" class="w-full h-full object-contain">`;
+            elements.liveAwayName.textContent = awayTeam.name;
+            elements.liveAwayShield.innerHTML = `<img src="${as}" alt="${awayTeam.abbreviation}" class="w-full h-full object-contain">`;
+            elements.narrationText.textContent = '';
+            elements.eventsTimeline.innerHTML = '<div class="text-center text-gray-500 text-sm py-3" id="no-goals">No goals yet</div>';
+            elements.homeScore.style.backgroundColor = homeTeam.colors[0];
+            elements.homeScore.style.color = homeTeam.colors[1] || homeTeam.colors[0];
+            elements.awayScore.style.backgroundColor = awayTeam.colors[0];
+            elements.awayScore.style.color = awayTeam.colors[1] || awayTeam.colors[0];
             applyTeamColors();
-            
             updateMatchDisplay();
             updateNarration('Match started!');
             isPaused = false;
             updateSpeedButtons();
             updatePauseButton();
             startMatchInterval();
-        }
+        };
 
-        function startMatchInterval() {
-            if (matchInterval) { clearInterval(matchInterval); matchInterval = null; }
-            const intervalTime = 300 / matchSpeed;
+        const startMatchInterval = () => {
+            if (matchInterval) clearInterval(matchInterval);
             matchInterval = setInterval(() => {
-                const totalMinutes = 90 + addedTime;
-                if (currentMatch.minute < totalMinutes) {
-                    simulateMinute();
-                } else {
-                    clearInterval(matchInterval);
-                    matchInterval = null;
-                    updateNarration('Full time!');
-                }
-            }, intervalTime);
-        }
+                if (currentMatch.minute < 90 + addedTime) simulateMinute();
+                else { clearInterval(matchInterval); matchInterval = null; updateNarration('Full time!'); }
+            }, 300 / matchSpeed);
+        };
 
-        function togglePause() {
+        const togglePause = () => {
             isPaused = !isPaused;
-            if (isPaused) {
-                if (matchInterval) { clearInterval(matchInterval); matchInterval = null; }
-            } else {
-                startMatchInterval();
-            }
+            if (isPaused) { if (matchInterval) { clearInterval(matchInterval); matchInterval = null; } }
+            else startMatchInterval();
             updatePauseButton();
-        }
+        };
 
-        function updatePauseButton() {
-            const icon = document.getElementById('pause-icon');
-            const text = document.getElementById('pause-text');
+        const updatePauseButton = () => {
             if (isPaused) {
-                icon.className = 'fa-solid fa-play';
-                text.textContent = 'Resume';
+                elements.pauseIcon.className = 'fa-solid fa-play';
+                elements.pauseText.textContent = 'Resume';
             } else {
-                icon.className = 'fa-solid fa-pause';
-                text.textContent = 'Pause';
+                elements.pauseIcon.className = 'fa-solid fa-pause';
+                elements.pauseText.textContent = 'Pause';
             }
-        }
+        };
 
-        function setSpeed(speed) {
-            matchSpeed = speed;
-            localStorage.setItem('rise_match_speed', speed);
+        const setSpeed = (s) => {
+            matchSpeed = s;
+            localStorage.setItem('rise_match_speed', s);
             updateSpeedButtons();
-            if (!isPaused && matchInterval) {
-                startMatchInterval();
-            }
-        }
+            if (!isPaused && matchInterval) startMatchInterval();
+        };
 
-        function updateSpeedButtons() {
-            document.getElementById('speed-1x').classList.toggle('active', matchSpeed === 1);
-            document.getElementById('speed-2x').classList.toggle('active', matchSpeed === 2);
-            document.getElementById('speed-4x').classList.toggle('active', matchSpeed === 4);
-        }
+        const updateSpeedButtons = () => {
+            [elements.speed1x, elements.speed2x, elements.speed4x].forEach(btn => {
+                btn.classList.remove('bg-black', 'text-white', 'active');
+                btn.classList.add('bg-transparent', 'text-gray-900');
+            });
+            const active = matchSpeed === 1 ? elements.speed1x : matchSpeed === 2 ? elements.speed2x : elements.speed4x;
+            active.classList.add('bg-black', 'text-white', 'active');
+        };
 
-        function applyTeamColors() {
-            const fieldHome = document.getElementById('field-zone-home');
-            const fieldAway = document.getElementById('field-zone-away');
-            const homeColor = currentMatch.homeTeam.colors[0];
-            const awayColor = currentMatch.awayTeam.colors[0];
-            
-            fieldHome.style.background = homeColor;
-            fieldAway.style.background = awayColor;
-            
-            const dividerLine = document.getElementById('field-divider-line');
-            const zonePercentage = (currentMatch.zone / 5) * 100;
-            dividerLine.style.left = zonePercentage + '%';
-        }
+        const applyTeamColors = () => {
+            elements.fieldHome.style.background = currentMatch.homeTeam.colors[0];
+            elements.fieldAway.style.background = currentMatch.awayTeam.colors[0];
+            elements.fieldDivider.style.left = (currentMatch.zone / 5) * 100 + '%';
+        };
 
-        function updateNarration(text) {
-            document.getElementById('narration-text').textContent = text;
-        }
+        const updateNarration = (text) => { elements.narrationText.textContent = text; };
 
-        function formatMinute(minute) {
-            return minute < 10 ? `0${minute}'` : `${minute}'`;
-        }
+        const formatMinute = (m) => m < 10 ? `0${m}'` : `${m}'`;
 
-        function addEventToTimeline(minute, eventText, teamSide, eventType = 'goal') {
-            const noGoals = document.getElementById('no-goals');
-            if (noGoals && eventType === 'goal') noGoals.remove();
-            
-            const timeline = document.getElementById('events-timeline');
-            const eventRow = document.createElement('div');
-            eventRow.className = 'event-row';
-            const formattedMinute = formatMinute(minute);
-            
-            if (teamSide === 'home') {
-                eventRow.innerHTML = `
-                    <div class="event-home"><strong>${formattedMinute}</strong> ${eventText}</div>
-                    <div class="event-spacer"></div>`;
-            } else if (teamSide === 'away') {
-                eventRow.innerHTML = `
-                    <div class="event-spacer"></div>
-                    <div class="event-away">${eventText} <strong>${formattedMinute}</strong></div>`;
+        const addEventToTimeline = (minute, text, side, type = 'goal') => {
+            const noGoals = $('no-goals');
+            if (noGoals && type === 'goal') noGoals.remove();
+            const row = document.createElement('div');
+            row.className = 'flex justify-between items-center min-h-[28px] py-1';
+            const fm = formatMinute(minute);
+            if (side === 'home') {
+                row.innerHTML = `<div class="flex-1 text-left text-sm font-medium whitespace-nowrap overflow-hidden text-ellipsis"><strong>${fm}</strong> ${text}</div><div class="w-[60px] flex-shrink-0"></div>`;
             } else {
-                eventRow.innerHTML = `
-                    <div class="event-spacer"></div>
-                    <div class="event-away">${eventText} <strong>${formattedMinute}</strong></div>`;
+                row.innerHTML = `<div class="w-[60px] flex-shrink-0"></div><div class="flex-1 text-right text-sm font-medium whitespace-nowrap overflow-hidden text-ellipsis">${text} <strong>${fm}</strong></div>`;
             }
-            timeline.appendChild(eventRow);
-        }
+            elements.eventsTimeline.appendChild(row);
+        };
 
-        function addGoalEvent(minute, scorerName, assistName, teamSide) {
-            const scoreText = `[${currentMatch.homeScore}-${currentMatch.awayScore}]`;
-            const assistText = assistName ? ` (${assistName})` : '';
-            addEventToTimeline(minute, `${scoreText} ${scorerName}${assistText}`, teamSide, 'goal');
-        }
+        const addGoalEvent = (m, s, a, side) => {
+            const st = `[${currentMatch.homeScore}-${currentMatch.awayScore}]`;
+            addEventToTimeline(m, `${st} ${s}${a ? ` (${a})` : ''}`, side, 'goal');
+        };
 
-        function addPenaltyMissEvent(minute, playerName, teamSide) {
-            addEventToTimeline(minute, `❌ Penalty missed - ${playerName}`, teamSide, 'penalty');
-        }
+        const addPenaltyMissEvent = (m, p, side) => addEventToTimeline(m, `❌ Penalty missed - ${p}`, side, 'penalty');
 
-        function addDisallowedGoalEvent(minute, scorerName, reason, teamSide, varUsed = false) {
-            const varText = varUsed ? ' [VAR]' : '';
-            addEventToTimeline(minute, `🚫 Goal disallowed - ${scorerName} (${reason})${varText}`, teamSide, 'disallowed');
-        }
+        const addDisallowedGoalEvent = (m, s, r, side, varUsed) =>
+            addEventToTimeline(m, `🚫 Goal disallowed - ${s} (${r})${varUsed ? ' [VAR]' : ''}`, side, 'disallowed');
 
-        function simulateMinute() {
+        const simulateMinute = () => {
             if (!currentMatch || currentMatch.minute >= 90 + addedTime) return;
             currentMatch.minute++;
-            
             if (currentMatch.minute === 90 && !addedTimeAnnounced) {
                 updateNarration(`90 minutes played. ${addedTime} minutes added time.`);
                 addedTimeAnnounced = true;
             }
-            
-            const homeStrength = calculateTeamStrength(currentMatch.homeTeam, currentMatch.homeTactic);
-            const awayStrength = calculateTeamStrength(currentMatch.awayTeam, currentMatch.awayTactic);
-            
-            let homeAdvantage = 0;
-            let awayAdvantage = 0;
-            if (!neutralVenue) {
-                homeAdvantage = 3;
-                awayAdvantage = -2;
-            }
-            
-            const homeEffectiveAttack = homeStrength.attack + homeAdvantage;
-            const homeEffectiveDefense = homeStrength.defense + homeAdvantage;
-            const awayEffectiveAttack = awayStrength.attack + awayAdvantage;
-            const awayEffectiveDefense = awayStrength.defense + awayAdvantage;
-            
-            const homePossessionChance = 50 + (homeEffectiveAttack - awayEffectiveDefense) * 0.3;
-            const possessionRoll = Math.random() * 100;
-            if (possessionRoll < homePossessionChance) {
-                currentMatch.possessionTeam = 'home';
-                currentMatch.stats.homePossession++;
-            } else {
-                currentMatch.possessionTeam = 'away';
-                currentMatch.stats.awayPossession++;
-            }
-            if (currentMatch.possessionTeam === 'home') {
-                simulateTeamAction('home', { attack: homeEffectiveAttack, defense: homeEffectiveDefense }, { attack: awayEffectiveAttack, defense: awayEffectiveDefense });
-            } else {
-                simulateTeamAction('away', { attack: awayEffectiveAttack, defense: awayEffectiveDefense }, { attack: homeEffectiveAttack, defense: homeEffectiveDefense });
-            }
+            const hs = calculateTeamStrength(currentMatch.homeTeam, currentMatch.homeTactic);
+            const as = calculateTeamStrength(currentMatch.awayTeam, currentMatch.awayTactic);
+            let ha = 0, aa = 0;
+            if (!neutralVenueActive) { ha = 3; aa = -2; }
+            const hea = hs.attack + ha, hed = hs.defense + ha;
+            const aea = as.attack + aa, aed = as.defense + aa;
+            const homePoss = 50 + (hea - aed) * 0.3;
+            const roll = Math.random() * 100;
+            if (roll < homePoss) { currentMatch.possessionTeam = 'home'; currentMatch.stats.homePossession++; }
+            else { currentMatch.possessionTeam = 'away'; currentMatch.stats.awayPossession++; }
+            if (currentMatch.possessionTeam === 'home') simulateTeamAction('home', { attack: hea, defense: hed }, { attack: aea, defense: aed });
+            else simulateTeamAction('away', { attack: aea, defense: aed }, { attack: hea, defense: hed });
             updateMatchDisplay();
-        }
+        };
 
-        function simulateTeamAction(teamSide, teamStrength, opponentStrength) {
-            const isHome = teamSide === 'home';
-            const teamName = isHome ? currentMatch.homeTeam.name : currentMatch.awayTeam.name;
+        const simulateTeamAction = (side, ts, os) => {
+            const isHome = side === 'home';
             const team = isHome ? currentMatch.homeTeam : currentMatch.awayTeam;
-            const inAttackingZone = isHome ? currentMatch.zone === 0 : currentMatch.zone === 5;
-            const baseShotChance = inAttackingZone ? 20 : 10;
-            const shotChance = baseShotChance + (teamStrength.attack - opponentStrength.defense) * 0.4;
-            const actionRoll = Math.random() * 100;
-            if (actionRoll < shotChance) {
-                simulateShot(teamSide, teamStrength, opponentStrength, isHome, teamName, team);
+            const teamName = team.name;
+            const inZone = isHome ? currentMatch.zone === 0 : currentMatch.zone === 5;
+            const shotChance = Math.min((inZone ? 18 : 8) + (ts.attack - os.defense) * 0.15, 35);
+            const roll = Math.random() * 100;
+            if (roll < shotChance) { simulateShot(side, ts, os, isHome, teamName, team); return; }
+            const advChance = 40 + (ts.attack - os.defense) * 0.3;
+            if (roll < advChance) {
+                const oz = currentMatch.zone;
+                const amt = Math.random() < 0.25 ? 2 : 1;
+                currentMatch.zone = isHome ? Math.max(0, oz - amt) : Math.min(5, oz + amt);
+                if (oz !== currentMatch.zone) updateNarration(`${teamName} moves forward`);
                 return;
             }
-            const advanceChance = 40 + (teamStrength.attack - opponentStrength.defense) * 0.5;
-            if (actionRoll < advanceChance) {
-                const oldZone = currentMatch.zone;
-                const advanceAmount = Math.random() < 0.25 ? 2 : 1;
-                if (isHome) currentMatch.zone = Math.max(0, currentMatch.zone - advanceAmount);
-                else currentMatch.zone = Math.min(5, currentMatch.zone + advanceAmount);
-                if (oldZone !== currentMatch.zone) updateNarration(`${teamName} moves forward`);
-                return;
-            }
-            const tackleChance = advanceChance + 25;
-            if (actionRoll < tackleChance) {
-                const tacklingTeam = isHome ? 'away' : 'home';
-                const tacklingName = isHome ? currentMatch.awayTeam.name : currentMatch.homeTeam.name;
-                const tacklingPlayer = getRandomPlayer(isHome ? currentMatch.awayTeam : currentMatch.homeTeam);
-                if (tacklingTeam === 'home') currentMatch.stats.homeTackles++;
+            const tklChance = advChance + 25;
+            if (roll < tklChance) {
+                const tTeam = isHome ? 'away' : 'home';
+                const tName = isHome ? currentMatch.awayTeam.name : currentMatch.homeTeam.name;
+                const tPlayer = getRandomPlayer(isHome ? currentMatch.awayTeam : currentMatch.homeTeam);
+                if (tTeam === 'home') currentMatch.stats.homeTackles++;
                 else currentMatch.stats.awayTackles++;
-                updateNarration(`Tackle by ${tacklingName}`);
-                if (Math.random() < 0.22) {
-                    if (tacklingTeam === 'home') currentMatch.stats.homeFouls++;
+                updateNarration(`Tackle by ${tName}`);
+                if (Math.random() < 0.20) {
+                    if (tTeam === 'home') currentMatch.stats.homeFouls++;
                     else currentMatch.stats.awayFouls++;
-                    const defendingSide = isHome ? 'away' : 'home';
-                    const isDefendingInOwnArea = defendingSide === 'home' ? currentMatch.zone === 0 : currentMatch.zone === 5;
-                    if (isDefendingInOwnArea && Math.random() < 0.12) {
-                        updateNarration(`Penalty for ${teamName}!`);
-                        simulatePenalty(teamSide, teamName);
-                    } else {
-                        updateNarration(`Foul by ${tacklingName}`);
-                        if (Math.random() < 0.12) {
-                            if (tacklingTeam === 'home') currentMatch.stats.homeYellowCards++;
+                    const defSide = isHome ? 'away' : 'home';
+                    const inArea = defSide === 'home' ? currentMatch.zone === 0 : currentMatch.zone === 5;
+                    if (inArea && Math.random() < 0.10) { updateNarration(`Penalty for ${teamName}!`); simulatePenalty(side, teamName); }
+                    else {
+                        updateNarration(`Foul by ${tName}`);
+                        if (Math.random() < 0.10) {
+                            if (tTeam === 'home') currentMatch.stats.homeYellowCards++;
                             else currentMatch.stats.awayYellowCards++;
-                            updateNarration(`Yellow card for ${tacklingName}`);
+                            updateNarration(`Yellow card for ${tName}`);
                         }
-                        if (Math.random() < 0.08 && teamStrength.attack > 60) simulateFreeKickGoal(teamSide, teamName, team);
+                        if (Math.random() < 0.06 && ts.attack > 60) simulateFreeKickGoal(side, teamName, team);
                     }
                 }
                 return;
             }
-            if (actionRoll < tackleChance + 6) {
+            if (roll < tklChance + 5) {
                 if (isHome) currentMatch.stats.homeOffsides++;
                 else currentMatch.stats.awayOffsides++;
                 updateNarration(`Offside ${teamName}!`);
                 return;
             }
             updateNarration(`${teamName} loses possession`);
-        }
+        };
 
-        function simulateShot(teamSide, teamStrength, opponentStrength, isHome, teamName, team) {
+        const simulateShot = (side, ts, os, isHome, teamName, team) => {
             if (isHome) currentMatch.stats.homeShots++;
             else currentMatch.stats.awayShots++;
-            const shotRoll = Math.random() * 100;
-            const goalChance = 8 + (teamStrength.attack - opponentStrength.defense) * 0.3;
-            if (shotRoll < goalChance) {
-                if (Math.random() < 0.04) {
-                    const scorer = getRandomPlayer(team, 'AT');
+            const goalChance = Math.min(6 + (ts.attack - os.defense) * 0.12, 15);
+            const roll = Math.random() * 100;
+            if (roll < goalChance) {
+                if (Math.random() < 0.03) {
+                    const s = getRandomPlayer(team, 'AT');
                     const reasons = ['offside', 'foul'];
-                    const reason = reasons[Math.floor(Math.random() * reasons.length)];
+                    const r = reasons[Math.floor(Math.random() * reasons.length)];
                     const varUsed = Math.random() < 0.5;
-                    updateNarration(`Goal disallowed - ${scorer.name} (${reason})${varUsed ? ' [VAR]' : ''}`);
-                    addDisallowedGoalEvent(currentMatch.minute, scorer.name, reason, teamSide, varUsed);
+                    updateNarration(`Goal disallowed - ${s.name} (${r})${varUsed ? ' [VAR]' : ''}`);
+                    addDisallowedGoalEvent(currentMatch.minute, s.name, r, side, varUsed);
                     currentMatch.zone = 2;
                     return;
                 }
-                
                 if (isHome) { currentMatch.homeScore++; currentMatch.stats.homeShotsOnTarget++; }
                 else { currentMatch.awayScore++; currentMatch.stats.awayShotsOnTarget++; }
-                const scorer = getRandomPlayer(team, 'AT');
-                const assistRoll = Math.random();
-                let assister = null;
-                if (assistRoll < 0.4) {
-                    assister = getRandomPlayer(team, 'MC', scorer);
-                }
-                currentMatch.goalScorers.push(scorer);
-                updateNarration(`GOAL by ${scorer.name}${assister ? ` (assist: ${assister.name})` : ''}`);
-                addGoalEvent(currentMatch.minute, scorer.name, assister ? assister.name : null, teamSide);
+                const s = getRandomPlayer(team, 'AT');
+                let a = null;
+                if (Math.random() < 0.35) a = getRandomPlayer(team, 'MC', s);
+                currentMatch.goalScorers.push(s);
+                updateNarration(`GOAL by ${s.name}${a ? ` (assist: ${a.name})` : ''}`);
+                addGoalEvent(currentMatch.minute, s.name, a?.name, side);
                 currentMatch.zone = 2;
                 return;
             }
-            if (shotRoll < goalChance + 8) {
+            if (roll < goalChance + 7) {
                 updateNarration(`Hit the post!`);
-                if (Math.random() < 0.25) {
-                    if (Math.random() < 0.35) {
+                if (Math.random() < 0.20) {
+                    if (Math.random() < 0.30) {
                         if (isHome) { currentMatch.homeScore++; currentMatch.stats.homeShotsOnTarget++; }
                         else { currentMatch.awayScore++; currentMatch.stats.awayShotsOnTarget++; }
-                        const scorer = getRandomPlayer(team);
-                        updateNarration(`GOAL by ${scorer.name}`);
-                        addGoalEvent(currentMatch.minute, scorer.name, null, teamSide);
+                        const s = getRandomPlayer(team);
+                        updateNarration(`GOAL by ${s.name}`);
+                        addGoalEvent(currentMatch.minute, s.name, null, side);
                         currentMatch.zone = 2;
                     } else {
                         if (isHome) currentMatch.stats.awaySaves++;
@@ -1923,32 +1095,31 @@
                 }
                 return;
             }
-            if (shotRoll < goalChance + 28) {
+            if (roll < goalChance + 25) {
                 if (isHome) currentMatch.stats.awaySaves++;
                 else currentMatch.stats.homeSaves++;
                 updateNarration(`Goalkeeper save!`);
                 currentMatch.zone = 2;
                 return;
             }
-            if (shotRoll < goalChance + 43) {
+            if (roll < goalChance + 40) {
                 if (isHome) currentMatch.stats.awaySaves++;
                 else currentMatch.stats.homeSaves++;
                 updateNarration(`Goalkeeper save! Goal kick.`);
-                if (Math.random() < 0.7) currentMatch.zone = 2;
-                else currentMatch.zone = isHome ? 1 : 4;
+                currentMatch.zone = Math.random() < 0.7 ? 2 : (isHome ? 1 : 4);
                 return;
             }
-            if (shotRoll < goalChance + 53) {
+            if (roll < goalChance + 50) {
                 if (isHome) currentMatch.stats.homeCorners++;
                 else currentMatch.stats.awayCorners++;
                 updateNarration(`Corner kick!`);
-                if (Math.random() < 0.015) {
+                if (Math.random() < 0.01) {
                     if (isHome) { currentMatch.homeScore++; currentMatch.stats.homeShotsOnTarget++; }
                     else { currentMatch.awayScore++; currentMatch.stats.awayShotsOnTarget++; }
-                    const scorer = getRandomPlayer(team, 'MC');
-                    updateNarration(`OLYMPIC GOAL by ${scorer.name}!`);
-                    addGoalEvent(currentMatch.minute, scorer.name, null, teamSide);
-                    currentMatch.goalScorers.push(scorer);
+                    const s = getRandomPlayer(team, 'MC');
+                    updateNarration(`OLYMPIC GOAL by ${s.name}!`);
+                    addGoalEvent(currentMatch.minute, s.name, null, side);
+                    currentMatch.goalScorers.push(s);
                     currentMatch.zone = 2;
                 } else {
                     currentMatch.zone = isHome ? 0 : 5;
@@ -1957,83 +1128,101 @@
             }
             updateNarration(`Shot goes wide!`);
             currentMatch.zone = 2;
-        }
+        };
 
-        function simulatePenalty(teamSide, teamName) {
-            const penaltyRoll = Math.random() * 100;
-            const isHome = teamSide === 'home';
+        const simulatePenalty = (side, teamName) => {
+            const isHome = side === 'home';
             const team = isHome ? currentMatch.homeTeam : currentMatch.awayTeam;
             if (isHome) currentMatch.stats.homePenalties++;
             else currentMatch.stats.awayPenalties++;
-            if (penaltyRoll < 70) {
+            if (Math.random() < 0.75) {
                 if (isHome) currentMatch.homeScore++;
                 else currentMatch.awayScore++;
-                const scorer = getRandomPlayer(team, 'AT');
-                updateNarration(`PENALTY GOAL by ${scorer.name}`);
-                addGoalEvent(currentMatch.minute, scorer.name, null, teamSide);
-                currentMatch.goalScorers.push(scorer);
+                const s = getRandomPlayer(team, 'AT');
+                updateNarration(`PENALTY GOAL by ${s.name}`);
+                addGoalEvent(currentMatch.minute, s.name, null, side);
+                currentMatch.goalScorers.push(s);
             } else {
-                const scorer = getRandomPlayer(team, 'AT');
-                updateNarration(`Penalty missed by ${scorer.name}!`);
-                addPenaltyMissEvent(currentMatch.minute, scorer.name, teamSide);
+                const s = getRandomPlayer(team, 'AT');
+                updateNarration(`Penalty missed by ${s.name}!`);
+                addPenaltyMissEvent(currentMatch.minute, s.name, side);
             }
             currentMatch.zone = 2;
-        }
+        };
 
-        function simulateFreeKickGoal(teamSide, teamName, team) {
-            const freeKickRoll = Math.random() * 100;
-            const isHome = teamSide === 'home';
-            if (freeKickRoll < 15) {
+        const simulateFreeKickGoal = (side, teamName, team) => {
+            const isHome = side === 'home';
+            if (Math.random() < 0.12) {
                 if (isHome) currentMatch.homeScore++;
                 else currentMatch.awayScore++;
-                const scorer = getRandomPlayer(team, 'MC');
-                updateNarration(`FREE KICK GOAL by ${scorer.name}`);
-                addGoalEvent(currentMatch.minute, scorer.name, null, teamSide);
-                currentMatch.goalScorers.push(scorer);
+                const s = getRandomPlayer(team, 'MC');
+                updateNarration(`FREE KICK GOAL by ${s.name}`);
+                addGoalEvent(currentMatch.minute, s.name, null, side);
+                currentMatch.goalScorers.push(s);
                 currentMatch.zone = 2;
             }
-        }
+        };
 
-        function updateMatchDisplay() {
-            document.getElementById('home-score').textContent = currentMatch.homeScore;
-            document.getElementById('away-score').textContent = currentMatch.awayScore;
-            document.getElementById('match-time').textContent = formatMinute(currentMatch.minute);
-            
-            const totalPossession = currentMatch.stats.homePossession + currentMatch.stats.awayPossession;
-            if (totalPossession > 0) {
-                const homePossession = Math.round((currentMatch.stats.homePossession / totalPossession) * 100);
-                const awayPossession = 100 - homePossession;
-                document.getElementById('home-possession-stat').textContent = homePossession + '%';
-                document.getElementById('away-possession-stat').textContent = awayPossession + '%';
+        const updateMatchDisplay = () => {
+            elements.homeScore.textContent = currentMatch.homeScore;
+            elements.awayScore.textContent = currentMatch.awayScore;
+            elements.matchTime.textContent = formatMinute(currentMatch.minute);
+            const tp = currentMatch.stats.homePossession + currentMatch.stats.awayPossession;
+            if (tp > 0) {
+                const hp = Math.round((currentMatch.stats.homePossession / tp) * 100);
+                elements.homePossessionStat.textContent = hp + '%';
+                elements.awayPossessionStat.textContent = (100 - hp) + '%';
             }
-            document.getElementById('home-shots-stat').textContent = currentMatch.stats.homeShots;
-            document.getElementById('away-shots-stat').textContent = currentMatch.stats.awayShots;
-            document.getElementById('home-shots-target-stat').textContent = currentMatch.stats.homeShotsOnTarget;
-            document.getElementById('away-shots-target-stat').textContent = currentMatch.stats.awayShotsOnTarget;
-            document.getElementById('home-corners-stat').textContent = currentMatch.stats.homeCorners;
-            document.getElementById('away-corners-stat').textContent = currentMatch.stats.awayCorners;
-            document.getElementById('home-fouls-stat').textContent = currentMatch.stats.homeFouls;
-            document.getElementById('away-fouls-stat').textContent = currentMatch.stats.awayFouls;
-            document.getElementById('home-offsides-stat').textContent = currentMatch.stats.homeOffsides;
-            document.getElementById('away-offsides-stat').textContent = currentMatch.stats.awayOffsides;
-            document.getElementById('home-cards-stat').textContent = currentMatch.stats.homeYellowCards;
-            document.getElementById('away-cards-stat').textContent = currentMatch.stats.awayYellowCards;
-            
-            const fieldHome = document.getElementById('field-zone-home');
-            const fieldAway = document.getElementById('field-zone-away');
-            const dividerLine = document.getElementById('field-divider-line');
-            const zonePercentage = (currentMatch.zone / 5) * 100;
-            fieldHome.style.flex = `${zonePercentage} 1 0%`;
-            fieldAway.style.flex = `${100 - zonePercentage} 1 0%`;
-            dividerLine.style.left = zonePercentage + '%';
-        }
+            elements.homeShotsStat.textContent = currentMatch.stats.homeShots;
+            elements.awayShotsStat.textContent = currentMatch.stats.awayShots;
+            elements.homeShotsTargetStat.textContent = currentMatch.stats.homeShotsOnTarget;
+            elements.awayShotsTargetStat.textContent = currentMatch.stats.awayShotsOnTarget;
+            elements.homeCornersStat.textContent = currentMatch.stats.homeCorners;
+            elements.awayCornersStat.textContent = currentMatch.stats.awayCorners;
+            elements.homeFoulsStat.textContent = currentMatch.stats.homeFouls;
+            elements.awayFoulsStat.textContent = currentMatch.stats.awayFouls;
+            elements.homeOffsidesStat.textContent = currentMatch.stats.homeOffsides;
+            elements.awayOffsidesStat.textContent = currentMatch.stats.awayOffsides;
+            elements.homeCardsStat.textContent = currentMatch.stats.homeYellowCards;
+            elements.awayCardsStat.textContent = currentMatch.stats.awayYellowCards;
+            const zp = (currentMatch.zone / 5) * 100;
+            // Home is on the left (zone 0 = home defense, zone 5 = away defense)
+            // Home progress grows from left (home advantage), Away from right
+            elements.fieldHome.style.flex = `${(5 - currentMatch.zone) / 5 * 100} 1 0%`;
+            elements.fieldAway.style.flex = `${currentMatch.zone / 5 * 100} 1 0%`;
+            elements.fieldDivider.style.left = ((5 - currentMatch.zone) / 5 * 100) + '%';
+        };
 
-        function returnToSetup() {
+        const returnToSetup = () => {
             if (matchInterval) { clearInterval(matchInterval); matchInterval = null; }
-            document.getElementById('match-live').style.display = 'none';
-            document.getElementById('match-setup').style.display = 'block';
+            elements.matchLive.style.display = 'none';
+            elements.matchSetup.style.display = 'block';
             currentMatch = null;
-        }
+        };
+
+        // Make functions globally accessible
+        window.goHome = goHome;
+        window.showMatchTab = showMatchTab;
+        window.showTeamsTab = showTeamsTab;
+        window.showDataTab = showDataTab;
+        window.updateHomeTeams = updateHomeTeams;
+        window.updateAwayTeams = updateAwayTeams;
+        window.selectTeam = selectTeam;
+        window.selectTactic = selectTactic;
+        window.swapTeams = swapTeams;
+        window.toggleNeutralVenue = toggleNeutralVenue;
+        window.showEditor = showEditor;
+        window.hideEditor = hideEditor;
+        window.addPlayer = addPlayer;
+        window.saveTeam = saveTeam;
+        window.editTeam = editTeam;
+        window.deleteTeam = deleteTeam;
+        window.exportJSON = exportJSON;
+        window.importJSON = importJSON;
+        window.startMatch = startMatch;
+        window.togglePause = togglePause;
+        window.setSpeed = setSpeed;
+        window.returnToSetup = returnToSetup;
 
         loadTeams();
     </script>

@@ -947,7 +947,7 @@
                         <button class="back-btn" onclick="returnToSetup()" style="margin-bottom: 0;"><i class="fa-solid fa-arrow-left"></i></button>
                         <div class="match-controls">
                             <button class="control-btn" id="pause-btn" onclick="togglePause()"><i class="fa-solid fa-pause" id="pause-icon"></i> <span id="pause-text">Pause</span></button>
-                            <button class="control-btn" id="speed-1x" onclick="setSpeed(1)">1x</button>
+                            <button class="control-btn active" id="speed-1x" onclick="setSpeed(1)">1x</button>
                             <button class="control-btn" id="speed-2x" onclick="setSpeed(2)">2x</button>
                             <button class="control-btn" id="speed-4x" onclick="setSpeed(4)">4x</button>
                         </div>
@@ -1271,10 +1271,28 @@
             });
         }
 
-        function calculateTeamAverage(team) {
+        function calculateTeamOverall(team) {
             const starters = team.players.filter(p => p.starter);
-            if (starters.length === 0) return 0;
-            return starters.reduce((sum, p) => sum + p.rating, 0) / starters.length;
+            if (starters.length === 0) return 50;
+            
+            // Weighted average based on position
+            const positionWeights = {
+                'GL': 1.0,
+                'DF': 0.9,
+                'MC': 1.0,
+                'AT': 1.1
+            };
+            
+            let totalWeight = 0;
+            let weightedSum = 0;
+            
+            starters.forEach(player => {
+                const weight = positionWeights[player.position] || 1.0;
+                weightedSum += player.rating * weight;
+                totalWeight += weight;
+            });
+            
+            return Math.round(weightedSum / totalWeight);
         }
 
         function updateContinentSelects() {
@@ -1416,7 +1434,7 @@
             const playersList = document.getElementById('players-list');
             const playerRow = document.createElement('div');
             playerRow.className = 'player-row';
-            const defaultPlayer = playerData || { name: '', position: 'DF', rating: 5, starter: true };
+            const defaultPlayer = playerData || { name: '', position: 'DF', rating: 50, starter: true };
             playerRow.innerHTML = `
                 <input type="text" placeholder="Name" value="${defaultPlayer.name}">
                 <select>
@@ -1425,7 +1443,7 @@
                     <option value="MC" ${defaultPlayer.position === 'MC' ? 'selected' : ''}>Midfielder</option>
                     <option value="AT" ${defaultPlayer.position === 'AT' ? 'selected' : ''}>Forward</option>
                 </select>
-                <input type="number" min="1" max="10" value="${defaultPlayer.rating}" placeholder="Rating">
+                <input type="number" min="1" max="100" value="${defaultPlayer.rating}" placeholder="Overall (1-100)">
                 <label style="display: flex; align-items: center; gap: 4px; font-size: 0.85em;"><input type="checkbox" ${defaultPlayer.starter ? 'checked' : ''}> Starter</label>
                 <button class="btn btn-danger btn-sm" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>`;
             playersList.appendChild(playerRow);
@@ -1530,9 +1548,9 @@
         }
 
         function calculateTeamStrength(team, tacticId) {
-            const averageRating = calculateTeamAverage(team);
+            const teamOverall = calculateTeamOverall(team);
             const tactic = TACTICS.find(t => t.id === tacticId) || TACTICS.find(t => t.id === 'moderado');
-            return { attack: averageRating * tactic.attack, defense: averageRating * tactic.defense, fouls: tactic.fouls };
+            return { attack: teamOverall * tactic.attack, defense: teamOverall * tactic.defense, fouls: tactic.fouls };
         }
 
         function getRandomPlayer(team, position = null, excludePlayer = null) {
@@ -1554,20 +1572,20 @@
         }
 
         function determineAutoTactic(team, opponent, isHome) {
-            const teamAvg = calculateTeamAverage(team);
-            const opponentAvg = calculateTeamAverage(opponent);
+            const teamOverall = calculateTeamOverall(team);
+            const opponentOverall = calculateTeamOverall(opponent);
             
             if (isHome && !neutralVenue) {
-                if (teamAvg > opponentAvg + 1.5) return 'ofensivo';
-                if (teamAvg > opponentAvg + 0.5) return 'moderado';
-                if (teamAvg < opponentAvg - 1.5) return 'defensivo';
-                if (teamAvg < opponentAvg - 0.5) return 'reativo';
+                if (teamOverall > opponentOverall + 10) return 'ofensivo';
+                if (teamOverall > opponentOverall + 3) return 'moderado';
+                if (teamOverall < opponentOverall - 10) return 'defensivo';
+                if (teamOverall < opponentOverall - 3) return 'reativo';
                 return 'moderado';
             } else {
-                if (teamAvg > opponentAvg + 1.5) return 'moderado';
-                if (teamAvg > opponentAvg + 0.5) return 'reativo';
-                if (teamAvg < opponentAvg - 1.5) return 'ultra_defensivo';
-                if (teamAvg < opponentAvg - 0.5) return 'defensivo';
+                if (teamOverall > opponentOverall + 10) return 'moderado';
+                if (teamOverall > opponentOverall + 3) return 'reativo';
+                if (teamOverall < opponentOverall - 10) return 'ultra_defensivo';
+                if (teamOverall < opponentOverall - 3) return 'defensivo';
                 return 'moderado';
             }
         }
@@ -1748,12 +1766,6 @@
             addEventToTimeline(minute, `${scoreText} ${scorerName}${assistText}`, teamSide, 'goal');
         }
 
-        function addCardEvent(minute, playerName, cardType, teamSide) {
-            const cardIcon = cardType === 'yellow' ? '🟨' : '🟥';
-            const cardText = cardType === 'yellow' ? 'Yellow card' : 'Red card';
-            addEventToTimeline(minute, `${cardIcon} ${cardText} - ${playerName}`, teamSide, 'card');
-        }
-
         function addPenaltyMissEvent(minute, playerName, teamSide) {
             addEventToTimeline(minute, `❌ Penalty missed - ${playerName}`, teamSide, 'penalty');
         }
@@ -1778,8 +1790,8 @@
             let homeAdvantage = 0;
             let awayAdvantage = 0;
             if (!neutralVenue) {
-                homeAdvantage = 0.4;
-                awayAdvantage = -0.2;
+                homeAdvantage = 3;
+                awayAdvantage = -2;
             }
             
             const homeEffectiveAttack = homeStrength.attack + homeAdvantage;
@@ -1787,7 +1799,7 @@
             const awayEffectiveAttack = awayStrength.attack + awayAdvantage;
             const awayEffectiveDefense = awayStrength.defense + awayAdvantage;
             
-            const homePossessionChance = 50 + (homeEffectiveAttack - awayEffectiveDefense) * 2;
+            const homePossessionChance = 50 + (homeEffectiveAttack - awayEffectiveDefense) * 0.3;
             const possessionRoll = Math.random() * 100;
             if (possessionRoll < homePossessionChance) {
                 currentMatch.possessionTeam = 'home';
@@ -1809,14 +1821,14 @@
             const teamName = isHome ? currentMatch.homeTeam.name : currentMatch.awayTeam.name;
             const team = isHome ? currentMatch.homeTeam : currentMatch.awayTeam;
             const inAttackingZone = isHome ? currentMatch.zone === 0 : currentMatch.zone === 5;
-            const baseShotChance = inAttackingZone ? 25 : 14;
-            const shotChance = baseShotChance + teamStrength.attack * 0.9;
+            const baseShotChance = inAttackingZone ? 20 : 10;
+            const shotChance = baseShotChance + (teamStrength.attack - opponentStrength.defense) * 0.4;
             const actionRoll = Math.random() * 100;
             if (actionRoll < shotChance) {
                 simulateShot(teamSide, teamStrength, opponentStrength, isHome, teamName, team);
                 return;
             }
-            const advanceChance = 40 + teamStrength.attack - opponentStrength.defense;
+            const advanceChance = 40 + (teamStrength.attack - opponentStrength.defense) * 0.5;
             if (actionRoll < advanceChance) {
                 const oldZone = currentMatch.zone;
                 const advanceAmount = Math.random() < 0.25 ? 2 : 1;
@@ -1847,9 +1859,8 @@
                             if (tacklingTeam === 'home') currentMatch.stats.homeYellowCards++;
                             else currentMatch.stats.awayYellowCards++;
                             updateNarration(`Yellow card for ${tacklingName}`);
-                            addCardEvent(currentMatch.minute, tacklingPlayer.name, 'yellow', tacklingTeam);
                         }
-                        if (Math.random() < 0.08 && teamStrength.attack > 6) simulateFreeKickGoal(teamSide, teamName, team);
+                        if (Math.random() < 0.08 && teamStrength.attack > 60) simulateFreeKickGoal(teamSide, teamName, team);
                     }
                 }
                 return;
@@ -1867,9 +1878,8 @@
             if (isHome) currentMatch.stats.homeShots++;
             else currentMatch.stats.awayShots++;
             const shotRoll = Math.random() * 100;
-            const goalChance = 10 + (teamStrength.attack - opponentStrength.defense) * 2.5;
+            const goalChance = 8 + (teamStrength.attack - opponentStrength.defense) * 0.3;
             if (shotRoll < goalChance) {
-                // Check for disallowed goal
                 if (Math.random() < 0.04) {
                     const scorer = getRandomPlayer(team, 'AT');
                     const reasons = ['offside', 'foul'];

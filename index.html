@@ -171,35 +171,36 @@
                     <button class="back-btn bg-transparent border-none text-gray-500 text-2xl cursor-pointer p-2 transition-all duration-200 flex items-center gap-2 mb-6 hover:text-black" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i></button>
                     
                     <div class="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-6 items-start">
-                        <div class="text-center">
-                            <div class="flex flex-col items-center gap-1 mb-3">
+                        <div>
+                            <div class="flex flex-col items-center gap-1 mb-4">
                                 <div class="flex items-center gap-2">
                                     <div class="w-12 h-12 flex items-center justify-center font-semibold text-base overflow-visible flex-shrink-0" id="home-shield">🏠</div>
                                     <div class="team-overall-circle w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0 transition-all duration-300" id="home-overall" style="display: none;">0</div>
                                 </div>
                                 <h3 class="text-sm" id="home-name">Home Team</h3>
                             </div>
-                            <div class="mb-2">
-                                <label class="text-xs text-gray-500 mb-1 block">Continent</label>
-                                <select id="home-continent-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateHomeCountries()"></select>
+                            
+                            <div class="mb-2 flex items-center gap-3">
+                                <label class="text-xs text-gray-500 w-16 flex-shrink-0">Continent</label>
+                                <select id="home-continent-select" class="flex-1 p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateHomeCountries()"></select>
                             </div>
-                            <div class="mb-2">
-                                <label class="text-xs text-gray-500 mb-1 block">Country</label>
-                                <select id="home-country-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateHomeTeams()"></select>
+                            <div class="mb-2 flex items-center gap-3">
+                                <label class="text-xs text-gray-500 w-16 flex-shrink-0">Country</label>
+                                <select id="home-country-select" class="flex-1 p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateHomeTeams()"></select>
                             </div>
-                            <div class="mb-2">
-                                <label class="text-xs text-gray-500 mb-1 block">Team</label>
-                                <select id="home-team-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="selectTeam('home')"></select>
+                            <div class="mb-4 flex items-center gap-3">
+                                <label class="text-xs text-gray-500 w-16 flex-shrink-0">Team</label>
+                                <select id="home-team-select" class="flex-1 p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="selectTeam('home')"></select>
                             </div>
                             
-                            <div class="mt-3 grid grid-cols-2 gap-2">
-                                <div>
-                                    <label class="text-xs text-gray-500 mb-1 block">Tactic</label>
-                                    <select id="home-tactic-select" class="w-full p-2 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10"></select>
+                            <div class="border-t border-gray-200 pt-4">
+                                <div class="mb-2 flex items-center gap-3">
+                                    <label class="text-xs text-gray-500 w-16 flex-shrink-0">Tactic</label>
+                                    <select id="home-tactic-select" class="flex-1 p-2 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10"></select>
                                 </div>
-                                <div>
-                                    <label class="text-xs text-gray-500 mb-1 block">Pressing</label>
-                                    <select id="home-pressure-select" class="w-full p-2 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10"></select>
+                                <div class="flex items-center gap-3">
+                                    <label class="text-xs text-gray-500 w-16 flex-shrink-0">Pressing</label>
+                                    <select id="home-pressure-select" class="flex-1 p-2 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10"></select>
                                 </div>
                             </div>
                         </div>
@@ -213,35 +214,36 @@
                             </label>
                         </div>
                         
-                        <div class="text-center">
-                            <div class="flex flex-col items-center gap-1 mb-3">
+                        <div>
+                            <div class="flex flex-col items-center gap-1 mb-4">
                                 <div class="flex items-center gap-2">
                                     <div class="team-overall-circle w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0 transition-all duration-300" id="away-overall" style="display: none;">0</div>
                                     <div class="w-12 h-12 flex items-center justify-center font-semibold text-base overflow-visible flex-shrink-0" id="away-shield">🏠</div>
                                 </div>
                                 <h3 class="text-sm" id="away-name">Away Team</h3>
                             </div>
-                            <div class="mb-2">
-                                <label class="text-xs text-gray-500 mb-1 block">Continent</label>
-                                <select id="away-continent-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateAwayCountries()"></select>
+                            
+                            <div class="mb-2 flex items-center gap-3 flex-row-reverse">
+                                <label class="text-xs text-gray-500 w-16 flex-shrink-0">Continent</label>
+                                <select id="away-continent-select" class="flex-1 p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateAwayCountries()"></select>
                             </div>
-                            <div class="mb-2">
-                                <label class="text-xs text-gray-500 mb-1 block">Country</label>
-                                <select id="away-country-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateAwayTeams()"></select>
+                            <div class="mb-2 flex items-center gap-3 flex-row-reverse">
+                                <label class="text-xs text-gray-500 w-16 flex-shrink-0">Country</label>
+                                <select id="away-country-select" class="flex-1 p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateAwayTeams()"></select>
                             </div>
-                            <div class="mb-2">
-                                <label class="text-xs text-gray-500 mb-1 block">Team</label>
-                                <select id="away-team-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="selectTeam('away')"></select>
+                            <div class="mb-4 flex items-center gap-3 flex-row-reverse">
+                                <label class="text-xs text-gray-500 w-16 flex-shrink-0">Team</label>
+                                <select id="away-team-select" class="flex-1 p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="selectTeam('away')"></select>
                             </div>
                             
-                            <div class="mt-3 grid grid-cols-2 gap-2">
-                                <div>
-                                    <label class="text-xs text-gray-500 mb-1 block">Tactic</label>
-                                    <select id="away-tactic-select" class="w-full p-2 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10"></select>
+                            <div class="border-t border-gray-200 pt-4">
+                                <div class="mb-2 flex items-center gap-3 flex-row-reverse">
+                                    <label class="text-xs text-gray-500 w-16 flex-shrink-0">Tactic</label>
+                                    <select id="away-tactic-select" class="flex-1 p-2 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10"></select>
                                 </div>
-                                <div>
-                                    <label class="text-xs text-gray-500 mb-1 block">Pressing</label>
-                                    <select id="away-pressure-select" class="w-full p-2 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10"></select>
+                                <div class="flex items-center gap-3 flex-row-reverse">
+                                    <label class="text-xs text-gray-500 w-16 flex-shrink-0">Pressing</label>
+                                    <select id="away-pressure-select" class="flex-1 p-2 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10"></select>
                                 </div>
                             </div>
                         </div>

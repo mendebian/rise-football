@@ -339,7 +339,6 @@
                         </div>
                     </div>
 
-                    <!-- Match Info Footer -->
                     <div class="text-center text-xs text-gray-400 mt-4 pb-2">
                         <span id="venue-info"></span> · <span id="referee-info"></span>
                     </div>
@@ -530,9 +529,6 @@
             teamName: $('team-name'),
             teamAbbr: $('team-abbreviation'),
             teamShieldUrl: $('team-shield-url'),
-            teamCity: $('team-city'),
-            teamCountry: $('team-country'),
-            teamContinent: $('team-continent'),
             teamStadium: $('team-stadium'),
             teamColor1: $('team-color1'),
             teamColor2: $('team-color2'),
@@ -703,8 +699,15 @@
             return Math.round(weightedSum / totalWeight);
         };
 
+        const getContinentsWithTeams = () => [...new Set(teams.map(t => t.continent))].sort();
+
+        const getCountriesWithTeams = (continent) => {
+            const countries = teams.filter(t => t.continent === continent).map(t => t.country);
+            return [...new Set(countries)].sort();
+        };
+
         const populateFilterDropdowns = () => {
-            const continents = [...new Set(teams.map(t => t.continent))].sort();
+            const continents = getContinentsWithTeams();
             elements.homeContinent.innerHTML = '';
             elements.awayContinent.innerHTML = '';
             continents.forEach(c => {
@@ -718,10 +721,10 @@
         const updateHomeCountries = () => {
             const continent = elements.homeContinent.value;
             elements.homeCountry.innerHTML = '';
-            if (continent && countriesData[continent]) {
-                const countries = countriesData[continent].sort((a, b) => a.name.localeCompare(b.name));
+            if (continent) {
+                const countries = getCountriesWithTeams(continent);
                 countries.forEach(c => {
-                    elements.homeCountry.innerHTML += `<option value="${c.name}">${c.name}</option>`;
+                    elements.homeCountry.innerHTML += `<option value="${c}">${c}</option>`;
                 });
             }
             updateHomeTeams();
@@ -730,10 +733,10 @@
         const updateAwayCountries = () => {
             const continent = elements.awayContinent.value;
             elements.awayCountry.innerHTML = '';
-            if (continent && countriesData[continent]) {
-                const countries = countriesData[continent].sort((a, b) => a.name.localeCompare(b.name));
+            if (continent) {
+                const countries = getCountriesWithTeams(continent);
                 countries.forEach(c => {
-                    elements.awayCountry.innerHTML += `<option value="${c.name}">${c.name}</option>`;
+                    elements.awayCountry.innerHTML += `<option value="${c}">${c}</option>`;
                 });
             }
             updateAwayTeams();
@@ -827,7 +830,6 @@
             elements.teamColor2.value = '#ffffff';
             elements.playersList.innerHTML = '';
             
-            // Populate editor continents
             elements.editorContinent.innerHTML = '<option value="">Select Continent</option>';
             Object.keys(countriesData).sort().forEach(c => {
                 elements.editorContinent.innerHTML += `<option value="${c}">${c}</option>`;

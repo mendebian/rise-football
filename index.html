@@ -187,9 +187,11 @@
 
         .team-header .vs-area {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 16px;
+            gap: 8px;
             flex-shrink: 0;
+            padding: 0 16px;
         }
 
         .team-header .vs-area .vs {
@@ -219,48 +221,6 @@
             border-color: #000;
             color: #000;
             transform: rotate(180deg);
-        }
-
-        .team-header .vs-area .neutral-toggle {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 11px;
-            color: #999;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .team-header .vs-area .neutral-toggle input[type="checkbox"] {
-            width: 32px;
-            height: 16px;
-            appearance: none;
-            background: #e0e0e0;
-            border-radius: 8px;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-
-        .team-header .vs-area .neutral-toggle input[type="checkbox"]:checked {
-            background: #000000;
-        }
-
-        .team-header .vs-area .neutral-toggle input[type="checkbox"]::before {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 12px;
-            height: 12px;
-            background: white;
-            border-radius: 50%;
-            transition: all 0.2s;
-        }
-
-        .team-header .vs-area .neutral-toggle input[type="checkbox"]:checked::before {
-            left: 18px;
         }
 
         .team-header .team-info-right {
@@ -310,6 +270,63 @@
             box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
         }
 
+        /* Espelhando os selects do visitante */
+        .selection-row select.away-select {
+            direction: rtl;
+            text-align: right;
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+
+        .selection-row select.away-select option {
+            direction: ltr;
+            text-align: right;
+        }
+
+        /* Toggle Neutral acima do Start Match */
+        .neutral-toggle-large {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #999;
+            cursor: pointer;
+            user-select: none;
+            justify-content: center;
+        }
+
+        .neutral-toggle-large input[type="checkbox"] {
+            width: 36px;
+            height: 18px;
+            appearance: none;
+            background: #e0e0e0;
+            border-radius: 9px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .neutral-toggle-large input[type="checkbox"]:checked {
+            background: #000000;
+        }
+
+        .neutral-toggle-large input[type="checkbox"]::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 14px;
+            height: 14px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .neutral-toggle-large input[type="checkbox"]:checked::before {
+            left: 20px;
+        }
+
         @media (max-width: 768px) {
             .team-header {
                 flex-direction: column;
@@ -317,6 +334,7 @@
                 align-items: stretch;
             }
             .team-header .vs-area {
+                flex-direction: row;
                 justify-content: center;
                 padding: 8px 0;
                 border-top: 1px solid #f0f0f0;
@@ -332,6 +350,16 @@
             }
             .team-header .team-info .name {
                 font-size: 13px;
+            }
+            .selection-row select.away-select {
+                direction: ltr;
+                text-align: left;
+                padding-right: 10px;
+                padding-left: 10px;
+            }
+            .selection-row select.away-select option {
+                direction: ltr;
+                text-align: left;
             }
         }
 
@@ -395,14 +423,10 @@
                         </div>
                         
                         <div class="vs-area">
-                            <span class="vs">VS</span>
                             <button class="swap-btn" onclick="swapTeams()" title="Swap teams">
                                 <i class="fa-solid fa-right-left"></i>
                             </button>
-                            <label class="neutral-toggle">
-                                <input type="checkbox" id="neutral-venue" onchange="toggleNeutralVenue()">
-                                <span>Neutral</span>
-                            </label>
+                            <span class="vs">VS</span>
                         </div>
                         
                         <div class="team-info team-info-right" id="away-header">
@@ -416,35 +440,41 @@
                     <div class="selection-row">
                         <select id="home-continent-select" onchange="updateHomeCountries()"></select>
                         <span class="label">Continent</span>
-                        <select id="away-continent-select" onchange="updateAwayCountries()"></select>
+                        <select id="away-continent-select" class="away-select" onchange="updateAwayCountries()"></select>
                     </div>
 
                     <div class="selection-row">
                         <select id="home-country-select" onchange="updateHomeTeams()"></select>
                         <span class="label">Country</span>
-                        <select id="away-country-select" onchange="updateAwayTeams()"></select>
+                        <select id="away-country-select" class="away-select" onchange="updateAwayTeams()"></select>
                     </div>
 
                     <div class="selection-row">
                         <select id="home-team-select" onchange="selectTeam('home')"></select>
                         <span class="label">Team</span>
-                        <select id="away-team-select" onchange="selectTeam('away')"></select>
+                        <select id="away-team-select" class="away-select" onchange="selectTeam('away')"></select>
                     </div>
 
                     <!-- Tactic and Pressing -->
                     <div class="selection-row">
                         <select id="home-tactic-select"></select>
                         <span class="label">Tactic</span>
-                        <select id="away-tactic-select"></select>
+                        <select id="away-tactic-select" class="away-select"></select>
                     </div>
 
                     <div class="selection-row">
                         <select id="home-pressure-select"></select>
                         <span class="label">Pressing</span>
-                        <select id="away-pressure-select"></select>
+                        <select id="away-pressure-select" class="away-select"></select>
                     </div>
 
                     <div class="text-center mt-6">
+                        <div class="mb-3">
+                            <label class="neutral-toggle-large">
+                                <input type="checkbox" id="neutral-venue" onchange="toggleNeutralVenue()">
+                                <span>Neutral Venue</span>
+                            </label>
+                        </div>
                         <button class="bg-black text-white px-8 py-3.5 text-sm rounded-xl cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-2 hover:bg-gray-800 hover:shadow-lg" onclick="startMatch()">
                             <i class="fa-solid fa-futbol"></i> Start Match
                         </button>

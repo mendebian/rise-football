@@ -132,6 +132,179 @@
             border-color: #000000 !important;
             color: #000000 !important;
         }
+
+        .team-select-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            border: 1px solid #f0f0f0;
+            transition: all 0.2s;
+        }
+
+        .team-select-card:hover {
+            border-color: #d0d0d0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+
+        .vs-badge {
+            font-size: 14px;
+            font-weight: 700;
+            color: #999;
+            letter-spacing: 2px;
+        }
+
+        .match-controls {
+            background: white;
+            border-radius: 12px;
+            padding: 16px 20px;
+            border: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .team-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f5f5f5;
+        }
+
+        .team-header .shield-container {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .team-header .shield-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .team-header .team-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .team-header .team-info .team-name {
+            font-weight: 600;
+            font-size: 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .team-header .team-info .overall-badge {
+            display: inline-block;
+            padding: 0 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 700;
+            line-height: 18px;
+            background: #000;
+            color: #fff;
+        }
+
+        .select-group {
+            margin-bottom: 8px;
+        }
+
+        .select-group label {
+            display: block;
+            font-size: 10px;
+            font-weight: 600;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 3px;
+        }
+
+        .select-group select {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            font-size: 13px;
+            background: #fafafa;
+            transition: all 0.2s;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .select-group select:hover {
+            border-color: #ccc;
+            background: #f5f5f5;
+        }
+
+        .select-group select:focus {
+            border-color: #000;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+        }
+
+        .select-group select option {
+            padding: 4px;
+        }
+
+        .team-config {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 12px;
+        }
+
+        .team-config .config-item label {
+            font-size: 9px;
+            font-weight: 600;
+            color: #bbb;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .team-config .config-item select {
+            width: 100%;
+            padding: 5px 8px;
+            border: 1px solid #e8e8e8;
+            border-radius: 6px;
+            font-size: 11px;
+            background: #fafafa;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .team-config .config-item select:focus {
+            border-color: #000;
+        }
+
+        @media (max-width: 768px) {
+            .team-select-card {
+                padding: 16px;
+            }
+            .team-header .team-info .team-name {
+                font-size: 14px;
+            }
+            .team-config {
+                grid-template-columns: 1fr;
+                gap: 4px;
+            }
+            .match-controls {
+                padding: 12px 16px;
+                gap: 12px;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-900">
@@ -170,87 +343,94 @@
                 <div id="match-setup">
                     <button class="back-btn bg-transparent border-none text-gray-500 text-2xl cursor-pointer p-2 transition-all duration-200 flex items-center gap-2 mb-6 hover:text-black" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i></button>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-6 items-start">
-                        <div>
-                            <div class="flex flex-col items-center gap-1 mb-4">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-12 h-12 flex items-center justify-center font-semibold text-base overflow-visible flex-shrink-0" id="home-shield">🏠</div>
-                                    <div class="team-overall-circle w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0 transition-all duration-300" id="home-overall" style="display: none;">0</div>
+                    <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-6 items-stretch">
+                        <!-- Home Team -->
+                        <div class="team-select-card">
+                            <div class="team-header">
+                                <div class="shield-container" id="home-shield">🏠</div>
+                                <div class="team-info">
+                                    <div class="team-name" id="home-name">Home Team</div>
+                                    <span class="overall-badge" id="home-overall" style="display:none;">0</span>
                                 </div>
-                                <h3 class="text-sm" id="home-name">Home Team</h3>
                             </div>
                             
-                            <div class="mb-2 flex items-center gap-3">
-                                <label class="text-xs text-gray-500 w-16 flex-shrink-0">Continent</label>
-                                <select id="home-continent-select" class="flex-1 p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateHomeCountries()"></select>
+                            <div class="select-group">
+                                <label>Continent</label>
+                                <select id="home-continent-select" onchange="updateHomeCountries()"></select>
                             </div>
-                            <div class="mb-2 flex items-center gap-3">
-                                <label class="text-xs text-gray-500 w-16 flex-shrink-0">Country</label>
-                                <select id="home-country-select" class="flex-1 p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateHomeTeams()"></select>
+                            <div class="select-group">
+                                <label>Country</label>
+                                <select id="home-country-select" onchange="updateHomeTeams()"></select>
                             </div>
-                            <div class="mb-4 flex items-center gap-3">
-                                <label class="text-xs text-gray-500 w-16 flex-shrink-0">Team</label>
-                                <select id="home-team-select" class="flex-1 p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="selectTeam('home')"></select>
+                            <div class="select-group">
+                                <label>Team</label>
+                                <select id="home-team-select" onchange="selectTeam('home')"></select>
                             </div>
                             
-                            <div class="border-t border-gray-200 pt-4">
-                                <div class="mb-2 flex items-center gap-3">
-                                    <label class="text-xs text-gray-500 w-16 flex-shrink-0">Tactic</label>
-                                    <select id="home-tactic-select" class="flex-1 p-2 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10"></select>
+                            <div class="team-config">
+                                <div class="config-item">
+                                    <label>Tactic</label>
+                                    <select id="home-tactic-select"></select>
                                 </div>
-                                <div class="flex items-center gap-3">
-                                    <label class="text-xs text-gray-500 w-16 flex-shrink-0">Pressing</label>
-                                    <select id="home-pressure-select" class="flex-1 p-2 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10"></select>
+                                <div class="config-item">
+                                    <label>Pressing</label>
+                                    <select id="home-pressure-select"></select>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="flex flex-row md:flex-col items-center justify-center gap-3 md:self-center md:pt-10 py-4">
-                            <div class="text-2xl font-semibold text-gray-500">VS</div>
-                            <button class="swap-btn bg-transparent border border-gray-200 rounded-full w-11 h-11 cursor-pointer transition-all duration-300 flex items-center justify-center text-gray-500 text-lg hover:bg-gray-100 hover:border-black hover:text-black hover:rotate-180" onclick="swapTeams()" title="Swap teams"><i class="fa-solid fa-right-left"></i></button>
+
+                        <!-- VS / Controls -->
+                        <div class="flex flex-col items-center justify-center gap-4 py-4">
+                            <div class="vs-badge">VS</div>
+                            <button class="swap-btn bg-transparent border border-gray-200 rounded-full w-11 h-11 cursor-pointer transition-all duration-300 flex items-center justify-center text-gray-500 text-lg hover:bg-gray-100 hover:border-black hover:text-black hover:rotate-180" onclick="swapTeams()" title="Swap teams">
+                                <i class="fa-solid fa-right-left"></i>
+                            </button>
                             <label class="neutral-toggle flex items-center gap-2 text-sm text-gray-500 cursor-pointer select-none">
                                 <input type="checkbox" id="neutral-venue" onchange="toggleNeutralVenue()">
-                                <span>Neutral Venue</span>
+                                <span>Neutral</span>
                             </label>
                         </div>
-                        
-                        <div>
-                            <div class="flex flex-col items-center gap-1 mb-4">
-                                <div class="flex items-center gap-2">
-                                    <div class="team-overall-circle w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0 transition-all duration-300" id="away-overall" style="display: none;">0</div>
-                                    <div class="w-12 h-12 flex items-center justify-center font-semibold text-base overflow-visible flex-shrink-0" id="away-shield">🏠</div>
+
+                        <!-- Away Team -->
+                        <div class="team-select-card">
+                            <div class="team-header flex-row-reverse">
+                                <div class="shield-container" id="away-shield">🏠</div>
+                                <div class="team-info text-right">
+                                    <div class="team-name" id="away-name">Away Team</div>
+                                    <span class="overall-badge" id="away-overall" style="display:none;">0</span>
                                 </div>
-                                <h3 class="text-sm" id="away-name">Away Team</h3>
                             </div>
                             
-                            <div class="mb-2 flex items-center gap-3 flex-row-reverse">
-                                <label class="text-xs text-gray-500 w-16 flex-shrink-0 text-right">Continent</label>
-                                <select id="away-continent-select" class="flex-1 p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateAwayCountries()"></select>
+                            <div class="select-group">
+                                <label>Continent</label>
+                                <select id="away-continent-select" onchange="updateAwayCountries()"></select>
                             </div>
-                            <div class="mb-2 flex items-center gap-3 flex-row-reverse">
-                                <label class="text-xs text-gray-500 w-16 flex-shrink-0 text-right">Country</label>
-                                <select id="away-country-select" class="flex-1 p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateAwayTeams()"></select>
+                            <div class="select-group">
+                                <label>Country</label>
+                                <select id="away-country-select" onchange="updateAwayTeams()"></select>
                             </div>
-                            <div class="mb-4 flex items-center gap-3 flex-row-reverse">
-                                <label class="text-xs text-gray-500 w-16 flex-shrink-0 text-right">Team</label>
-                                <select id="away-team-select" class="flex-1 p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="selectTeam('away')"></select>
+                            <div class="select-group">
+                                <label>Team</label>
+                                <select id="away-team-select" onchange="selectTeam('away')"></select>
                             </div>
                             
-                            <div class="border-t border-gray-200 pt-4">
-                                <div class="mb-2 flex items-center gap-3 flex-row-reverse">
-                                    <label class="text-xs text-gray-500 w-16 flex-shrink-0 text-right">Tactic</label>
-                                    <select id="away-tactic-select" class="flex-1 p-2 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10"></select>
+                            <div class="team-config">
+                                <div class="config-item">
+                                    <label>Tactic</label>
+                                    <select id="away-tactic-select"></select>
                                 </div>
-                                <div class="flex items-center gap-3 flex-row-reverse">
-                                    <label class="text-xs text-gray-500 w-16 flex-shrink-0 text-right">Pressing</label>
-                                    <select id="away-pressure-select" class="flex-1 p-2 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10"></select>
+                                <div class="config-item">
+                                    <label>Pressing</label>
+                                    <select id="away-pressure-select"></select>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="text-center mt-5">
-                        <button class="bg-black text-white px-6 py-3 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-2 hover:bg-gray-800" onclick="startMatch()"><i class="fa-solid fa-futbol"></i> Start Match</button>
+                    <div class="text-center mt-6">
+                        <button class="bg-black text-white px-8 py-3.5 text-sm rounded-xl cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-2 hover:bg-gray-800 hover:shadow-lg" onclick="startMatch()">
+                            <i class="fa-solid fa-futbol"></i> Start Match
+                        </button>
                     </div>
                 </div>
 
@@ -712,10 +892,15 @@
             const continents = getContinentsWithTeams();
             elements.homeContinent.innerHTML = '';
             elements.awayContinent.innerHTML = '';
-            continents.forEach(c => {
-                elements.homeContinent.innerHTML += `<option value="${c}">${c}</option>`;
-                elements.awayContinent.innerHTML += `<option value="${c}">${c}</option>`;
-            });
+            if (continents.length === 0) {
+                elements.homeContinent.innerHTML = '<option value="">No teams available</option>';
+                elements.awayContinent.innerHTML = '<option value="">No teams available</option>';
+            } else {
+                continents.forEach(c => {
+                    elements.homeContinent.innerHTML += `<option value="${c}">${c}</option>`;
+                    elements.awayContinent.innerHTML += `<option value="${c}">${c}</option>`;
+                });
+            }
             updateHomeCountries();
             updateAwayCountries();
         };
@@ -799,7 +984,7 @@
                 shieldEl.innerHTML = `<img src="${shieldUrl}" alt="${team.abbreviation}" class="w-full h-full object-contain">`;
                 const overall = calculateTeamOverall(team);
                 overallEl.textContent = overall;
-                overallEl.style.display = 'flex';
+                overallEl.style.display = 'inline-block';
                 overallEl.style.backgroundColor = team.colors?.[0] || '#000000';
                 overallEl.style.color = team.colors?.[1] || '#ffffff';
             }

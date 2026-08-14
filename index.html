@@ -44,12 +44,12 @@
             object-fit: contain;
         }
 
-        .tactic-card.auto-card {
+        .tactic-card.auto-card, .pressure-card.auto-card {
             border-style: dashed;
             background: #fafafa;
         }
 
-        .tactic-card.auto-card.selected {
+        .tactic-card.auto-card.selected, .pressure-card.auto-card.selected {
             border-style: solid;
             background: #f5f5f5;
         }
@@ -143,7 +143,7 @@
             color: #000000 !important;
         }
 
-        .tactic-card:hover {
+        .tactic-card:hover, .pressure-card:hover {
             border-color: #000000 !important;
             background: #f5f5f5 !important;
         }
@@ -184,6 +184,17 @@
             <div class="tab-content" id="match-tab">
                 <div id="match-setup">
                     <button class="back-btn bg-transparent border-none text-gray-500 text-2xl cursor-pointer p-2 transition-all duration-200 flex items-center gap-2 mb-6 hover:text-black" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i></button>
+                    
+                    <!-- Referee Setting -->
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 mb-6">
+                        <h3 class="text-sm font-semibold mb-3">Referee Strictness</h3>
+                        <div class="flex items-center gap-4">
+                            <input type="range" min="1" max="5" value="3" id="referee-strictness" class="flex-1 accent-black">
+                            <span id="referee-label" class="text-sm font-medium w-24 text-center">Moderate</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">Higher strictness = more fouls called and more cards shown.</p>
+                    </div>
+                    
                     <div class="grid grid-cols-[1fr_auto_1fr] gap-6 items-start">
                         <div class="text-center">
                             <div class="flex flex-col items-center gap-1 mb-3">
@@ -195,7 +206,16 @@
                             </div>
                             <select id="home-continent-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 mb-2 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateHomeTeams()"></select>
                             <select id="home-team-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 mb-2 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="selectTeam('home')"></select>
-                            <div class="grid grid-cols-3 gap-2 mt-3" id="home-tactics"></div>
+                            
+                            <div class="mt-3">
+                                <p class="text-xs text-gray-500 mb-2">Tactic</p>
+                                <div class="grid grid-cols-3 gap-2" id="home-tactics"></div>
+                            </div>
+                            
+                            <div class="mt-3">
+                                <p class="text-xs text-gray-500 mb-2">Pressing Intensity</p>
+                                <div class="grid grid-cols-3 gap-2" id="home-pressure"></div>
+                            </div>
                         </div>
                         
                         <div class="flex flex-col items-center gap-3 self-center pt-10">
@@ -217,7 +237,16 @@
                             </div>
                             <select id="away-continent-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 mb-2 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateAwayTeams()"></select>
                             <select id="away-team-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 mb-2 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="selectTeam('away')"></select>
-                            <div class="grid grid-cols-3 gap-2 mt-3" id="away-tactics"></div>
+                            
+                            <div class="mt-3">
+                                <p class="text-xs text-gray-500 mb-2">Tactic</p>
+                                <div class="grid grid-cols-3 gap-2" id="away-tactics"></div>
+                            </div>
+                            
+                            <div class="mt-3">
+                                <p class="text-xs text-gray-500 mb-2">Pressing Intensity</p>
+                                <div class="grid grid-cols-3 gap-2" id="away-pressure"></div>
+                            </div>
                         </div>
                     </div>
 
@@ -442,6 +471,16 @@
             { id: 'auto', name: 'Auto', icon: 'fa-robot', attack: 1.0, defense: 1.0, fouls: 1.0, isAuto: true }
         ];
 
+        const PRESSURE_LEVELS = [
+            { id: 'passive', name: 'Passive', icon: 'fa-hand', aggression: 0.5, fouls: 0.5, tackles: 0.6 },
+            { id: 'moderate', name: 'Moderate', icon: 'fa-hand-paper', aggression: 0.8, fouls: 0.8, tackles: 0.9 },
+            { id: 'high', name: 'High Press', icon: 'fa-hand-fist', aggression: 1.2, fouls: 1.2, tackles: 1.3 },
+            { id: 'intense', name: 'Gegenpress', icon: 'fa-fire', aggression: 1.5, fouls: 1.5, tackles: 1.6 },
+            { id: 'auto', name: 'Auto', icon: 'fa-robot', aggression: 1.0, fouls: 1.0, tackles: 1.0, isAuto: true }
+        ];
+
+        const REFEREE_LEVELS = ['Very Lenient', 'Lenient', 'Moderate', 'Strict', 'Very Strict'];
+
         const $ = (id) => document.getElementById(id);
         const $$ = (sel) => document.querySelectorAll(sel);
 
@@ -457,6 +496,8 @@
             awayTeamSelect: $('away-team-select'),
             homeTactics: $('home-tactics'),
             awayTactics: $('away-tactics'),
+            homePressure: $('home-pressure'),
+            awayPressure: $('away-pressure'),
             homeShield: $('home-shield'),
             awayShield: $('away-shield'),
             homeName: $('home-name'),
@@ -484,6 +525,8 @@
             speed2x: $('speed-2x'),
             speed4x: $('speed-4x'),
             neutralVenue: $('neutral-venue'),
+            refereeStrictness: $('referee-strictness'),
+            refereeLabel: $('referee-label'),
             editorModal: $('editor-modal'),
             confirmModal: $('confirm-modal'),
             confirmMessage: $('confirm-message'),
@@ -520,11 +563,14 @@
         let currentMatch = null;
         let matchInterval = null;
         let selectedTactics = { home: 'auto', away: 'auto' };
+        let selectedPressure = { home: 'auto', away: 'auto' };
         let matchSpeed = parseInt(localStorage.getItem('rise_match_speed')) || 1;
         let isPaused = false;
         let addedTime = 0;
         let neutralVenueActive = false;
         let addedTimeAnnounced = false;
+        let refereeStrictnessLevel = 3;
+        let playerYellowCards = {};
 
         const generateShieldUrl = (abbr, c1, c2) =>
             `https://placehold.co/64/${c1.replace('#','')}/${c2.replace('#','')}/png?text=${abbr}`;
@@ -592,6 +638,8 @@
             updateTeamsList();
             updateContinentSelects();
             createTacticCards();
+            createPressureCards();
+            updateRefereeLabel();
         };
 
         const saveTeams = () => {
@@ -687,6 +735,23 @@
 
         const selectTactic = (side, id) => { selectedTactics[side] = id; createTacticCards(); };
 
+        const createPressureCards = () => {
+            elements.homePressure.innerHTML = '';
+            elements.awayPressure.innerHTML = '';
+            PRESSURE_LEVELS.forEach(p => {
+                elements.homePressure.innerHTML += createPressureCard(p, 'home');
+                elements.awayPressure.innerHTML += createPressureCard(p, 'away');
+            });
+        };
+
+        const createPressureCard = (pressure, side) => {
+            const autoClass = pressure.isAuto ? 'auto-card' : '';
+            const selected = selectedPressure[side] === pressure.id;
+            return `<div class="pressure-card ${autoClass} p-2 border rounded-md text-center cursor-pointer transition-all duration-200 bg-white ${selected ? 'border-black bg-gray-100 ring-2 ring-black/10' : 'border-gray-200 hover:border-black hover:bg-gray-100'}" onclick="selectPressure('${side}', '${pressure.id}')"><i class="fa-solid ${pressure.icon} text-sm mb-1"></i><div class="font-medium text-xs">${pressure.name}</div></div>`;
+        };
+
+        const selectPressure = (side, id) => { selectedPressure[side] = id; createPressureCards(); };
+
         const selectTeam = (side) => {
             const select = side === 'home' ? elements.homeTeamSelect : elements.awayTeamSelect;
             const idx = select.value;
@@ -720,6 +785,11 @@
         };
 
         const toggleNeutralVenue = () => { neutralVenueActive = elements.neutralVenue.checked; };
+
+        const updateRefereeLabel = () => {
+            refereeStrictnessLevel = parseInt(elements.refereeStrictness.value);
+            elements.refereeLabel.textContent = REFEREE_LEVELS[refereeStrictnessLevel - 1];
+        };
 
         const showEditor = (teamIndex = null) => {
             editingTeamId = teamIndex;
@@ -895,6 +965,42 @@
             return 'moderado';
         };
 
+        const determineAutoPressure = (team, opp, isHome) => {
+            const to = calculateTeamOverall(team), oo = calculateTeamOverall(opp);
+            if (to > oo + 10) return 'high';
+            if (to > oo + 3) return 'moderate';
+            if (to < oo - 10) return 'intense';
+            if (to < oo - 3) return 'high';
+            return 'moderate';
+        };
+
+        const getPlayerKey = (teamSide, playerName) => `${teamSide}-${playerName}`;
+
+        const applyYellowCard = (teamSide, playerName) => {
+            const key = getPlayerKey(teamSide, playerName);
+            playerYellowCards[key] = (playerYellowCards[key] || 0) + 1;
+            return playerYellowCards[key];
+        };
+
+        const isPlayerSentOff = (teamSide, playerName) => (playerYellowCards[getPlayerKey(teamSide, playerName)] || 0) >= 2;
+
+        const calculateTeamOverallWithRedCards = (team, teamSide) => {
+            const starters = team.players.filter(p => p.starter);
+            if (!starters.length) return 50;
+            const weights = { GL: 1.0, DF: 0.9, MC: 1.0, AT: 1.1 };
+            let totalWeight = 0, weightedSum = 0;
+            starters.forEach(p => {
+                let rating = p.rating;
+                if (isPlayerSentOff(teamSide, p.name)) {
+                    rating *= 0.5; // 50% penalty for red card
+                }
+                const w = weights[p.position] || 1.0;
+                weightedSum += rating * w;
+                totalWeight += w;
+            });
+            return Math.round(weightedSum / totalWeight);
+        };
+
         const startMatch = () => {
             const hi = elements.homeTeamSelect.value, ai = elements.awayTeamSelect.value;
             if (!hi || !ai) {
@@ -908,15 +1014,22 @@
             const homeTeam = teams[hi], awayTeam = teams[ai];
             if (selectedTactics.home === 'auto') selectedTactics.home = determineAutoTactic(homeTeam, awayTeam, true);
             if (selectedTactics.away === 'auto') selectedTactics.away = determineAutoTactic(awayTeam, homeTeam, false);
+            if (selectedPressure.home === 'auto') selectedPressure.home = determineAutoPressure(homeTeam, awayTeam, true);
+            if (selectedPressure.away === 'auto') selectedPressure.away = determineAutoPressure(awayTeam, homeTeam, false);
+            
+            refereeStrictnessLevel = parseInt(elements.refereeStrictness.value);
+            playerYellowCards = {};
             addedTime = Math.floor(Math.random() * 5) + 4;
             addedTimeAnnounced = false;
             currentMatch = {
                 homeTeam, awayTeam,
                 homeTactic: selectedTactics.home,
                 awayTactic: selectedTactics.away,
+                homePressure: selectedPressure.home,
+                awayPressure: selectedPressure.away,
                 homeScore: 0, awayScore: 0, minute: 0, zone: 2,
                 possessionTeam: 'home',
-                stats: { homePossession: 0, awayPossession: 0, homeShots: 0, awayShots: 0, homeShotsOnTarget: 0, awayShotsOnTarget: 0, homeFouls: 0, awayFouls: 0, homeTackles: 0, awayTackles: 0, homeCorners: 0, awayCorners: 0, homePenalties: 0, awayPenalties: 0, homeSaves: 0, awaySaves: 0, homeYellowCards: 0, awayYellowCards: 0, homeOffsides: 0, awayOffsides: 0 },
+                stats: { homePossession: 0, awayPossession: 0, homeShots: 0, awayShots: 0, homeShotsOnTarget: 0, awayShotsOnTarget: 0, homeFouls: 0, awayFouls: 0, homeTackles: 0, awayTackles: 0, homeCorners: 0, awayCorners: 0, homePenalties: 0, awayPenalties: 0, homeSaves: 0, awaySaves: 0, homeYellowCards: 0, awayYellowCards: 0, homeRedCards: 0, awayRedCards: 0, homeOffsides: 0, awayOffsides: 0 },
                 goalScorers: [], assists: [], keyEvents: []
             };
             elements.matchSetup.style.display = 'none';
@@ -1019,6 +1132,12 @@
         const addDisallowedGoalEvent = (m, s, r, side, varUsed) =>
             addEventToTimeline(m, `🚫 Goal disallowed - ${s} (${r})${varUsed ? ' [VAR]' : ''}`, side, 'disallowed');
 
+        const addCardEvent = (m, p, cardType, side) => {
+            const icon = cardType === 'yellow' ? '🟨' : '🟥';
+            const text = cardType === 'yellow' ? 'Yellow card' : 'Red card';
+            addEventToTimeline(m, `${icon} ${text} - ${p}`, side, 'card');
+        };
+
         const simulateMinute = () => {
             if (!currentMatch || currentMatch.minute >= 90 + addedTime) return;
             currentMatch.minute++;
@@ -1026,29 +1145,48 @@
                 updateNarration(`90 minutes played. ${addedTime} minutes added time.`);
                 addedTimeAnnounced = true;
             }
-            const hs = calculateTeamStrength(currentMatch.homeTeam, currentMatch.homeTactic);
-            const as = calculateTeamStrength(currentMatch.awayTeam, currentMatch.awayTactic);
+            
+            const homeTactic = TACTICS.find(t => t.id === currentMatch.homeTactic) || TACTICS.find(t => t.id === 'moderado');
+            const awayTactic = TACTICS.find(t => t.id === currentMatch.awayTactic) || TACTICS.find(t => t.id === 'moderado');
+            const homePressure = PRESSURE_LEVELS.find(p => p.id === currentMatch.homePressure) || PRESSURE_LEVELS.find(p => p.id === 'moderate');
+            const awayPressure = PRESSURE_LEVELS.find(p => p.id === currentMatch.awayPressure) || PRESSURE_LEVELS.find(p => p.id === 'moderate');
+            
+            const homeOverall = calculateTeamOverallWithRedCards(currentMatch.homeTeam, 'home');
+            const awayOverall = calculateTeamOverallWithRedCards(currentMatch.awayTeam, 'away');
+            
+            const hs = { attack: homeOverall * homeTactic.attack, defense: homeOverall * homeTactic.defense };
+            const as = { attack: awayOverall * awayTactic.attack, defense: awayOverall * awayTactic.defense };
+            
             let ha = 0, aa = 0;
             if (!neutralVenueActive) { ha = 3; aa = -2; }
+            
             const hea = hs.attack + ha, hed = hs.defense + ha;
             const aea = as.attack + aa, aed = as.defense + aa;
+            
             const homePoss = 50 + (hea - aed) * 0.3;
             const roll = Math.random() * 100;
             if (roll < homePoss) { currentMatch.possessionTeam = 'home'; currentMatch.stats.homePossession++; }
             else { currentMatch.possessionTeam = 'away'; currentMatch.stats.awayPossession++; }
-            if (currentMatch.possessionTeam === 'home') simulateTeamAction('home', { attack: hea, defense: hed }, { attack: aea, defense: aed });
-            else simulateTeamAction('away', { attack: aea, defense: aed }, { attack: hea, defense: hed });
+            
+            if (currentMatch.possessionTeam === 'home') {
+                simulateTeamAction('home', { attack: hea, defense: hed }, { attack: aea, defense: aed }, homePressure, awayPressure);
+            } else {
+                simulateTeamAction('away', { attack: aea, defense: aed }, { attack: hea, defense: hed }, awayPressure, homePressure);
+            }
             updateMatchDisplay();
         };
 
-        const simulateTeamAction = (side, ts, os) => {
+        const simulateTeamAction = (side, ts, os, teamPressure, oppPressure) => {
             const isHome = side === 'home';
             const team = isHome ? currentMatch.homeTeam : currentMatch.awayTeam;
             const teamName = team.name;
             const inZone = isHome ? currentMatch.zone === 0 : currentMatch.zone === 5;
-            const shotChance = Math.min((inZone ? 18 : 8) + (ts.attack - os.defense) * 0.15, 35);
+            
+            const shotChance = Math.min((inZone ? 18 : 8) + (ts.attack - os.defense) * 0.15, 35) * (1 - teamPressure.aggression * 0.05);
             const roll = Math.random() * 100;
+            
             if (roll < shotChance) { simulateShot(side, ts, os, isHome, teamName, team); return; }
+            
             const advChance = 40 + (ts.attack - os.defense) * 0.3;
             if (roll < advChance) {
                 const oz = currentMatch.zone;
@@ -1057,15 +1195,18 @@
                 if (oz !== currentMatch.zone) updateNarration(`${teamName} moves forward`);
                 return;
             }
-            const tklChance = advChance + 25;
-            if (roll < tklChance) {
+            
+            const tackleChance = (advChance + 25) * (1 + oppPressure.tackles * 0.1);
+            if (roll < tackleChance) {
                 const tTeam = isHome ? 'away' : 'home';
                 const tName = isHome ? currentMatch.awayTeam.name : currentMatch.homeTeam.name;
                 const tPlayer = getRandomPlayer(isHome ? currentMatch.awayTeam : currentMatch.homeTeam);
                 if (tTeam === 'home') currentMatch.stats.homeTackles++;
                 else currentMatch.stats.awayTackles++;
                 updateNarration(`Tackle by ${tName}`);
-                if (Math.random() < 0.20) {
+                
+                const foulChance = 0.15 * oppPressure.fouls * (refereeStrictnessLevel / 3);
+                if (Math.random() < foulChance) {
                     if (tTeam === 'home') currentMatch.stats.homeFouls++;
                     else currentMatch.stats.awayFouls++;
                     const defSide = isHome ? 'away' : 'home';
@@ -1073,17 +1214,28 @@
                     if (inArea && Math.random() < 0.10) { updateNarration(`Penalty for ${teamName}!`); simulatePenalty(side, teamName); }
                     else {
                         updateNarration(`Foul by ${tName}`);
-                        if (Math.random() < 0.10) {
+                        const cardChance = 0.08 * (refereeStrictnessLevel / 3) * oppPressure.fouls;
+                        if (Math.random() < cardChance) {
                             if (tTeam === 'home') currentMatch.stats.homeYellowCards++;
                             else currentMatch.stats.awayYellowCards++;
                             updateNarration(`Yellow card for ${tName}`);
+                            addCardEvent(currentMatch.minute, tPlayer.name, 'yellow', tTeam);
+                            
+                            const cards = applyYellowCard(tTeam, tPlayer.name);
+                            if (cards >= 2) {
+                                if (tTeam === 'home') currentMatch.stats.homeRedCards++;
+                                else currentMatch.stats.awayRedCards++;
+                                updateNarration(`Red card for ${tPlayer.name} (second yellow)!`);
+                                addCardEvent(currentMatch.minute, tPlayer.name, 'red', tTeam);
+                            }
                         }
                         if (Math.random() < 0.06 && ts.attack > 60) simulateFreeKickGoal(side, teamName, team);
                     }
                 }
                 return;
             }
-            if (roll < tklChance + 5) {
+            
+            if (roll < tackleChance + 5) {
                 if (isHome) currentMatch.stats.homeOffsides++;
                 else currentMatch.stats.awayOffsides++;
                 updateNarration(`Offside ${teamName}!`);
@@ -1225,8 +1377,10 @@
             elements.awayFoulsStat.textContent = currentMatch.stats.awayFouls;
             elements.homeOffsidesStat.textContent = currentMatch.stats.homeOffsides;
             elements.awayOffsidesStat.textContent = currentMatch.stats.awayOffsides;
-            elements.homeCardsStat.textContent = currentMatch.stats.homeYellowCards;
-            elements.awayCardsStat.textContent = currentMatch.stats.awayYellowCards;
+            const totalHomeCards = currentMatch.stats.homeYellowCards + currentMatch.stats.homeRedCards * 2;
+            const totalAwayCards = currentMatch.stats.awayYellowCards + currentMatch.stats.awayRedCards * 2;
+            elements.homeCardsStat.textContent = totalHomeCards;
+            elements.awayCardsStat.textContent = totalAwayCards;
             const homeProgress = ((5 - currentMatch.zone) / 5) * 100;
             elements.fieldHome.style.flex = `${homeProgress} 1 0%`;
             elements.fieldAway.style.flex = `${100 - homeProgress} 1 0%`;
@@ -1249,8 +1403,10 @@
         window.updateAwayTeams = updateAwayTeams;
         window.selectTeam = selectTeam;
         window.selectTactic = selectTactic;
+        window.selectPressure = selectPressure;
         window.swapTeams = swapTeams;
         window.toggleNeutralVenue = toggleNeutralVenue;
+        window.updateRefereeLabel = updateRefereeLabel;
         window.showEditor = showEditor;
         window.hideEditor = hideEditor;
         window.addPlayer = addPlayer;
@@ -1263,6 +1419,8 @@
         window.togglePause = togglePause;
         window.setSpeed = setSpeed;
         window.returnToSetup = returnToSetup;
+
+        elements.refereeStrictness.addEventListener('input', updateRefereeLabel);
 
         loadTeams();
     </script>

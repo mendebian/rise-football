@@ -310,47 +310,6 @@
             box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
         }
 
-        .config-row {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid #f0f0f0;
-        }
-
-        .config-row .config-item {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .config-row .config-item label {
-            font-size: 9px;
-            font-weight: 600;
-            color: #bbb;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            flex-shrink: 0;
-        }
-
-        .config-row .config-item select {
-            flex: 1;
-            padding: 5px 8px;
-            border: 1px solid #e8e8e8;
-            border-radius: 6px;
-            font-size: 11px;
-            background: #fafafa;
-            outline: none;
-            cursor: pointer;
-            min-width: 0;
-        }
-
-        .config-row .config-item select:focus {
-            border-color: #000;
-        }
-
         @media (max-width: 768px) {
             .team-header {
                 flex-direction: column;
@@ -370,13 +329,6 @@
             .selection-row .label {
                 min-width: 100%;
                 text-align: left;
-            }
-            .config-row {
-                flex-direction: column;
-                gap: 6px;
-            }
-            .config-row .config-item {
-                width: 100%;
             }
             .team-header .team-info .name {
                 font-size: 13px;
@@ -480,24 +432,16 @@
                     </div>
 
                     <!-- Tactic and Pressing -->
-                    <div class="config-row">
-                        <div class="config-item">
-                            <label>Tactic</label>
-                            <select id="home-tactic-select"></select>
-                        </div>
-                        <div class="config-item">
-                            <label>Pressing</label>
-                            <select id="home-pressure-select"></select>
-                        </div>
-                        <div class="config-item" style="flex:0.5;min-width:40px;"></div>
-                        <div class="config-item">
-                            <label>Tactic</label>
-                            <select id="away-tactic-select"></select>
-                        </div>
-                        <div class="config-item">
-                            <label>Pressing</label>
-                            <select id="away-pressure-select"></select>
-                        </div>
+                    <div class="selection-row">
+                        <select id="home-tactic-select"></select>
+                        <span class="label">Tactic</span>
+                        <select id="away-tactic-select"></select>
+                    </div>
+
+                    <div class="selection-row">
+                        <select id="home-pressure-select"></select>
+                        <span class="label">Pressing</span>
+                        <select id="away-pressure-select"></select>
                     </div>
 
                     <div class="text-center mt-6">

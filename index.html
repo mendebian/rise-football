@@ -44,16 +44,6 @@
             object-fit: contain;
         }
 
-        .tactic-card.auto-card, .pressure-card.auto-card {
-            border-style: dashed;
-            background: #fafafa;
-        }
-
-        .tactic-card.auto-card.selected, .pressure-card.auto-card.selected {
-            border-style: solid;
-            background: #f5f5f5;
-        }
-
         .field-zone-home, .field-zone-away {
             transition: all 0.3s ease;
         }
@@ -142,11 +132,6 @@
             border-color: #000000 !important;
             color: #000000 !important;
         }
-
-        .tactic-card:hover, .pressure-card:hover {
-            border-color: #000000 !important;
-            background: #f5f5f5 !important;
-        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-900">
@@ -185,16 +170,6 @@
                 <div id="match-setup">
                     <button class="back-btn bg-transparent border-none text-gray-500 text-2xl cursor-pointer p-2 transition-all duration-200 flex items-center gap-2 mb-6 hover:text-black" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i></button>
                     
-                    <!-- Referee Setting -->
-                    <div class="bg-white border border-gray-200 rounded-xl p-4 mb-6">
-                        <h3 class="text-sm font-semibold mb-3">Referee Strictness</h3>
-                        <div class="flex items-center gap-4">
-                            <input type="range" min="1" max="5" value="3" id="referee-strictness" class="flex-1 accent-black">
-                            <span id="referee-label" class="text-sm font-medium w-24 text-center">Moderate</span>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-2">Higher strictness = more fouls called and more cards shown.</p>
-                    </div>
-                    
                     <div class="grid grid-cols-[1fr_auto_1fr] gap-6 items-start">
                         <div class="text-center">
                             <div class="flex flex-col items-center gap-1 mb-3">
@@ -207,14 +182,15 @@
                             <select id="home-continent-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 mb-2 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateHomeTeams()"></select>
                             <select id="home-team-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 mb-2 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="selectTeam('home')"></select>
                             
-                            <div class="mt-3">
-                                <p class="text-xs text-gray-500 mb-2">Tactic</p>
-                                <div class="grid grid-cols-3 gap-2" id="home-tactics"></div>
-                            </div>
-                            
-                            <div class="mt-3">
-                                <p class="text-xs text-gray-500 mb-2">Pressing Intensity</p>
-                                <div class="grid grid-cols-3 gap-2" id="home-pressure"></div>
+                            <div class="mt-3 grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-xs text-gray-500 mb-1 block">Tactic</label>
+                                    <select id="home-tactic-select" class="w-full p-2 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10"></select>
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-500 mb-1 block">Pressing</label>
+                                    <select id="home-pressure-select" class="w-full p-2 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10"></select>
+                                </div>
                             </div>
                         </div>
                         
@@ -238,14 +214,15 @@
                             <select id="away-continent-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 mb-2 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateAwayTeams()"></select>
                             <select id="away-team-select" class="w-full p-2.5 border border-gray-200 rounded-md text-sm bg-white transition-all duration-200 mb-2 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="selectTeam('away')"></select>
                             
-                            <div class="mt-3">
-                                <p class="text-xs text-gray-500 mb-2">Tactic</p>
-                                <div class="grid grid-cols-3 gap-2" id="away-tactics"></div>
-                            </div>
-                            
-                            <div class="mt-3">
-                                <p class="text-xs text-gray-500 mb-2">Pressing Intensity</p>
-                                <div class="grid grid-cols-3 gap-2" id="away-pressure"></div>
+                            <div class="mt-3 grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-xs text-gray-500 mb-1 block">Tactic</label>
+                                    <select id="away-tactic-select" class="w-full p-2 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10"></select>
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-500 mb-1 block">Pressing</label>
+                                    <select id="away-pressure-select" class="w-full p-2 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10"></select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -460,6 +437,7 @@
 
     <script>
         const TACTICS = [
+            { id: 'auto', name: 'Auto', icon: 'fa-robot', attack: 1.0, defense: 1.0, fouls: 1.0, isAuto: true },
             { id: 'ultra_defensivo', name: 'Catenaccio', icon: 'fa-shield', attack: 0.7, defense: 1.3, fouls: 1.2 },
             { id: 'defensivo', name: 'Defensive', icon: 'fa-shield-halved', attack: 0.85, defense: 1.15, fouls: 1.1 },
             { id: 'reativo', name: 'Counter-Attack', icon: 'fa-bolt', attack: 0.95, defense: 1.05, fouls: 1.0 },
@@ -467,19 +445,16 @@
             { id: 'posse', name: 'Possession', icon: 'fa-futbol', attack: 1.05, defense: 0.95, fouls: 0.9 },
             { id: 'ofensivo', name: 'Offensive', icon: 'fa-bolt', attack: 1.15, defense: 0.85, fouls: 0.9 },
             { id: 'bolas_longas', name: 'Long Balls', icon: 'fa-arrow-up', attack: 1.1, defense: 0.9, fouls: 1.0 },
-            { id: 'ultra_ofensivo', name: 'All-Out Attack', icon: 'fa-fire', attack: 1.3, defense: 0.7, fouls: 0.8 },
-            { id: 'auto', name: 'Auto', icon: 'fa-robot', attack: 1.0, defense: 1.0, fouls: 1.0, isAuto: true }
+            { id: 'ultra_ofensivo', name: 'All-Out Attack', icon: 'fa-fire', attack: 1.3, defense: 0.7, fouls: 0.8 }
         ];
 
         const PRESSURE_LEVELS = [
+            { id: 'auto', name: 'Auto', icon: 'fa-robot', aggression: 1.0, fouls: 1.0, tackles: 1.0, isAuto: true },
             { id: 'passive', name: 'Passive', icon: 'fa-hand', aggression: 0.5, fouls: 0.5, tackles: 0.6 },
             { id: 'moderate', name: 'Moderate', icon: 'fa-hand-paper', aggression: 0.8, fouls: 0.8, tackles: 0.9 },
             { id: 'high', name: 'High Press', icon: 'fa-hand-fist', aggression: 1.2, fouls: 1.2, tackles: 1.3 },
-            { id: 'intense', name: 'Gegenpress', icon: 'fa-fire', aggression: 1.5, fouls: 1.5, tackles: 1.6 },
-            { id: 'auto', name: 'Auto', icon: 'fa-robot', aggression: 1.0, fouls: 1.0, tackles: 1.0, isAuto: true }
+            { id: 'intense', name: 'Gegenpress', icon: 'fa-fire', aggression: 1.5, fouls: 1.5, tackles: 1.6 }
         ];
-
-        const REFEREE_LEVELS = ['Very Lenient', 'Lenient', 'Moderate', 'Strict', 'Very Strict'];
 
         const $ = (id) => document.getElementById(id);
         const $$ = (sel) => document.querySelectorAll(sel);
@@ -494,10 +469,10 @@
             awayContinent: $('away-continent-select'),
             homeTeamSelect: $('home-team-select'),
             awayTeamSelect: $('away-team-select'),
-            homeTactics: $('home-tactics'),
-            awayTactics: $('away-tactics'),
-            homePressure: $('home-pressure'),
-            awayPressure: $('away-pressure'),
+            homeTacticSelect: $('home-tactic-select'),
+            awayTacticSelect: $('away-tactic-select'),
+            homePressureSelect: $('home-pressure-select'),
+            awayPressureSelect: $('away-pressure-select'),
             homeShield: $('home-shield'),
             awayShield: $('away-shield'),
             homeName: $('home-name'),
@@ -525,8 +500,6 @@
             speed2x: $('speed-2x'),
             speed4x: $('speed-4x'),
             neutralVenue: $('neutral-venue'),
-            refereeStrictness: $('referee-strictness'),
-            refereeLabel: $('referee-label'),
             editorModal: $('editor-modal'),
             confirmModal: $('confirm-modal'),
             confirmMessage: $('confirm-message'),
@@ -562,8 +535,6 @@
         let editingTeamId = null;
         let currentMatch = null;
         let matchInterval = null;
-        let selectedTactics = { home: 'auto', away: 'auto' };
-        let selectedPressure = { home: 'auto', away: 'auto' };
         let matchSpeed = parseInt(localStorage.getItem('rise_match_speed')) || 1;
         let isPaused = false;
         let addedTime = 0;
@@ -637,9 +608,7 @@
             sortTeamsAlphabetically();
             updateTeamsList();
             updateContinentSelects();
-            createTacticCards();
-            createPressureCards();
-            updateRefereeLabel();
+            populateDropdowns();
         };
 
         const saveTeams = () => {
@@ -718,39 +687,15 @@
             if (filtered.length) selectTeam('away');
         };
 
-        const createTacticCards = () => {
-            elements.homeTactics.innerHTML = '';
-            elements.awayTactics.innerHTML = '';
-            TACTICS.forEach(t => {
-                elements.homeTactics.innerHTML += createTacticCard(t, 'home');
-                elements.awayTactics.innerHTML += createTacticCard(t, 'away');
-            });
+        const populateDropdowns = () => {
+            const tacticOptions = TACTICS.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
+            const pressureOptions = PRESSURE_LEVELS.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+            
+            elements.homeTacticSelect.innerHTML = tacticOptions;
+            elements.awayTacticSelect.innerHTML = tacticOptions;
+            elements.homePressureSelect.innerHTML = pressureOptions;
+            elements.awayPressureSelect.innerHTML = pressureOptions;
         };
-
-        const createTacticCard = (tactic, side) => {
-            const autoClass = tactic.isAuto ? 'auto-card' : '';
-            const selected = selectedTactics[side] === tactic.id;
-            return `<div class="tactic-card ${autoClass} p-2 border rounded-md text-center cursor-pointer transition-all duration-200 bg-white ${selected ? 'border-black bg-gray-100 ring-2 ring-black/10' : 'border-gray-200 hover:border-black hover:bg-gray-100'}" onclick="selectTactic('${side}', '${tactic.id}')"><i class="fa-solid ${tactic.icon} text-sm mb-1"></i><div class="font-medium text-xs">${tactic.name}</div></div>`;
-        };
-
-        const selectTactic = (side, id) => { selectedTactics[side] = id; createTacticCards(); };
-
-        const createPressureCards = () => {
-            elements.homePressure.innerHTML = '';
-            elements.awayPressure.innerHTML = '';
-            PRESSURE_LEVELS.forEach(p => {
-                elements.homePressure.innerHTML += createPressureCard(p, 'home');
-                elements.awayPressure.innerHTML += createPressureCard(p, 'away');
-            });
-        };
-
-        const createPressureCard = (pressure, side) => {
-            const autoClass = pressure.isAuto ? 'auto-card' : '';
-            const selected = selectedPressure[side] === pressure.id;
-            return `<div class="pressure-card ${autoClass} p-2 border rounded-md text-center cursor-pointer transition-all duration-200 bg-white ${selected ? 'border-black bg-gray-100 ring-2 ring-black/10' : 'border-gray-200 hover:border-black hover:bg-gray-100'}" onclick="selectPressure('${side}', '${pressure.id}')"><i class="fa-solid ${pressure.icon} text-sm mb-1"></i><div class="font-medium text-xs">${pressure.name}</div></div>`;
-        };
-
-        const selectPressure = (side, id) => { selectedPressure[side] = id; createPressureCards(); };
 
         const selectTeam = (side) => {
             const select = side === 'home' ? elements.homeTeamSelect : elements.awayTeamSelect;
@@ -785,11 +730,6 @@
         };
 
         const toggleNeutralVenue = () => { neutralVenueActive = elements.neutralVenue.checked; };
-
-        const updateRefereeLabel = () => {
-            refereeStrictnessLevel = parseInt(elements.refereeStrictness.value);
-            elements.refereeLabel.textContent = REFEREE_LEVELS[refereeStrictnessLevel - 1];
-        };
 
         const showEditor = (teamIndex = null) => {
             editingTeamId = teamIndex;
@@ -992,7 +932,7 @@
             starters.forEach(p => {
                 let rating = p.rating;
                 if (isPlayerSentOff(teamSide, p.name)) {
-                    rating *= 0.5; // 50% penalty for red card
+                    rating *= 0.5;
                 }
                 const w = weights[p.position] || 1.0;
                 weightedSum += rating * w;
@@ -1012,21 +952,27 @@
                 return;
             }
             const homeTeam = teams[hi], awayTeam = teams[ai];
-            if (selectedTactics.home === 'auto') selectedTactics.home = determineAutoTactic(homeTeam, awayTeam, true);
-            if (selectedTactics.away === 'auto') selectedTactics.away = determineAutoTactic(awayTeam, homeTeam, false);
-            if (selectedPressure.home === 'auto') selectedPressure.home = determineAutoPressure(homeTeam, awayTeam, true);
-            if (selectedPressure.away === 'auto') selectedPressure.away = determineAutoPressure(awayTeam, homeTeam, false);
             
-            refereeStrictnessLevel = parseInt(elements.refereeStrictness.value);
+            let homeTactic = elements.homeTacticSelect.value;
+            let awayTactic = elements.awayTacticSelect.value;
+            let homePressure = elements.homePressureSelect.value;
+            let awayPressure = elements.awayPressureSelect.value;
+            
+            if (homeTactic === 'auto') homeTactic = determineAutoTactic(homeTeam, awayTeam, true);
+            if (awayTactic === 'auto') awayTactic = determineAutoTactic(awayTeam, homeTeam, false);
+            if (homePressure === 'auto') homePressure = determineAutoPressure(homeTeam, awayTeam, true);
+            if (awayPressure === 'auto') awayPressure = determineAutoPressure(awayTeam, homeTeam, false);
+            
+            // Random referee strictness 1-5
+            refereeStrictnessLevel = Math.floor(Math.random() * 5) + 1;
+            
             playerYellowCards = {};
             addedTime = Math.floor(Math.random() * 5) + 4;
             addedTimeAnnounced = false;
             currentMatch = {
                 homeTeam, awayTeam,
-                homeTactic: selectedTactics.home,
-                awayTactic: selectedTactics.away,
-                homePressure: selectedPressure.home,
-                awayPressure: selectedPressure.away,
+                homeTactic, awayTactic,
+                homePressure, awayPressure,
                 homeScore: 0, awayScore: 0, minute: 0, zone: 2,
                 possessionTeam: 'home',
                 stats: { homePossession: 0, awayPossession: 0, homeShots: 0, awayShots: 0, homeShotsOnTarget: 0, awayShotsOnTarget: 0, homeFouls: 0, awayFouls: 0, homeTackles: 0, awayTackles: 0, homeCorners: 0, awayCorners: 0, homePenalties: 0, awayPenalties: 0, homeSaves: 0, awaySaves: 0, homeYellowCards: 0, awayYellowCards: 0, homeRedCards: 0, awayRedCards: 0, homeOffsides: 0, awayOffsides: 0 },
@@ -1048,7 +994,7 @@
             elements.awayScore.style.color = awayTeam.colors[1] || awayTeam.colors[0];
             applyTeamColors();
             updateMatchDisplay();
-            updateNarration('Match started!');
+            updateNarration(`Match started! Referee strictness: ${['Very Lenient','Lenient','Moderate','Strict','Very Strict'][refereeStrictnessLevel-1]}`);
             isPaused = false;
             updateSpeedButtons();
             updatePauseButton();
@@ -1402,11 +1348,8 @@
         window.updateHomeTeams = updateHomeTeams;
         window.updateAwayTeams = updateAwayTeams;
         window.selectTeam = selectTeam;
-        window.selectTactic = selectTactic;
-        window.selectPressure = selectPressure;
         window.swapTeams = swapTeams;
         window.toggleNeutralVenue = toggleNeutralVenue;
-        window.updateRefereeLabel = updateRefereeLabel;
         window.showEditor = showEditor;
         window.hideEditor = hideEditor;
         window.addPlayer = addPlayer;
@@ -1419,8 +1362,6 @@
         window.togglePause = togglePause;
         window.setSpeed = setSpeed;
         window.returnToSetup = returnToSetup;
-
-        elements.refereeStrictness.addEventListener('input', updateRefereeLabel);
 
         loadTeams();
     </script>

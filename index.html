@@ -133,77 +133,47 @@
             color: #000000 !important;
         }
 
-        .team-select-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-            border: 1px solid #f0f0f0;
-            transition: all 0.2s;
-        }
-
-        .team-select-card:hover {
-            border-color: #d0d0d0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-        }
-
-        .vs-badge {
-            font-size: 14px;
-            font-weight: 700;
-            color: #999;
-            letter-spacing: 2px;
-        }
-
-        .match-controls {
-            background: white;
-            border-radius: 12px;
-            padding: 16px 20px;
-            border: 1px solid #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
         .team-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 14px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid #f5f5f5;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 16px;
         }
 
-        .team-header .shield-container {
-            width: 44px;
-            height: 44px;
+        .team-header .team-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .team-header .team-info .shield {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
         }
 
-        .team-header .shield-container img {
+        .team-header .team-info .shield img {
             width: 100%;
             height: 100%;
             object-fit: contain;
         }
 
-        .team-header .team-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .team-header .team-info .team-name {
+        .team-header .team-info .name {
             font-weight: 600;
-            font-size: 15px;
+            font-size: 14px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .team-header .team-info .overall-badge {
+        .team-header .team-info .overall {
             display: inline-block;
             padding: 0 8px;
             border-radius: 10px;
@@ -212,24 +182,112 @@
             line-height: 18px;
             background: #000;
             color: #fff;
+            flex-shrink: 0;
         }
 
-        .select-group {
-            margin-bottom: 8px;
+        .team-header .vs-area {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-shrink: 0;
         }
 
-        .select-group label {
-            display: block;
+        .team-header .vs-area .vs {
+            font-size: 14px;
+            font-weight: 700;
+            color: #999;
+            letter-spacing: 2px;
+        }
+
+        .team-header .vs-area .swap-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid #e0e0e0;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .team-header .vs-area .swap-btn:hover {
+            background: #f5f5f5;
+            border-color: #000;
+            color: #000;
+            transform: rotate(180deg);
+        }
+
+        .team-header .vs-area .neutral-toggle {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: #999;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .team-header .vs-area .neutral-toggle input[type="checkbox"] {
+            width: 32px;
+            height: 16px;
+            appearance: none;
+            background: #e0e0e0;
+            border-radius: 8px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .team-header .vs-area .neutral-toggle input[type="checkbox"]:checked {
+            background: #000000;
+        }
+
+        .team-header .vs-area .neutral-toggle input[type="checkbox"]::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .team-header .vs-area .neutral-toggle input[type="checkbox"]:checked::before {
+            left: 18px;
+        }
+
+        .team-header .team-info-right {
+            justify-content: flex-end;
+            text-align: right;
+        }
+
+        .selection-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 10px;
+        }
+
+        .selection-row .label {
             font-size: 10px;
             font-weight: 600;
             color: #aaa;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 3px;
+            flex-shrink: 0;
+            min-width: 70px;
+            text-align: center;
         }
 
-        .select-group select {
-            width: 100%;
+        .selection-row select {
+            flex: 1;
             padding: 8px 10px;
             border: 1px solid #e8e8e8;
             border-radius: 8px;
@@ -238,44 +296,47 @@
             transition: all 0.2s;
             cursor: pointer;
             outline: none;
+            min-width: 0;
         }
 
-        .select-group select:hover {
+        .selection-row select:hover {
             border-color: #ccc;
             background: #f5f5f5;
         }
 
-        .select-group select:focus {
+        .selection-row select:focus {
             border-color: #000;
             background: #fff;
             box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
         }
 
-        .select-group select option {
-            padding: 4px;
-        }
-
-        .team-config {
+        .config-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
             margin-top: 12px;
             padding-top: 12px;
             border-top: 1px solid #f0f0f0;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px 12px;
         }
 
-        .team-config .config-item label {
+        .config-row .config-item {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .config-row .config-item label {
             font-size: 9px;
             font-weight: 600;
             color: #bbb;
             text-transform: uppercase;
             letter-spacing: 0.3px;
-            display: block;
-            margin-bottom: 2px;
+            flex-shrink: 0;
         }
 
-        .team-config .config-item select {
-            width: 100%;
+        .config-row .config-item select {
+            flex: 1;
             padding: 5px 8px;
             border: 1px solid #e8e8e8;
             border-radius: 6px;
@@ -283,26 +344,56 @@
             background: #fafafa;
             outline: none;
             cursor: pointer;
+            min-width: 0;
         }
 
-        .team-config .config-item select:focus {
+        .config-row .config-item select:focus {
             border-color: #000;
         }
 
         @media (max-width: 768px) {
-            .team-select-card {
-                padding: 16px;
+            .team-header {
+                flex-direction: column;
+                gap: 8px;
+                align-items: stretch;
             }
-            .team-header .team-info .team-name {
-                font-size: 14px;
+            .team-header .vs-area {
+                justify-content: center;
+                padding: 8px 0;
+                border-top: 1px solid #f0f0f0;
+                border-bottom: 1px solid #f0f0f0;
             }
-            .team-config {
-                grid-template-columns: 1fr;
-                gap: 4px;
+            .selection-row {
+                flex-wrap: wrap;
+                gap: 8px;
             }
-            .match-controls {
-                padding: 12px 16px;
-                gap: 12px;
+            .selection-row .label {
+                min-width: 100%;
+                text-align: left;
+            }
+            .config-row {
+                flex-direction: column;
+                gap: 6px;
+            }
+            .config-row .config-item {
+                width: 100%;
+            }
+            .team-header .team-info .name {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .team-header .vs-area {
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+            .team-header .vs-area .vs {
+                font-size: 12px;
+            }
+            .selection-row select {
+                font-size: 12px;
+                padding: 6px 8px;
             }
         }
     </style>
@@ -343,87 +434,69 @@
                 <div id="match-setup">
                     <button class="back-btn bg-transparent border-none text-gray-500 text-2xl cursor-pointer p-2 transition-all duration-200 flex items-center gap-2 mb-6 hover:text-black" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i></button>
                     
-                    <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-6 items-stretch">
-                        <!-- Home Team -->
-                        <div class="team-select-card">
-                            <div class="team-header">
-                                <div class="shield-container" id="home-shield">🏠</div>
-                                <div class="team-info">
-                                    <div class="team-name" id="home-name">Home Team</div>
-                                    <span class="overall-badge" id="home-overall" style="display:none;">0</span>
-                                </div>
-                            </div>
-                            
-                            <div class="select-group">
-                                <label>Continent</label>
-                                <select id="home-continent-select" onchange="updateHomeCountries()"></select>
-                            </div>
-                            <div class="select-group">
-                                <label>Country</label>
-                                <select id="home-country-select" onchange="updateHomeTeams()"></select>
-                            </div>
-                            <div class="select-group">
-                                <label>Team</label>
-                                <select id="home-team-select" onchange="selectTeam('home')"></select>
-                            </div>
-                            
-                            <div class="team-config">
-                                <div class="config-item">
-                                    <label>Tactic</label>
-                                    <select id="home-tactic-select"></select>
-                                </div>
-                                <div class="config-item">
-                                    <label>Pressing</label>
-                                    <select id="home-pressure-select"></select>
-                                </div>
-                            </div>
+                    <!-- Team Header with VS and controls -->
+                    <div class="team-header">
+                        <div class="team-info" id="home-header">
+                            <div class="shield" id="home-shield">🏠</div>
+                            <span class="name" id="home-name">Home Team</span>
+                            <span class="overall" id="home-overall" style="display:none;">0</span>
                         </div>
-
-                        <!-- VS / Controls -->
-                        <div class="flex flex-col items-center justify-center gap-4 py-4">
-                            <div class="vs-badge">VS</div>
-                            <button class="swap-btn bg-transparent border border-gray-200 rounded-full w-11 h-11 cursor-pointer transition-all duration-300 flex items-center justify-center text-gray-500 text-lg hover:bg-gray-100 hover:border-black hover:text-black hover:rotate-180" onclick="swapTeams()" title="Swap teams">
+                        
+                        <div class="vs-area">
+                            <span class="vs">VS</span>
+                            <button class="swap-btn" onclick="swapTeams()" title="Swap teams">
                                 <i class="fa-solid fa-right-left"></i>
                             </button>
-                            <label class="neutral-toggle flex items-center gap-2 text-sm text-gray-500 cursor-pointer select-none">
+                            <label class="neutral-toggle">
                                 <input type="checkbox" id="neutral-venue" onchange="toggleNeutralVenue()">
                                 <span>Neutral</span>
                             </label>
                         </div>
+                        
+                        <div class="team-info team-info-right" id="away-header">
+                            <span class="overall" id="away-overall" style="display:none;">0</span>
+                            <span class="name" id="away-name">Away Team</span>
+                            <div class="shield" id="away-shield">🏠</div>
+                        </div>
+                    </div>
 
-                        <!-- Away Team -->
-                        <div class="team-select-card">
-                            <div class="team-header flex-row-reverse">
-                                <div class="shield-container" id="away-shield">🏠</div>
-                                <div class="team-info text-right">
-                                    <div class="team-name" id="away-name">Away Team</div>
-                                    <span class="overall-badge" id="away-overall" style="display:none;">0</span>
-                                </div>
-                            </div>
-                            
-                            <div class="select-group">
-                                <label>Continent</label>
-                                <select id="away-continent-select" onchange="updateAwayCountries()"></select>
-                            </div>
-                            <div class="select-group">
-                                <label>Country</label>
-                                <select id="away-country-select" onchange="updateAwayTeams()"></select>
-                            </div>
-                            <div class="select-group">
-                                <label>Team</label>
-                                <select id="away-team-select" onchange="selectTeam('away')"></select>
-                            </div>
-                            
-                            <div class="team-config">
-                                <div class="config-item">
-                                    <label>Tactic</label>
-                                    <select id="away-tactic-select"></select>
-                                </div>
-                                <div class="config-item">
-                                    <label>Pressing</label>
-                                    <select id="away-pressure-select"></select>
-                                </div>
-                            </div>
+                    <!-- Selection Rows with shared labels -->
+                    <div class="selection-row">
+                        <select id="home-continent-select" onchange="updateHomeCountries()"></select>
+                        <span class="label">Continent</span>
+                        <select id="away-continent-select" onchange="updateAwayCountries()"></select>
+                    </div>
+
+                    <div class="selection-row">
+                        <select id="home-country-select" onchange="updateHomeTeams()"></select>
+                        <span class="label">Country</span>
+                        <select id="away-country-select" onchange="updateAwayTeams()"></select>
+                    </div>
+
+                    <div class="selection-row">
+                        <select id="home-team-select" onchange="selectTeam('home')"></select>
+                        <span class="label">Team</span>
+                        <select id="away-team-select" onchange="selectTeam('away')"></select>
+                    </div>
+
+                    <!-- Tactic and Pressing -->
+                    <div class="config-row">
+                        <div class="config-item">
+                            <label>Tactic</label>
+                            <select id="home-tactic-select"></select>
+                        </div>
+                        <div class="config-item">
+                            <label>Pressing</label>
+                            <select id="home-pressure-select"></select>
+                        </div>
+                        <div class="config-item" style="flex:0.5;min-width:40px;"></div>
+                        <div class="config-item">
+                            <label>Tactic</label>
+                            <select id="away-tactic-select"></select>
+                        </div>
+                        <div class="config-item">
+                            <label>Pressing</label>
+                            <select id="away-pressure-select"></select>
                         </div>
                     </div>
 

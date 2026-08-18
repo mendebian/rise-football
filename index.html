@@ -327,6 +327,17 @@
             left: 20px;
         }
 
+        /* Language selector flag */
+        .language-flag {
+            width: 20px;
+            height: 15px;
+            object-fit: cover;
+            border-radius: 2px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+
         @media (max-width: 768px) {
             .team-header {
                 flex-direction: column;
@@ -393,7 +404,7 @@
         <!-- Language Selector -->
         <div class="absolute top-5 right-5">
             <select id="language-select" class="bg-white/10 text-white border border-white/30 rounded-lg px-3 py-2 text-sm cursor-pointer backdrop-blur-sm" onchange="changeLanguage(this.value)">
-                <option value="en">🇬🇧 English</option>
+                <option value="en">English</option>
             </select>
         </div>
         <div class="absolute bottom-5 text-white/40 text-sm tracking-wider">© Volcam Studios - v1.0.0</div>
@@ -730,7 +741,7 @@
                             id: lang,
                             name: data.meta?.name || lang,
                             nativeName: data.meta?.nativeName || data.meta?.name || lang,
-                            flag: data.meta?.flag || '🏳️'
+                            flag: data.meta?.flag || ''
                         });
                     }
                 } catch (e) {
@@ -744,7 +755,7 @@
                     id: 'en',
                     name: 'English',
                     nativeName: 'English',
-                    flag: '🇬🇧'
+                    flag: 'https://flagsapi.com/GB/shiny/64.png'
                 });
             }
             
@@ -760,17 +771,80 @@
             availableLanguages.forEach(lang => {
                 const option = document.createElement('option');
                 option.value = lang.id;
-                option.textContent = `${lang.flag} ${lang.nativeName || lang.name}`;
+                
+                if (lang.flag && lang.flag.startsWith('http')) {
+                    // Create a span with flag image
+                    const span = document.createElement('span');
+                    span.style.display = 'inline-flex';
+                    span.style.alignItems = 'center';
+                    span.style.gap = '4px';
+                    
+                    const img = document.createElement('img');
+                    img.src = lang.flag;
+                    img.alt = lang.name;
+                    img.className = 'language-flag';
+                    img.style.width = '20px';
+                    img.style.height = '15px';
+                    img.style.objectFit = 'cover';
+                    img.style.borderRadius = '2px';
+                    
+                    span.appendChild(img);
+                    span.appendChild(document.createTextNode(lang.nativeName || lang.name));
+                    
+                    option.textContent = `${lang.nativeName || lang.name}`;
+                    option.setAttribute('data-flag', lang.flag);
+                } else {
+                    option.textContent = lang.nativeName || lang.name;
+                }
+                
                 select.appendChild(option);
             });
             
             select.value = currentLanguage;
+            
+            // Update select to show flag images
+            updateLanguageSelectDisplay();
+        };
+
+        const updateLanguageSelectDisplay = () => {
+            const select = document.getElementById('language-select');
+            if (!select) return;
+            
+            // Add flag to selected option display
+            const selectedOption = select.options[select.selectedIndex];
+            if (selectedOption && selectedOption.getAttribute('data-flag')) {
+                const flagUrl = selectedOption.getAttribute('data-flag');
+                // Create a wrapper to show flag
+                if (!select.parentElement.querySelector('.selected-flag')) {
+                    const flagImg = document.createElement('img');
+                    flagImg.className = 'selected-flag language-flag';
+                    flagImg.src = flagUrl;
+                    flagImg.alt = '';
+                    flagImg.style.position = 'absolute';
+                    flagImg.style.left = '10px';
+                    flagImg.style.top = '50%';
+                    flagImg.style.transform = 'translateY(-50%)';
+                    flagImg.style.width = '20px';
+                    flagImg.style.height = '15px';
+                    flagImg.style.objectFit = 'cover';
+                    flagImg.style.borderRadius = '2px';
+                    flagImg.style.pointerEvents = 'none';
+                    
+                    select.parentElement.style.position = 'relative';
+                    select.style.paddingLeft = '35px';
+                    select.parentElement.insertBefore(flagImg, select);
+                } else {
+                    const flagImg = select.parentElement.querySelector('.selected-flag');
+                    flagImg.src = flagUrl;
+                }
+            }
         };
 
         const changeLanguage = (lang) => {
             currentLanguage = lang;
             localStorage.setItem('rise_language', lang);
             loadTranslations(lang);
+            updateLanguageSelectDisplay();
         };
 
         const applyTranslations = () => {

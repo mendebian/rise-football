@@ -385,10 +385,16 @@
             <img src="https://orbitcloud.vaneltonmedia.com/fb8b4ce080e59805fcd247391a5574e8/rise.png" alt="Rise Football" class="w-full h-full object-contain">
         </div>
         <h1 class="text-6xl font-extrabold text-white mb-2 tracking-widest uppercase">RISE</h1>
-        <p class="text-xl text-white/70 mb-12 tracking-wider">Football Simulator</p>
+        <p class="text-xl text-white/70 mb-12 tracking-wider" data-i18n="football_simulator">Football Simulator</p>
         <div class="flex flex-col gap-4 w-full max-w-xs">
-            <button class="home-btn primary bg-white text-black px-8 py-4 text-lg border-none rounded-xl cursor-pointer transition-all duration-300 font-semibold flex items-center justify-center tracking-wide w-full hover:-translate-y-1 hover:shadow-2xl" onclick="showMatchTab()">Simulate Match</button>
-            <button class="home-btn secondary bg-white/10 text-white border border-white/30 px-8 py-4 text-lg rounded-xl cursor-pointer transition-all duration-300 font-semibold flex items-center justify-center tracking-wide w-full hover:bg-white/20 hover:-translate-y-1 hover:shadow-2xl" onclick="showTeamsTab()">Team Editor</button>
+            <button class="home-btn primary bg-white text-black px-8 py-4 text-lg border-none rounded-xl cursor-pointer transition-all duration-300 font-semibold flex items-center justify-center tracking-wide w-full hover:-translate-y-1 hover:shadow-2xl" data-i18n="simulate_match" onclick="showMatchTab()">Simulate Match</button>
+            <button class="home-btn secondary bg-white/10 text-white border border-white/30 px-8 py-4 text-lg rounded-xl cursor-pointer transition-all duration-300 font-semibold flex items-center justify-center tracking-wide w-full hover:bg-white/20 hover:-translate-y-1 hover:shadow-2xl" data-i18n="team_editor" onclick="showTeamsTab()">Team Editor</button>
+        </div>
+        <!-- Language Selector -->
+        <div class="absolute top-5 right-5">
+            <select id="language-select" class="bg-white/10 text-white border border-white/30 rounded-lg px-3 py-2 text-sm cursor-pointer backdrop-blur-sm" onchange="changeLanguage(this.value)">
+                <option value="en">🇬🇧 English</option>
+            </select>
         </div>
         <div class="absolute bottom-5 text-white/40 text-sm tracking-wider">© Volcam Studios - v1.0.0</div>
     </div>
@@ -400,10 +406,10 @@
             <div class="tab-content" id="teams-tab">
                 <button class="back-btn bg-transparent border-none text-gray-500 text-2xl cursor-pointer p-2 transition-all duration-200 flex items-center gap-2 mb-6 hover:text-black" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i></button>
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
-                    <h2 class="text-xl font-semibold">Teams</h2>
+                    <h2 class="text-xl font-semibold" data-i18n="teams">Teams</h2>
                     <div class="flex gap-2 flex-wrap">
-                        <button class="bg-gray-500 text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-2 hover:bg-gray-600" onclick="showDataTab()"><i class="fa-solid fa-code"></i> Data</button>
-                        <button class="bg-black text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-2 hover:bg-gray-800" onclick="showEditor()"><i class="fa-solid fa-plus"></i> New Team</button>
+                        <button class="bg-gray-500 text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-2 hover:bg-gray-600" data-i18n="data" onclick="showDataTab()"><i class="fa-solid fa-code"></i> Data</button>
+                        <button class="bg-black text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-2 hover:bg-gray-800" data-i18n="new_team" onclick="showEditor()"><i class="fa-solid fa-plus"></i> New Team</button>
                     </div>
                 </div>
                 <div id="teams-list"></div>
@@ -439,32 +445,38 @@
                     <!-- Selection Rows with shared labels -->
                     <div class="selection-row">
                         <select id="home-continent-select" onchange="updateHomeCountries()"></select>
-                        <span class="label">Continent</span>
+                        <span class="label" data-i18n="continent">Continent</span>
                         <select id="away-continent-select" class="away-select" onchange="updateAwayCountries()"></select>
                     </div>
 
                     <div class="selection-row">
-                        <select id="home-country-select" onchange="updateHomeTeams()"></select>
-                        <span class="label">Country</span>
-                        <select id="away-country-select" class="away-select" onchange="updateAwayTeams()"></select>
+                        <select id="home-country-select" onchange="updateHomeDivisions()"></select>
+                        <span class="label" data-i18n="country">Country</span>
+                        <select id="away-country-select" class="away-select" onchange="updateAwayDivisions()"></select>
+                    </div>
+
+                    <div class="selection-row">
+                        <select id="home-division-select" onchange="updateHomeTeams()"></select>
+                        <span class="label" data-i18n="division">Division</span>
+                        <select id="away-division-select" class="away-select" onchange="updateAwayTeams()"></select>
                     </div>
 
                     <div class="selection-row">
                         <select id="home-team-select" onchange="selectTeam('home')"></select>
-                        <span class="label">Team</span>
+                        <span class="label" data-i18n="team">Team</span>
                         <select id="away-team-select" class="away-select" onchange="selectTeam('away')"></select>
                     </div>
 
                     <!-- Tactic and Pressing -->
                     <div class="selection-row">
                         <select id="home-tactic-select"></select>
-                        <span class="label">Tactic</span>
+                        <span class="label" data-i18n="tactic">Tactic</span>
                         <select id="away-tactic-select" class="away-select"></select>
                     </div>
 
                     <div class="selection-row">
                         <select id="home-pressure-select"></select>
-                        <span class="label">Pressing</span>
+                        <span class="label" data-i18n="pressing">Pressing</span>
                         <select id="away-pressure-select" class="away-select"></select>
                     </div>
 
@@ -472,10 +484,10 @@
                         <div class="mb-3">
                             <label class="neutral-toggle-large">
                                 <input type="checkbox" id="neutral-venue" onchange="toggleNeutralVenue()">
-                                <span>Neutral Venue</span>
+                                <span data-i18n="neutral_venue">Neutral Venue</span>
                             </label>
                         </div>
-                        <button class="bg-black text-white px-8 py-3.5 text-sm rounded-xl cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-2 hover:bg-gray-800 hover:shadow-lg" onclick="startMatch()">
+                        <button class="bg-black text-white px-8 py-3.5 text-sm rounded-xl cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-2 hover:bg-gray-800 hover:shadow-lg" data-i18n="start_match" onclick="startMatch()">
                             <i class="fa-solid fa-futbol"></i> Start Match
                         </button>
                     </div>
@@ -485,7 +497,7 @@
                     <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
                         <button class="back-btn bg-transparent border-none text-gray-500 text-2xl cursor-pointer p-2 transition-all duration-200 flex items-center gap-2 hover:text-black" onclick="returnToSetup()"><i class="fa-solid fa-arrow-left"></i></button>
                         <div class="flex gap-2 items-center flex-wrap justify-center">
-                            <button class="control-btn bg-transparent border border-gray-200 rounded-md px-3 py-1.5 cursor-pointer transition-all duration-200 text-xs flex items-center gap-1 text-gray-900 font-medium" id="pause-btn" onclick="togglePause()"><i class="fa-solid fa-pause" id="pause-icon"></i> <span id="pause-text">Pause</span></button>
+                            <button class="control-btn bg-transparent border border-gray-200 rounded-md px-3 py-1.5 cursor-pointer transition-all duration-200 text-xs flex items-center gap-1 text-gray-900 font-medium" id="pause-btn" onclick="togglePause()"><i class="fa-solid fa-pause" id="pause-icon"></i> <span id="pause-text" data-i18n="pause">Pause</span></button>
                             <button class="control-btn bg-transparent border border-gray-200 rounded-md px-3 py-1.5 cursor-pointer transition-all duration-200 text-xs flex items-center gap-1 text-gray-900 font-medium active" id="speed-1x" onclick="setSpeed(1)">1x</button>
                             <button class="control-btn bg-transparent border border-gray-200 rounded-md px-3 py-1.5 cursor-pointer transition-all duration-200 text-xs flex items-center gap-1 text-gray-900 font-medium" id="speed-2x" onclick="setSpeed(2)">2x</button>
                             <button class="control-btn bg-transparent border border-gray-200 rounded-md px-3 py-1.5 cursor-pointer transition-all duration-200 text-xs flex items-center gap-1 text-gray-900 font-medium" id="speed-4x" onclick="setSpeed(4)">4x</button>
@@ -525,7 +537,7 @@
                     <hr class="border-gray-200 my-5">
 
                     <div class="my-5 min-h-[40px]" id="events-timeline">
-                        <div class="text-center text-gray-500 text-sm py-3" id="no-goals">No goals yet</div>
+                        <div class="text-center text-gray-500 text-sm py-3" id="no-goals" data-i18n="no_goals">No goals yet</div>
                     </div>
 
                     <hr class="border-gray-200 my-5">
@@ -533,37 +545,37 @@
                     <div class="my-5" id="stats-comparison">
                         <div class="grid grid-cols-[1fr_auto_1fr] gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
                             <div class="text-right font-medium text-sm" id="home-possession-stat">50%</div>
-                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[80px] sm:min-w-[100px]">Possession</div>
+                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[80px] sm:min-w-[100px]" data-i18n="possession">Possession</div>
                             <div class="text-left font-medium text-sm" id="away-possession-stat">50%</div>
                         </div>
                         <div class="grid grid-cols-[1fr_auto_1fr] gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
                             <div class="text-right font-medium text-sm" id="home-shots-stat">0</div>
-                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[80px] sm:min-w-[100px]">Shots</div>
+                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[80px] sm:min-w-[100px]" data-i18n="shots">Shots</div>
                             <div class="text-left font-medium text-sm" id="away-shots-stat">0</div>
                         </div>
                         <div class="grid grid-cols-[1fr_auto_1fr] gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
                             <div class="text-right font-medium text-sm" id="home-shots-target-stat">0</div>
-                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[80px] sm:min-w-[100px]">On Target</div>
+                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[80px] sm:min-w-[100px]" data-i18n="on_target">On Target</div>
                             <div class="text-left font-medium text-sm" id="away-shots-target-stat">0</div>
                         </div>
                         <div class="grid grid-cols-[1fr_auto_1fr] gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
                             <div class="text-right font-medium text-sm" id="home-corners-stat">0</div>
-                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[80px] sm:min-w-[100px]">Corners</div>
+                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[80px] sm:min-w-[100px]" data-i18n="corners">Corners</div>
                             <div class="text-left font-medium text-sm" id="away-corners-stat">0</div>
                         </div>
                         <div class="grid grid-cols-[1fr_auto_1fr] gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
                             <div class="text-right font-medium text-sm" id="home-fouls-stat">0</div>
-                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[80px] sm:min-w-[100px]">Fouls</div>
+                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[80px] sm:min-w-[100px]" data-i18n="fouls">Fouls</div>
                             <div class="text-left font-medium text-sm" id="away-fouls-stat">0</div>
                         </div>
                         <div class="grid grid-cols-[1fr_auto_1fr] gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
                             <div class="text-right font-medium text-sm" id="home-offsides-stat">0</div>
-                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[80px] sm:min-w-[100px]">Offsides</div>
+                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[80px] sm:min-w-[100px]" data-i18n="offsides">Offsides</div>
                             <div class="text-left font-medium text-sm" id="away-offsides-stat">0</div>
                         </div>
                         <div class="grid grid-cols-[1fr_auto_1fr] gap-2 sm:gap-4 items-center py-2">
                             <div class="text-right font-medium text-sm" id="home-cards-stat">0</div>
-                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[80px] sm:min-w-[100px]">Cards</div>
+                            <div class="text-center text-xs text-gray-500 uppercase tracking-wider min-w-[80px] sm:min-w-[100px]" data-i18n="cards">Cards</div>
                             <div class="text-left font-medium text-sm" id="away-cards-stat">0</div>
                         </div>
                     </div>
@@ -579,17 +591,17 @@
                 <button class="back-btn bg-transparent border-none text-gray-500 text-2xl cursor-pointer p-2 transition-all duration-200 flex items-center gap-2 mb-6 hover:text-black" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i></button>
                 
                 <div class="bg-white border border-gray-200 rounded-xl p-4 sm:p-6 mb-6">
-                    <h3 class="text-lg font-semibold mb-3 flex items-center gap-2"><i class="fa-solid fa-file-export"></i> Export Teams</h3>
-                    <p class="text-gray-500 mb-4 text-sm">Export all teams in JSON format for backup or sharing.</p>
-                    <button class="bg-black text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-2 hover:bg-gray-800" onclick="exportJSON()"><i class="fa-solid fa-download"></i> Export JSON</button>
+                    <h3 class="text-lg font-semibold mb-3 flex items-center gap-2"><i class="fa-solid fa-file-export"></i> <span data-i18n="export_teams">Export Teams</span></h3>
+                    <p class="text-gray-500 mb-4 text-sm" data-i18n="export_description">Export all teams in JSON format for backup or sharing.</p>
+                    <button class="bg-black text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-2 hover:bg-gray-800" data-i18n="export_json" onclick="exportJSON()"><i class="fa-solid fa-download"></i> Export JSON</button>
                     <textarea id="json-output" class="w-full h-40 mt-3 p-3 border border-gray-200 rounded-md font-mono text-sm resize-y focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" placeholder="JSON data will appear here..."></textarea>
                 </div>
 
                 <div class="bg-white border border-gray-200 rounded-xl p-4 sm:p-6">
-                    <h3 class="text-lg font-semibold mb-3 flex items-center gap-2"><i class="fa-solid fa-file-import"></i> Import Teams</h3>
-                    <p class="text-gray-500 mb-4 text-sm">Paste JSON data below to import teams.</p>
+                    <h3 class="text-lg font-semibold mb-3 flex items-center gap-2"><i class="fa-solid fa-file-import"></i> <span data-i18n="import_teams">Import Teams</span></h3>
+                    <p class="text-gray-500 mb-4 text-sm" data-i18n="import_description">Paste JSON data below to import teams.</p>
                     <textarea id="json-input" class="w-full h-40 p-3 border border-gray-200 rounded-md font-mono text-sm resize-y focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" placeholder="Paste JSON here..."></textarea>
-                    <button class="bg-emerald-400 text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-2 mt-3 hover:bg-emerald-500" onclick="importJSON()"><i class="fa-solid fa-upload"></i> Import JSON</button>
+                    <button class="bg-emerald-400 text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-2 mt-3 hover:bg-emerald-500" data-i18n="import_json" onclick="importJSON()"><i class="fa-solid fa-upload"></i> Import JSON</button>
                 </div>
             </div>
         </div>
@@ -599,13 +611,13 @@
     <div class="hidden fixed inset-0 bg-black/50 z-[1000] justify-center items-center p-4" id="confirm-modal">
         <div class="bg-white rounded-xl p-6 max-w-md w-full shadow-2xl">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-base font-semibold">Confirm</h3>
+                <h3 class="text-base font-semibold" data-i18n="confirm">Confirm</h3>
                 <button class="bg-transparent border-none text-lg cursor-pointer text-gray-500 p-1 hover:text-gray-900" onclick="closeModal('confirm-modal')">×</button>
             </div>
             <p class="mb-4 text-sm" id="confirm-message"></p>
             <div class="text-right flex gap-2 justify-end">
-                <button class="bg-gray-500 text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium hover:bg-gray-600" onclick="closeModal('confirm-modal')">Cancel</button>
-                <button class="bg-black text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium hover:bg-gray-800" id="confirm-accept" onclick="closeModal('confirm-modal')">Confirm</button>
+                <button class="bg-gray-500 text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium hover:bg-gray-600" data-i18n="cancel" onclick="closeModal('confirm-modal')">Cancel</button>
+                <button class="bg-black text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium hover:bg-gray-800" data-i18n="confirm_btn" id="confirm-accept" onclick="closeModal('confirm-modal')">Confirm</button>
             </div>
         </div>
     </div>
@@ -614,64 +626,69 @@
     <div class="hidden fixed inset-0 bg-black/50 z-[1000] justify-center items-center p-4" id="editor-modal">
         <div class="bg-white rounded-xl p-4 sm:p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-lg font-semibold">Team Editor</h2>
+                <h2 class="text-lg font-semibold" data-i18n="team_editor_title">Team Editor</h2>
                 <button class="bg-transparent border-none text-lg cursor-pointer text-gray-500 p-1 hover:text-gray-900" onclick="hideEditor()">×</button>
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
                 <div class="mb-3">
-                    <label class="block mb-1 font-medium text-sm">Team Name:</label>
+                    <label class="block mb-1 font-medium text-sm" data-i18n="team_name">Team Name:</label>
                     <input type="text" id="team-name" class="w-full p-2.5 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" placeholder="e.g. Flamengo">
                 </div>
                 <div class="mb-3">
-                    <label class="block mb-1 font-medium text-sm">Abbreviation:</label>
+                    <label class="block mb-1 font-medium text-sm" data-i18n="abbreviation">Abbreviation:</label>
                     <input type="text" id="team-abbreviation" class="w-full p-2.5 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" placeholder="e.g. FLA" maxlength="3">
                 </div>
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
                 <div class="mb-3">
-                    <label class="block mb-1 font-medium text-sm">Primary Color:</label>
+                    <label class="block mb-1 font-medium text-sm" data-i18n="primary_color">Primary Color:</label>
                     <input type="color" id="team-color1" class="w-full p-1 border border-gray-200 rounded-md text-sm" value="#000000">
                 </div>
                 <div class="mb-3">
-                    <label class="block mb-1 font-medium text-sm">Secondary Color:</label>
+                    <label class="block mb-1 font-medium text-sm" data-i18n="secondary_color">Secondary Color:</label>
                     <input type="color" id="team-color2" class="w-full p-1 border border-gray-200 rounded-md text-sm" value="#ffffff">
                 </div>
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
                 <div class="mb-3">
-                    <label class="block mb-1 font-medium text-sm">Badge (URL):</label>
+                    <label class="block mb-1 font-medium text-sm" data-i18n="badge_url">Badge (URL):</label>
                     <input type="text" id="team-shield-url" class="w-full p-2.5 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" placeholder="https://... (optional)">
                 </div>
                 <div class="mb-3">
-                    <label class="block mb-1 font-medium text-sm">Stadium:</label>
+                    <label class="block mb-1 font-medium text-sm" data-i18n="stadium">Stadium:</label>
                     <input type="text" id="team-stadium" class="w-full p-2.5 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" placeholder="e.g. Maracanã">
                 </div>
             </div>
             
             <div class="mb-3">
-                <label class="block mb-1 font-medium text-sm">Continent:</label>
+                <label class="block mb-1 font-medium text-sm" data-i18n="continent">Continent:</label>
                 <select id="editor-continent" class="w-full p-2.5 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" onchange="updateEditorCountries()">
-                    <option value="">Select Continent</option>
+                    <option value="" data-i18n="select_continent">Select Continent</option>
                 </select>
             </div>
             
             <div class="mb-3">
-                <label class="block mb-1 font-medium text-sm">Country:</label>
+                <label class="block mb-1 font-medium text-sm" data-i18n="country">Country:</label>
                 <select id="editor-country" class="w-full p-2.5 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10">
-                    <option value="">Select Country</option>
+                    <option value="" data-i18n="select_country">Select Country</option>
                 </select>
             </div>
+
+            <div class="mb-3">
+                <label class="block mb-1 font-medium text-sm" data-i18n="division">Division:</label>
+                <input type="number" id="editor-division" class="w-full p-2.5 border border-gray-200 rounded-md text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10" min="1" max="10" value="1" oninput="validateDivisionInput(this)">
+            </div>
             
-            <h3 class="text-sm font-semibold my-4">Squad (11 starters required)</h3>
+            <h3 class="text-sm font-semibold my-4" data-i18n="squad">Squad (11 starters required)</h3>
             <div id="players-list"></div>
-            <button class="bg-black text-white px-3 py-1.5 text-xs rounded-md cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-1 hover:bg-gray-800" onclick="addPlayer()"><i class="fa-solid fa-plus"></i> Add Player</button>
+            <button class="bg-black text-white px-3 py-1.5 text-xs rounded-md cursor-pointer transition-all duration-200 font-medium inline-flex items-center gap-1 hover:bg-gray-800" data-i18n="add_player" onclick="addPlayer()"><i class="fa-solid fa-plus"></i> Add Player</button>
             
             <div class="mt-5 text-right flex gap-2 justify-end flex-wrap">
-                <button class="bg-gray-500 text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium hover:bg-gray-600" onclick="hideEditor()">Cancel</button>
-                <button class="bg-black text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium hover:bg-gray-800" onclick="saveTeam()"><i class="fa-solid fa-floppy-disk"></i> Save Team</button>
+                <button class="bg-gray-500 text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium hover:bg-gray-600" data-i18n="cancel" onclick="hideEditor()">Cancel</button>
+                <button class="bg-black text-white px-4 py-2 text-sm rounded-md cursor-pointer transition-all duration-200 font-medium hover:bg-gray-800" data-i18n="save_team" onclick="saveTeam()"><i class="fa-solid fa-floppy-disk"></i> Save Team</button>
             </div>
         </div>
     </div>
@@ -680,6 +697,123 @@
     <div class="fixed top-5 right-5 z-[2000] flex flex-col gap-2" id="toast-container"></div>
 
     <script>
+        // i18n System
+        let translations = {};
+        let currentLanguage = 'en';
+        let availableLanguages = [];
+
+        const loadTranslations = async (lang) => {
+            try {
+                const response = await fetch(`locales/${lang}.json`);
+                if (!response.ok) throw new Error(`Failed to load ${lang}.json`);
+                const data = await response.json();
+                translations = data.translations || {};
+                applyTranslations();
+            } catch (e) {
+                console.error(`Error loading translations for ${lang}:`, e);
+                if (lang !== 'en') {
+                    loadTranslations('en');
+                }
+            }
+        };
+
+        const discoverAvailableLanguages = async () => {
+            const commonLanguages = ['en', 'pt', 'pt_br', 'es', 'fr', 'de', 'it', 'ja', 'ko', 'zh', 'ar', 'ru'];
+            const discovered = [];
+            
+            for (const lang of commonLanguages) {
+                try {
+                    const response = await fetch(`locales/${lang}.json`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        discovered.push({
+                            id: lang,
+                            name: data.meta?.name || lang,
+                            nativeName: data.meta?.nativeName || data.meta?.name || lang,
+                            flag: data.meta?.flag || '🏳️'
+                        });
+                    }
+                } catch (e) {
+                    // Skip if not found
+                }
+            }
+            
+            // Add English as fallback if not discovered
+            if (!discovered.find(l => l.id === 'en')) {
+                discovered.unshift({
+                    id: 'en',
+                    name: 'English',
+                    nativeName: 'English',
+                    flag: '🇬🇧'
+                });
+            }
+            
+            availableLanguages = discovered;
+            populateLanguageSelector();
+        };
+
+        const populateLanguageSelector = () => {
+            const select = document.getElementById('language-select');
+            if (!select) return;
+            select.innerHTML = '';
+            
+            availableLanguages.forEach(lang => {
+                const option = document.createElement('option');
+                option.value = lang.id;
+                option.textContent = `${lang.flag} ${lang.nativeName || lang.name}`;
+                select.appendChild(option);
+            });
+            
+            select.value = currentLanguage;
+        };
+
+        const changeLanguage = (lang) => {
+            currentLanguage = lang;
+            localStorage.setItem('rise_language', lang);
+            loadTranslations(lang);
+        };
+
+        const applyTranslations = () => {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[key]) {
+                    el.textContent = translations[key];
+                }
+            });
+            // Update dynamic content
+            updateTeamsList();
+            populateFilterDropdowns();
+            populateTacticDropdowns();
+            if (elements.editorModal && !elements.editorModal.classList.contains('hidden')) {
+                updateEditorCountries();
+            }
+            if (currentMatch) {
+                updateMatchDisplay();
+            }
+        };
+
+        const t = (key) => translations[key] || key;
+
+        const getDivisionName = (num) => {
+            const ordinals = {
+                1: t('1st') || '1st',
+                2: t('2nd') || '2nd',
+                3: t('3rd') || '3rd',
+                4: t('4th') || '4th',
+                5: t('5th') || '5th',
+                6: t('6th') || '6th',
+                7: t('7th') || '7th',
+                8: t('8th') || '8th',
+                9: t('9th') || '9th',
+                10: t('10th') || '10th'
+            };
+            return ordinals[num] || `${num}th`;
+        };
+
+        const getDivisionLabel = (num) => {
+            return `${getDivisionName(num)} ${t('division') || 'Division'}`;
+        };
+
         const TACTICS = [
             { id: 'auto', name: 'Auto', icon: 'fa-robot', attack: 1.0, defense: 1.0, fouls: 1.0, isAuto: true },
             { id: 'ultra_defensivo', name: 'Catenaccio', icon: 'fa-shield', attack: 0.7, defense: 1.3, fouls: 1.2 },
@@ -716,6 +850,8 @@
             awayContinent: $('away-continent-select'),
             homeCountry: $('home-country-select'),
             awayCountry: $('away-country-select'),
+            homeDivisionSelect: $('home-division-select'),
+            awayDivisionSelect: $('away-division-select'),
             homeTeamSelect: $('home-team-select'),
             awayTeamSelect: $('away-team-select'),
             homeTacticSelect: $('home-tactic-select'),
@@ -763,6 +899,7 @@
             teamColor2: $('team-color2'),
             editorContinent: $('editor-continent'),
             editorCountry: $('editor-country'),
+            editorDivision: $('editor-division'),
             playersList: $('players-list'),
             toastContainer: $('toast-container'),
             homePossessionStat: $('home-possession-stat'),
@@ -880,6 +1017,10 @@
         const loadTeams = () => {
             const saved = localStorage.getItem('sfa_teams');
             if (saved) teams = JSON.parse(saved);
+            // Ensure all teams have division property
+            teams.forEach(t => {
+                if (!t.division) t.division = t.tier || 1;
+            });
             sortTeamsAlphabetically();
             updateTeamsList();
             populateFilterDropdowns();
@@ -894,7 +1035,7 @@
         const updateTeamsList = () => {
             elements.teamsList.innerHTML = '';
             if (!teams.length) {
-                elements.teamsList.innerHTML = `<div class="text-center p-10 text-gray-500"><p class="text-lg">No teams registered</p><p class="text-sm mt-2">Click "New Team" to get started</p></div>`;
+                elements.teamsList.innerHTML = `<div class="text-center p-10 text-gray-500"><p class="text-lg" data-i18n="no_teams">${t('no_teams') || 'No teams registered'}</p><p class="text-sm mt-2" data-i18n="click_new_team">${t('click_new_team') || 'Click "New Team" to get started'}</p></div>`;
                 return;
             }
             teams.forEach((team, index) => {
@@ -905,7 +1046,7 @@
                 row.innerHTML = `
                     <div class="flex items-center gap-3 flex-1 min-w-0">
                         <div class="w-9 h-9 flex items-center justify-center font-semibold text-sm overflow-visible flex-shrink-0"><img src="${shieldUrl}" alt="${team.abbreviation}" class="w-full h-full object-contain"></div>
-                        <div><h3 class="text-base">${team.name}</h3><p class="text-xs text-gray-500">${team.country} · ${team.continent} · OVR ${overall}</p></div>
+                        <div><h3 class="text-base">${team.name}</h3><p class="text-xs text-gray-500">${team.country} · ${team.continent} · ${getDivisionLabel(team.division || 1)} · OVR ${overall}</p></div>
                     </div>
                     <div class="flex gap-2 flex-shrink-0">
                         <button class="bg-gray-500 text-white px-2.5 py-1.5 text-xs rounded-md cursor-pointer transition-all duration-200 hover:bg-gray-600" onclick="editTeam(${index})"><i class="fa-solid fa-pen"></i></button>
@@ -935,13 +1076,18 @@
             return [...new Set(countries)].sort();
         };
 
+        const getDivisionsWithTeams = (continent, country) => {
+            const divisions = teams.filter(t => t.continent === continent && t.country === country).map(t => t.division || 1);
+            return [...new Set(divisions)].sort((a, b) => a - b);
+        };
+
         const populateFilterDropdowns = () => {
             const continents = getContinentsWithTeams();
             elements.homeContinent.innerHTML = '';
             elements.awayContinent.innerHTML = '';
             if (continents.length === 0) {
-                elements.homeContinent.innerHTML = '<option value="">No teams available</option>';
-                elements.awayContinent.innerHTML = '<option value="">No teams available</option>';
+                elements.homeContinent.innerHTML = `<option value="">${t('no_teams_available') || 'No teams available'}</option>`;
+                elements.awayContinent.innerHTML = `<option value="">${t('no_teams_available') || 'No teams available'}</option>`;
             } else {
                 continents.forEach(c => {
                     elements.homeContinent.innerHTML += `<option value="${c}">${c}</option>`;
@@ -961,7 +1107,7 @@
                     elements.homeCountry.innerHTML += `<option value="${c}">${c}</option>`;
                 });
             }
-            updateHomeTeams();
+            updateHomeDivisions();
         };
 
         const updateAwayCountries = () => {
@@ -973,16 +1119,52 @@
                     elements.awayCountry.innerHTML += `<option value="${c}">${c}</option>`;
                 });
             }
+            updateAwayDivisions();
+        };
+
+        const updateHomeDivisions = () => {
+            const continent = elements.homeContinent.value;
+            const country = elements.homeCountry.value;
+            elements.homeDivisionSelect.innerHTML = '';
+            if (continent && country) {
+                const divisions = getDivisionsWithTeams(continent, country);
+                divisions.forEach(d => {
+                    elements.homeDivisionSelect.innerHTML += `<option value="${d}">${getDivisionLabel(d)}</option>`;
+                });
+                // Select the highest division (lowest number) by default
+                if (divisions.length > 0) {
+                    elements.homeDivisionSelect.value = divisions[0];
+                }
+            }
+            updateHomeTeams();
+        };
+
+        const updateAwayDivisions = () => {
+            const continent = elements.awayContinent.value;
+            const country = elements.awayCountry.value;
+            elements.awayDivisionSelect.innerHTML = '';
+            if (continent && country) {
+                const divisions = getDivisionsWithTeams(continent, country);
+                divisions.forEach(d => {
+                    elements.awayDivisionSelect.innerHTML += `<option value="${d}">${getDivisionLabel(d)}</option>`;
+                });
+                // Select the highest division (lowest number) by default
+                if (divisions.length > 0) {
+                    elements.awayDivisionSelect.value = divisions[0];
+                }
+            }
             updateAwayTeams();
         };
 
         const updateHomeTeams = () => {
             const continent = elements.homeContinent.value;
             const country = elements.homeCountry.value;
+            const division = elements.homeDivisionSelect.value;
             elements.homeTeamSelect.innerHTML = '';
             const filtered = teams.filter(t => {
                 if (continent && t.continent !== continent) return false;
                 if (country && t.country !== country) return false;
+                if (division && (t.division || 1) != division) return false;
                 return true;
             });
             filtered.forEach(team => {
@@ -995,10 +1177,12 @@
         const updateAwayTeams = () => {
             const continent = elements.awayContinent.value;
             const country = elements.awayCountry.value;
+            const division = elements.awayDivisionSelect.value;
             elements.awayTeamSelect.innerHTML = '';
             const filtered = teams.filter(t => {
                 if (continent && t.continent !== continent) return false;
                 if (country && t.country !== country) return false;
+                if (division && (t.division || 1) != division) return false;
                 return true;
             });
             filtered.forEach(team => {
@@ -1041,12 +1225,17 @@
             const hc = elements.homeContinent.value, ht = elements.homeTeamSelect.value;
             const ac = elements.awayContinent.value, at = elements.awayTeamSelect.value;
             const hco = elements.homeCountry.value, aco = elements.awayCountry.value;
+            const hdi = elements.homeDivisionSelect.value, adi = elements.awayDivisionSelect.value;
             elements.homeContinent.value = ac;
             elements.awayContinent.value = hc;
             updateHomeCountries();
             updateAwayCountries();
             elements.homeCountry.value = aco;
             elements.awayCountry.value = hco;
+            updateHomeDivisions();
+            updateAwayDivisions();
+            elements.homeDivisionSelect.value = adi;
+            elements.awayDivisionSelect.value = hdi;
             updateHomeTeams();
             updateAwayTeams();
             elements.homeTeamSelect.value = at;
@@ -1057,18 +1246,27 @@
 
         const toggleNeutralVenue = () => { neutralVenueActive = elements.neutralVenue.checked; };
 
+        const validateDivisionInput = (input) => {
+            let value = parseInt(input.value);
+            if (isNaN(value)) value = 1;
+            if (value < 1) value = 1;
+            if (value > 10) value = 10;
+            input.value = value;
+        };
+
         const showEditor = (teamIndex = null) => {
             editingTeamId = teamIndex;
             ['team-name','team-abbreviation','team-shield-url','team-stadium'].forEach(id => $(id).value = '');
             elements.teamColor1.value = '#000000';
             elements.teamColor2.value = '#ffffff';
             elements.playersList.innerHTML = '';
+            elements.editorDivision.value = '1';
             
-            elements.editorContinent.innerHTML = '<option value="">Select Continent</option>';
+            elements.editorContinent.innerHTML = `<option value="">${t('select_continent') || 'Select Continent'}</option>`;
             Object.keys(countriesData).sort().forEach(c => {
                 elements.editorContinent.innerHTML += `<option value="${c}">${c}</option>`;
             });
-            elements.editorCountry.innerHTML = '<option value="">Select Country</option>';
+            elements.editorCountry.innerHTML = `<option value="">${t('select_country') || 'Select Country'}</option>`;
             
             if (teamIndex !== null) {
                 const t = teams[teamIndex];
@@ -1079,6 +1277,7 @@
                 elements.editorContinent.value = t.continent;
                 updateEditorCountries();
                 elements.editorCountry.value = t.country;
+                elements.editorDivision.value = t.division || 1;
                 if (t.colors?.length >= 2) {
                     elements.teamColor1.value = t.colors[0];
                     elements.teamColor2.value = t.colors[1];
@@ -1092,7 +1291,7 @@
 
         const updateEditorCountries = () => {
             const continent = elements.editorContinent.value;
-            elements.editorCountry.innerHTML = '<option value="">Select Country</option>';
+            elements.editorCountry.innerHTML = `<option value="">${t('select_country') || 'Select Country'}</option>`;
             if (continent && countriesData[continent]) {
                 const countries = countriesData[continent].sort((a, b) => a.name.localeCompare(b.name));
                 countries.forEach(c => {
@@ -1108,15 +1307,15 @@
             const row = document.createElement('div');
             row.className = 'grid grid-cols-1 sm:grid-cols-[2fr_1fr_1fr_auto_auto] gap-2 mb-2 items-center p-2 bg-gray-100 rounded-md';
             row.innerHTML = `
-                <input type="text" placeholder="Name" value="${p.name}" class="w-full p-2 border border-gray-200 rounded-md text-sm">
+                <input type="text" placeholder="${t('name') || 'Name'}" value="${p.name}" class="w-full p-2 border border-gray-200 rounded-md text-sm">
                 <select class="w-full p-2 border border-gray-200 rounded-md text-sm">
-                    <option value="GL" ${p.position === 'GL' ? 'selected' : ''}>Goalkeeper</option>
-                    <option value="DF" ${p.position === 'DF' ? 'selected' : ''}>Defender</option>
-                    <option value="MC" ${p.position === 'MC' ? 'selected' : ''}>Midfielder</option>
-                    <option value="AT" ${p.position === 'AT' ? 'selected' : ''}>Forward</option>
+                    <option value="GL" ${p.position === 'GL' ? 'selected' : ''}>${t('goalkeeper') || 'Goalkeeper'}</option>
+                    <option value="DF" ${p.position === 'DF' ? 'selected' : ''}>${t('defender') || 'Defender'}</option>
+                    <option value="MC" ${p.position === 'MC' ? 'selected' : ''}>${t('midfielder') || 'Midfielder'}</option>
+                    <option value="AT" ${p.position === 'AT' ? 'selected' : ''}>${t('forward') || 'Forward'}</option>
                 </select>
                 <input type="number" min="1" max="100" value="${p.rating}" placeholder="Overall" class="w-full p-2 border border-gray-200 rounded-md text-sm">
-                <label class="flex items-center gap-1 text-xs"><input type="checkbox" ${p.starter ? 'checked' : ''}> Starter</label>
+                <label class="flex items-center gap-1 text-xs"><input type="checkbox" ${p.starter ? 'checked' : ''}> ${t('starter') || 'Starter'}</label>
                 <button class="bg-red-400 text-white px-2 py-1 text-xs rounded-md cursor-pointer hover:bg-red-500" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>`;
             elements.playersList.appendChild(row);
         };
@@ -1128,10 +1327,15 @@
             const continent = elements.editorContinent.value;
             const country = elements.editorCountry.value;
             const stadium = elements.teamStadium.value;
+            const division = parseInt(elements.editorDivision.value) || 1;
             const color1 = elements.teamColor1.value;
             const color2 = elements.teamColor2.value;
             if (!name || !abbreviation || !continent || !country || !stadium) {
-                showToast('Fill in all required fields!', 'error');
+                showToast(t('fill_required') || 'Fill in all required fields!', 'error');
+                return;
+            }
+            if (division < 1 || division > 10) {
+                showToast(t('division_range') || 'Division must be between 1 and 10!', 'error');
                 return;
             }
             const players = [];
@@ -1148,20 +1352,20 @@
                 players.push(player);
             });
             if (starterCount !== 11) {
-                showToast(`Team must have exactly 11 starters! (Current: ${starterCount})`, 'error');
+                showToast(`${t('team_must_have') || 'Team must have exactly 11 starters!'} (${t('current') || 'Current'}: ${starterCount})`, 'error');
                 return;
             }
             if (goalkeeperCount < 1) {
-                showToast('Team must have at least 1 goalkeeper starter!', 'error');
+                showToast(t('goalkeeper_required') || 'Team must have at least 1 goalkeeper starter!', 'error');
                 return;
             }
-            const teamData = { name, abbreviation, shield, continent, country, stadium, colors: [color1, color2], players };
+            const teamData = { name, abbreviation, shield, continent, country, stadium, division, colors: [color1, color2], players };
             if (editingTeamId !== null) {
                 teams[editingTeamId] = teamData;
-                showToast('Team updated successfully!', 'success');
+                showToast(t('team_updated') || 'Team updated successfully!', 'success');
             } else {
                 teams.push(teamData);
-                showToast('Team created successfully!', 'success');
+                showToast(t('team_created') || 'Team created successfully!', 'success');
             }
             sortTeamsAlphabetically();
             saveTeams();
@@ -1173,12 +1377,12 @@
         const editTeam = (index) => showEditor(index);
 
         const deleteTeam = (index) => {
-            showConfirm(`Are you sure you want to delete ${teams[index].name}?`, () => {
+            showConfirm(`${t('delete_confirm') || 'Are you sure you want to delete'} ${teams[index].name}?`, () => {
                 teams.splice(index, 1);
                 saveTeams();
                 updateTeamsList();
                 populateFilterDropdowns();
-                showToast('Team deleted successfully!', 'success');
+                showToast(t('team_deleted') || 'Team deleted successfully!', 'success');
             });
         };
 
@@ -1188,30 +1392,34 @@
             elements.jsonOutput.value = json;
             elements.jsonOutput.select();
             document.execCommand('copy');
-            showToast('JSON exported and copied!', 'success');
+            showToast(t('json_exported') || 'JSON exported and copied!', 'success');
         };
 
         const importJSON = () => {
             const text = elements.jsonInput.value;
             if (!text) {
-                showToast('Paste JSON data first!', 'error');
+                showToast(t('paste_json') || 'Paste JSON data first!', 'error');
                 return;
             }
             try {
                 const imported = JSON.parse(text);
                 if (Array.isArray(imported)) {
                     teams = imported;
+                    // Ensure all teams have division property
+                    teams.forEach(t => {
+                        if (!t.division) t.division = t.tier || 1;
+                    });
                     sortTeamsAlphabetically();
                     saveTeams();
                     updateTeamsList();
                     populateFilterDropdowns();
-                    showToast('Teams imported successfully!', 'success');
+                    showToast(t('json_imported') || 'Teams imported successfully!', 'success');
                     elements.jsonInput.value = '';
                 } else {
-                    showToast('Invalid JSON! Must be an array of teams.', 'error');
+                    showToast(t('json_invalid') || 'Invalid JSON! Must be an array of teams.', 'error');
                 }
             } catch (e) {
-                showToast('Error importing JSON: ' + e.message, 'error');
+                showToast(`${t('json_error') || 'Error importing JSON:'} ${e.message}`, 'error');
             }
         };
 
@@ -1280,11 +1488,11 @@
         const startMatch = async () => {
             const hi = elements.homeTeamSelect.value, ai = elements.awayTeamSelect.value;
             if (!hi || !ai) {
-                showToast('Select both teams to start the match!', 'error');
+                showToast(t('select_both_teams') || 'Select both teams to start the match!', 'error');
                 return;
             }
             if (hi === ai) {
-                showToast('Teams must be different!', 'error');
+                showToast(t('teams_must_differ') || 'Teams must be different!', 'error');
                 return;
             }
             const homeTeam = teams[hi], awayTeam = teams[ai];
@@ -1326,22 +1534,29 @@
             elements.liveAwayName.textContent = awayTeam.name;
             elements.liveAwayShield.innerHTML = `<img src="${as}" alt="${awayTeam.abbreviation}" class="w-full h-full object-contain">`;
             elements.narrationText.textContent = '';
-            elements.eventsTimeline.innerHTML = '<div class="text-center text-gray-500 text-sm py-3" id="no-goals">No goals yet</div>';
+            elements.eventsTimeline.innerHTML = `<div class="text-center text-gray-500 text-sm py-3" id="no-goals">${t('no_goals') || 'No goals yet'}</div>`;
             elements.homeScore.style.backgroundColor = homeTeam.colors?.[0] || '#000000';
             elements.homeScore.style.color = homeTeam.colors?.[1] || '#ffffff';
             elements.awayScore.style.backgroundColor = awayTeam.colors?.[0] || '#000000';
             elements.awayScore.style.color = awayTeam.colors?.[1] || '#ffffff';
             
             if (neutralVenueActive) {
-                elements.venueInfo.textContent = 'Neutral Venue';
+                elements.venueInfo.textContent = t('neutral') || 'Neutral Venue';
             } else {
                 elements.venueInfo.textContent = homeTeam.stadium;
             }
-            elements.refereeInfo.textContent = `Referee: ${currentReferee.name}`;
+            elements.refereeInfo.textContent = `${t('referee') || 'Referee:'} ${currentReferee.name}`;
             
             applyTeamColors();
             updateMatchDisplay();
-            updateNarration(`Match started! Referee: ${currentReferee.name} (Strictness: ${['Very Lenient','Lenient','Moderate','Strict','Very Strict'][currentReferee.strictness-1]})`);
+            const strictnessNames = [
+                t('strictness_very_lenient') || 'Very Lenient',
+                t('strictness_lenient') || 'Lenient',
+                t('strictness_moderate') || 'Moderate',
+                t('strictness_strict') || 'Strict',
+                t('strictness_very_strict') || 'Very Strict'
+            ];
+            updateNarration(`${t('match_started') || 'Match started!'} ${t('referee') || 'Referee:'} ${currentReferee.name} (${strictnessNames[currentReferee.strictness-1]})`);
             isPaused = false;
             updateSpeedButtons();
             updatePauseButton();
@@ -1352,7 +1567,7 @@
             if (matchInterval) clearInterval(matchInterval);
             matchInterval = setInterval(() => {
                 if (currentMatch.minute < 90 + addedTime) simulateMinute();
-                else { clearInterval(matchInterval); matchInterval = null; updateNarration('Full time!'); }
+                else { clearInterval(matchInterval); matchInterval = null; updateNarration(t('full_time') || 'Full time!'); }
             }, 300 / matchSpeed);
         };
 
@@ -1366,10 +1581,10 @@
         const updatePauseButton = () => {
             if (isPaused) {
                 elements.pauseIcon.className = 'fa-solid fa-play';
-                elements.pauseText.textContent = 'Resume';
+                elements.pauseText.textContent = t('resume') || 'Resume';
             } else {
                 elements.pauseIcon.className = 'fa-solid fa-pause';
-                elements.pauseText.textContent = 'Pause';
+                elements.pauseText.textContent = t('pause') || 'Pause';
             }
         };
 
@@ -1420,20 +1635,20 @@
             addEventToTimeline(m, `${st} ${s}${a ? ` (${a})` : ''}`, side, 'goal');
         };
 
-        const addPenaltyMissEvent = (m, p, side) => addEventToTimeline(m, `❌ Penalty missed - ${p}`, side, 'penalty');
+        const addPenaltyMissEvent = (m, p, side) => addEventToTimeline(m, `❌ ${t('penalty_missed') || 'Penalty missed'} - ${p}`, side, 'penalty');
 
         const addDisallowedGoalEvent = (m, s, r, side, varUsed) =>
-            addEventToTimeline(m, `🚫 Goal disallowed - ${s} (${r})${varUsed ? ' [VAR]' : ''}`, side, 'disallowed');
+            addEventToTimeline(m, `🚫 ${t('goal_disallowed') || 'Goal disallowed'} - ${s} (${r})${varUsed ? ' [VAR]' : ''}`, side, 'disallowed');
 
         const addRedCardEvent = (m, p, side, reason = '') => {
-            addEventToTimeline(m, `🟥 Red card - ${p}${reason ? ` (${reason})` : ''}`, side, 'card');
+            addEventToTimeline(m, `🟥 ${reason || ''} - ${p}`, side, 'card');
         };
 
         const simulateMinute = () => {
             if (!currentMatch || currentMatch.minute >= 90 + addedTime) return;
             currentMatch.minute++;
             if (currentMatch.minute === 90 && !addedTimeAnnounced) {
-                updateNarration(`90 minutes played. ${addedTime} minutes added time.`);
+                updateNarration(`90' (${addedTime}' ${t('added_time') || 'added time'})`);
                 addedTimeAnnounced = true;
             }
             
@@ -1483,7 +1698,7 @@
                 const oz = currentMatch.zone;
                 const amt = Math.random() < 0.25 ? 2 : 1;
                 currentMatch.zone = isHome ? Math.max(0, oz - amt) : Math.min(5, oz + amt);
-                if (oz !== currentMatch.zone) updateNarration(`${teamName} moves forward`);
+                if (oz !== currentMatch.zone) updateNarration(`${teamName} ${t('moves_forward') || 'moves forward'}`);
                 return;
             }
             
@@ -1494,7 +1709,7 @@
                 const tPlayer = getRandomPlayer(isHome ? currentMatch.awayTeam : currentMatch.homeTeam);
                 if (tTeam === 'home') currentMatch.stats.homeTackles++;
                 else currentMatch.stats.awayTackles++;
-                updateNarration(`Tackle by ${tName}`);
+                updateNarration(`${t('tackle_by') || 'Tackle by'} ${tName}`);
                 
                 const foulChance = 0.15 * oppPressure.fouls * (currentReferee.strictness / 3);
                 if (Math.random() < foulChance) {
@@ -1502,9 +1717,9 @@
                     else currentMatch.stats.awayFouls++;
                     const defSide = isHome ? 'away' : 'home';
                     const inArea = defSide === 'home' ? currentMatch.zone === 0 : currentMatch.zone === 5;
-                    if (inArea && Math.random() < 0.10) { updateNarration(`Penalty for ${teamName}!`); simulatePenalty(side, teamName); }
+                    if (inArea && Math.random() < 0.10) { updateNarration(`${t('penalty_for') || 'Penalty for'} ${teamName}!`); simulatePenalty(side, teamName); }
                     else {
-                        updateNarration(`Foul by ${tName}`);
+                        updateNarration(`${t('foul_by') || 'Foul by'} ${tName}`);
                         const cardChance = 0.08 * (currentReferee.strictness / 3) * oppPressure.fouls;
                         if (Math.random() < cardChance) {
                             if (tTeam === 'home') currentMatch.stats.homeYellowCards++;
@@ -1514,8 +1729,8 @@
                             if (cards >= 2) {
                                 if (tTeam === 'home') currentMatch.stats.homeRedCards++;
                                 else currentMatch.stats.awayRedCards++;
-                                updateNarration(`Red card for ${tPlayer.name} (second yellow)!`);
-                                addRedCardEvent(currentMatch.minute, tPlayer.name, tTeam, 'second yellow');
+                                updateNarration(`${t('red_card_second_yellow') || 'Red card (second yellow)'} ${tPlayer.name}`);
+                                addRedCardEvent(currentMatch.minute, tPlayer.name, tTeam, t('red_card_second_yellow') || 'Red card (second yellow)');
                             }
                         }
                         if (Math.random() < 0.06 && ts.attack > 60) simulateFreeKickGoal(side, teamName, team);
@@ -1527,10 +1742,10 @@
             if (roll < tackleChance + 5) {
                 if (isHome) currentMatch.stats.homeOffsides++;
                 else currentMatch.stats.awayOffsides++;
-                updateNarration(`Offside ${teamName}!`);
+                updateNarration(`${t('offside') || 'Offside'} ${teamName}!`);
                 return;
             }
-            updateNarration(`${teamName} loses possession`);
+            updateNarration(`${teamName} ${t('loses_possession') || 'loses possession'}`);
         };
 
         const simulateShot = (side, ts, os, isHome, teamName, team) => {
@@ -1544,7 +1759,7 @@
                     const reasons = ['offside', 'foul'];
                     const r = reasons[Math.floor(Math.random() * reasons.length)];
                     const varUsed = Math.random() < 0.5;
-                    updateNarration(`Goal disallowed - ${s.name} (${r})${varUsed ? ' [VAR]' : ''}`);
+                    updateNarration(`${t('goal_disallowed') || 'Goal disallowed'} - ${s.name} (${r})${varUsed ? ' [VAR]' : ''}`);
                     addDisallowedGoalEvent(currentMatch.minute, s.name, r, side, varUsed);
                     currentMatch.zone = 2;
                     return;
@@ -1555,25 +1770,25 @@
                 let a = null;
                 if (Math.random() < 0.35) a = getRandomPlayer(team, 'MC', s);
                 currentMatch.goalScorers.push(s);
-                updateNarration(`GOAL by ${s.name}${a ? ` (assist: ${a.name})` : ''}`);
+                updateNarration(`${t('goal') || 'GOAL'} ${s.name}${a ? ` (${a.name})` : ''}`);
                 addGoalEvent(currentMatch.minute, s.name, a?.name, side);
                 currentMatch.zone = 2;
                 return;
             }
             if (roll < goalChance + 8) {
-                updateNarration(`Hit the post!`);
+                updateNarration(t('hit_post') || 'Hit the post!');
                 if (Math.random() < 0.20) {
                     if (Math.random() < 0.30) {
                         if (isHome) { currentMatch.homeScore++; currentMatch.stats.homeShotsOnTarget++; }
                         else { currentMatch.awayScore++; currentMatch.stats.awayShotsOnTarget++; }
                         const s = getRandomPlayer(team);
-                        updateNarration(`GOAL by ${s.name}`);
+                        updateNarration(`${t('goal') || 'GOAL'} ${s.name}`);
                         addGoalEvent(currentMatch.minute, s.name, null, side);
                         currentMatch.zone = 2;
                     } else {
                         if (isHome) currentMatch.stats.awaySaves++;
                         else currentMatch.stats.homeSaves++;
-                        updateNarration(`Goalkeeper saves!`);
+                        updateNarration(t('goalkeeper_save') || 'Goalkeeper saves!');
                     }
                 }
                 return;
@@ -1581,26 +1796,26 @@
             if (roll < goalChance + 25) {
                 if (isHome) currentMatch.stats.awaySaves++;
                 else currentMatch.stats.homeSaves++;
-                updateNarration(`Goalkeeper save!`);
+                updateNarration(t('goalkeeper_save') || 'Goalkeeper save!');
                 currentMatch.zone = 2;
                 return;
             }
             if (roll < goalChance + 40) {
                 if (isHome) currentMatch.stats.awaySaves++;
                 else currentMatch.stats.homeSaves++;
-                updateNarration(`Goalkeeper save! Goal kick.`);
+                updateNarration(t('goal_kick') || 'Goalkeeper save! Goal kick.');
                 currentMatch.zone = Math.random() < 0.7 ? 2 : (isHome ? 1 : 4);
                 return;
             }
             if (roll < goalChance + 50) {
                 if (isHome) currentMatch.stats.homeCorners++;
                 else currentMatch.stats.awayCorners++;
-                updateNarration(`Corner kick!`);
+                updateNarration(t('corner_kick') || 'Corner kick!');
                 if (Math.random() < 0.01) {
                     if (isHome) { currentMatch.homeScore++; currentMatch.stats.homeShotsOnTarget++; }
                     else { currentMatch.awayScore++; currentMatch.stats.awayShotsOnTarget++; }
                     const s = getRandomPlayer(team, 'MC');
-                    updateNarration(`OLYMPIC GOAL by ${s.name}!`);
+                    updateNarration(`${t('olympic_goal') || 'OLYMPIC GOAL'} ${s.name}!`);
                     addGoalEvent(currentMatch.minute, s.name, null, side);
                     currentMatch.goalScorers.push(s);
                     currentMatch.zone = 2;
@@ -1609,7 +1824,7 @@
                 }
                 return;
             }
-            updateNarration(`Shot goes wide!`);
+            updateNarration(t('shot_wide') || 'Shot goes wide!');
             currentMatch.zone = 2;
         };
 
@@ -1622,12 +1837,12 @@
                 if (isHome) currentMatch.homeScore++;
                 else currentMatch.awayScore++;
                 const s = getRandomPlayer(team, 'AT');
-                updateNarration(`PENALTY GOAL by ${s.name}`);
+                updateNarration(`${t('penalty') || 'PENALTY GOAL'} ${s.name}`);
                 addGoalEvent(currentMatch.minute, s.name, null, side);
                 currentMatch.goalScorers.push(s);
             } else {
                 const s = getRandomPlayer(team, 'AT');
-                updateNarration(`Penalty missed by ${s.name}!`);
+                updateNarration(`${t('penalty_missed') || 'Penalty missed'} ${s.name}!`);
                 addPenaltyMissEvent(currentMatch.minute, s.name, side);
             }
             currentMatch.zone = 2;
@@ -1639,7 +1854,7 @@
                 if (isHome) currentMatch.homeScore++;
                 else currentMatch.awayScore++;
                 const s = getRandomPlayer(team, 'MC');
-                updateNarration(`FREE KICK GOAL by ${s.name}`);
+                updateNarration(`${t('free_kick_goal') || 'FREE KICK GOAL'} ${s.name}`);
                 addGoalEvent(currentMatch.minute, s.name, null, side);
                 currentMatch.goalScorers.push(s);
                 currentMatch.zone = 2;
@@ -1690,6 +1905,8 @@
         window.showDataTab = showDataTab;
         window.updateHomeCountries = updateHomeCountries;
         window.updateAwayCountries = updateAwayCountries;
+        window.updateHomeDivisions = updateHomeDivisions;
+        window.updateAwayDivisions = updateAwayDivisions;
         window.updateHomeTeams = updateHomeTeams;
         window.updateAwayTeams = updateAwayTeams;
         window.selectTeam = selectTeam;
@@ -1708,10 +1925,16 @@
         window.togglePause = togglePause;
         window.setSpeed = setSpeed;
         window.returnToSetup = returnToSetup;
+        window.validateDivisionInput = validateDivisionInput;
+        window.changeLanguage = changeLanguage;
 
         // Initialize
         (async () => {
+            const savedLanguage = localStorage.getItem('rise_language') || 'en';
+            currentLanguage = savedLanguage;
             await Promise.all([loadReferees(), loadCountries()]);
+            await discoverAvailableLanguages();
+            await loadTranslations(currentLanguage);
             loadTeams();
         })();
     </script>

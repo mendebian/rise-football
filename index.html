@@ -40,6 +40,106 @@
             50% { transform: translateY(-10px); }
         }
 
+        /* Language Selector Custom */
+        .language-selector {
+            position: relative;
+            display: inline-block;
+        }
+
+        .language-selector-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            color: white;
+            font-size: 14px;
+            transition: all 0.2s;
+            backdrop-filter: blur(8px);
+            min-width: 140px;
+            justify-content: space-between;
+        }
+
+        .language-selector-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .language-selector-button img {
+            width: 24px;
+            height: 18px;
+            object-fit: cover;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .language-selector-button .arrow {
+            font-size: 10px;
+            transition: transform 0.2s;
+        }
+
+        .language-selector-button .arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .language-selector-dropdown {
+            position: absolute;
+            top: calc(100% + 5px);
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            min-width: 180px;
+            z-index: 100;
+            display: none;
+            overflow: hidden;
+        }
+
+        .language-selector-dropdown.open {
+            display: block;
+            animation: fadeIn 0.2s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .language-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            cursor: pointer;
+            transition: background 0.15s;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .language-option:hover {
+            background: #f5f5f5;
+        }
+
+        .language-option.selected {
+            background: #f0f0f0;
+            font-weight: 600;
+        }
+
+        .language-option img {
+            width: 24px;
+            height: 18px;
+            object-fit: cover;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .language-option .check {
+            margin-left: auto;
+            color: #000;
+        }
+
         .team-shield img {
             object-fit: contain;
         }
@@ -104,11 +204,6 @@
         .tab-content.active {
             display: block !important;
             animation: fadeIn 0.3s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
 
         .control-btn.active {
@@ -270,7 +365,6 @@
             box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
         }
 
-        /* Espelhando os selects do visitante */
         .selection-row select.away-select {
             direction: rtl;
             text-align: right;
@@ -283,7 +377,6 @@
             text-align: right;
         }
 
-        /* Toggle Neutral acima do Start Match */
         .neutral-toggle-large {
             display: flex;
             align-items: center;
@@ -325,17 +418,6 @@
 
         .neutral-toggle-large input[type="checkbox"]:checked::before {
             left: 20px;
-        }
-
-        /* Language selector flag */
-        .language-flag {
-            width: 20px;
-            height: 15px;
-            object-fit: cover;
-            border-radius: 2px;
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 4px;
         }
 
         @media (max-width: 768px) {
@@ -402,10 +484,12 @@
             <button class="home-btn secondary bg-white/10 text-white border border-white/30 px-8 py-4 text-lg rounded-xl cursor-pointer transition-all duration-300 font-semibold flex items-center justify-center tracking-wide w-full hover:bg-white/20 hover:-translate-y-1 hover:shadow-2xl" data-i18n="team_editor" onclick="showTeamsTab()">Team Editor</button>
         </div>
         <!-- Language Selector -->
-        <div class="absolute top-5 right-5">
-            <select id="language-select" class="bg-white/10 text-white border border-white/30 rounded-lg px-3 py-2 text-sm cursor-pointer backdrop-blur-sm" onchange="changeLanguage(this.value)">
-                <option value="en">English</option>
-            </select>
+        <div class="absolute top-5 right-5 language-selector" id="language-selector">
+            <button class="language-selector-button" id="language-selector-button" onclick="toggleLanguageDropdown()">
+                <span id="current-language-display" style="display: flex; align-items: center; gap: 8px;"></span>
+                <i class="fa-solid fa-chevron-down arrow" id="language-arrow"></i>
+            </button>
+            <div class="language-selector-dropdown" id="language-selector-dropdown"></div>
         </div>
         <div class="absolute bottom-5 text-white/40 text-sm tracking-wider">© Volcam Studios - v1.0.0</div>
     </div>
@@ -764,79 +848,52 @@
         };
 
         const populateLanguageSelector = () => {
-            const select = document.getElementById('language-select');
-            if (!select) return;
-            select.innerHTML = '';
+            const dropdown = document.getElementById('language-selector-dropdown');
+            if (!dropdown) return;
+            dropdown.innerHTML = '';
             
             availableLanguages.forEach(lang => {
-                const option = document.createElement('option');
-                option.value = lang.id;
-                
-                if (lang.flag && lang.flag.startsWith('http')) {
-                    // Create a span with flag image
-                    const span = document.createElement('span');
-                    span.style.display = 'inline-flex';
-                    span.style.alignItems = 'center';
-                    span.style.gap = '4px';
-                    
-                    const img = document.createElement('img');
-                    img.src = lang.flag;
-                    img.alt = lang.name;
-                    img.className = 'language-flag';
-                    img.style.width = '20px';
-                    img.style.height = '15px';
-                    img.style.objectFit = 'cover';
-                    img.style.borderRadius = '2px';
-                    
-                    span.appendChild(img);
-                    span.appendChild(document.createTextNode(lang.nativeName || lang.name));
-                    
-                    option.textContent = `${lang.nativeName || lang.name}`;
-                    option.setAttribute('data-flag', lang.flag);
-                } else {
-                    option.textContent = lang.nativeName || lang.name;
+                const option = document.createElement('div');
+                option.className = 'language-option';
+                if (lang.id === currentLanguage) {
+                    option.classList.add('selected');
                 }
                 
-                select.appendChild(option);
+                option.innerHTML = `
+                    <img src="${lang.flag}" alt="${lang.name}" onerror="this.style.display='none'">
+                    <span>${lang.nativeName || lang.name}</span>
+                    ${lang.id === currentLanguage ? '<i class="fa-solid fa-check check"></i>' : ''}
+                `;
+                
+                option.addEventListener('click', () => {
+                    changeLanguage(lang.id);
+                });
+                
+                dropdown.appendChild(option);
             });
             
-            select.value = currentLanguage;
-            
-            // Update select to show flag images
-            updateLanguageSelectDisplay();
+            updateCurrentLanguageDisplay();
         };
 
-        const updateLanguageSelectDisplay = () => {
-            const select = document.getElementById('language-select');
-            if (!select) return;
+        const updateCurrentLanguageDisplay = () => {
+            const display = document.getElementById('current-language-display');
+            if (!display) return;
             
-            // Add flag to selected option display
-            const selectedOption = select.options[select.selectedIndex];
-            if (selectedOption && selectedOption.getAttribute('data-flag')) {
-                const flagUrl = selectedOption.getAttribute('data-flag');
-                // Create a wrapper to show flag
-                if (!select.parentElement.querySelector('.selected-flag')) {
-                    const flagImg = document.createElement('img');
-                    flagImg.className = 'selected-flag language-flag';
-                    flagImg.src = flagUrl;
-                    flagImg.alt = '';
-                    flagImg.style.position = 'absolute';
-                    flagImg.style.left = '10px';
-                    flagImg.style.top = '50%';
-                    flagImg.style.transform = 'translateY(-50%)';
-                    flagImg.style.width = '20px';
-                    flagImg.style.height = '15px';
-                    flagImg.style.objectFit = 'cover';
-                    flagImg.style.borderRadius = '2px';
-                    flagImg.style.pointerEvents = 'none';
-                    
-                    select.parentElement.style.position = 'relative';
-                    select.style.paddingLeft = '35px';
-                    select.parentElement.insertBefore(flagImg, select);
-                } else {
-                    const flagImg = select.parentElement.querySelector('.selected-flag');
-                    flagImg.src = flagUrl;
-                }
+            const current = availableLanguages.find(l => l.id === currentLanguage);
+            if (current) {
+                display.innerHTML = `
+                    <img src="${current.flag}" alt="${current.name}" onerror="this.style.display='none'">
+                    <span>${current.nativeName || current.name}</span>
+                `;
+            }
+        };
+
+        const toggleLanguageDropdown = () => {
+            const dropdown = document.getElementById('language-selector-dropdown');
+            const arrow = document.getElementById('language-arrow');
+            if (dropdown && arrow) {
+                dropdown.classList.toggle('open');
+                arrow.classList.toggle('open');
             }
         };
 
@@ -844,8 +901,20 @@
             currentLanguage = lang;
             localStorage.setItem('rise_language', lang);
             loadTranslations(lang);
-            updateLanguageSelectDisplay();
+            populateLanguageSelector();
+            toggleLanguageDropdown();
         };
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            const selector = document.getElementById('language-selector');
+            if (selector && !selector.contains(e.target)) {
+                const dropdown = document.getElementById('language-selector-dropdown');
+                const arrow = document.getElementById('language-arrow');
+                if (dropdown) dropdown.classList.remove('open');
+                if (arrow) arrow.classList.remove('open');
+            }
+        });
 
         const applyTranslations = () => {
             document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -854,7 +923,6 @@
                     el.textContent = translations[key];
                 }
             });
-            // Update dynamic content
             updateTeamsList();
             populateFilterDropdowns();
             populateTacticDropdowns();
@@ -888,6 +956,9 @@
             return `${getDivisionName(num)} ${t('division') || 'Division'}`;
         };
 
+        // Rest of the code remains the same...
+        // (TACTICS, PRESSURE_LEVELS, referees, countriesData, elements, teams, etc.)
+        
         const TACTICS = [
             { id: 'auto', name: 'Auto', icon: 'fa-robot', attack: 1.0, defense: 1.0, fouls: 1.0, isAuto: true },
             { id: 'ultra_defensivo', name: 'Catenaccio', icon: 'fa-shield', attack: 0.7, defense: 1.3, fouls: 1.2 },
@@ -1091,7 +1162,6 @@
         const loadTeams = () => {
             const saved = localStorage.getItem('sfa_teams');
             if (saved) teams = JSON.parse(saved);
-            // Ensure all teams have division property
             teams.forEach(t => {
                 if (!t.division) t.division = t.tier || 1;
             });
@@ -1130,6 +1200,7 @@
             });
         };
 
+        // All remaining functions from previous code...
         const calculateTeamOverall = (team) => {
             const starters = team.players.filter(p => p.starter);
             if (!starters.length) return 50;
@@ -1144,16 +1215,8 @@
         };
 
         const getContinentsWithTeams = () => [...new Set(teams.map(t => t.continent))].sort();
-
-        const getCountriesWithTeams = (continent) => {
-            const countries = teams.filter(t => t.continent === continent).map(t => t.country);
-            return [...new Set(countries)].sort();
-        };
-
-        const getDivisionsWithTeams = (continent, country) => {
-            const divisions = teams.filter(t => t.continent === continent && t.country === country).map(t => t.division || 1);
-            return [...new Set(divisions)].sort((a, b) => a - b);
-        };
+        const getCountriesWithTeams = (continent) => [...new Set(teams.filter(t => t.continent === continent).map(t => t.country))].sort();
+        const getDivisionsWithTeams = (continent, country) => [...new Set(teams.filter(t => t.continent === continent && t.country === country).map(t => t.division || 1))].sort((a, b) => a - b);
 
         const populateFilterDropdowns = () => {
             const continents = getContinentsWithTeams();
@@ -1176,8 +1239,7 @@
             const continent = elements.homeContinent.value;
             elements.homeCountry.innerHTML = '';
             if (continent) {
-                const countries = getCountriesWithTeams(continent);
-                countries.forEach(c => {
+                getCountriesWithTeams(continent).forEach(c => {
                     elements.homeCountry.innerHTML += `<option value="${c}">${c}</option>`;
                 });
             }
@@ -1188,8 +1250,7 @@
             const continent = elements.awayContinent.value;
             elements.awayCountry.innerHTML = '';
             if (continent) {
-                const countries = getCountriesWithTeams(continent);
-                countries.forEach(c => {
+                getCountriesWithTeams(continent).forEach(c => {
                     elements.awayCountry.innerHTML += `<option value="${c}">${c}</option>`;
                 });
             }
@@ -1205,7 +1266,6 @@
                 divisions.forEach(d => {
                     elements.homeDivisionSelect.innerHTML += `<option value="${d}">${getDivisionLabel(d)}</option>`;
                 });
-                // Select the highest division (lowest number) by default
                 if (divisions.length > 0) {
                     elements.homeDivisionSelect.value = divisions[0];
                 }
@@ -1222,7 +1282,6 @@
                 divisions.forEach(d => {
                     elements.awayDivisionSelect.innerHTML += `<option value="${d}">${getDivisionLabel(d)}</option>`;
                 });
-                // Select the highest division (lowest number) by default
                 if (divisions.length > 0) {
                     elements.awayDivisionSelect.value = divisions[0];
                 }
@@ -1269,7 +1328,6 @@
         const populateTacticDropdowns = () => {
             const tacticOptions = TACTICS.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
             const pressureOptions = PRESSURE_LEVELS.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
-            
             elements.homeTacticSelect.innerHTML = tacticOptions;
             elements.awayTacticSelect.innerHTML = tacticOptions;
             elements.homePressureSelect.innerHTML = pressureOptions;
@@ -1319,7 +1377,6 @@
         };
 
         const toggleNeutralVenue = () => { neutralVenueActive = elements.neutralVenue.checked; };
-
         const validateDivisionInput = (input) => {
             let value = parseInt(input.value);
             if (isNaN(value)) value = 1;
@@ -1367,8 +1424,7 @@
             const continent = elements.editorContinent.value;
             elements.editorCountry.innerHTML = `<option value="">${t('select_country') || 'Select Country'}</option>`;
             if (continent && countriesData[continent]) {
-                const countries = countriesData[continent].sort((a, b) => a.name.localeCompare(b.name));
-                countries.forEach(c => {
+                countriesData[continent].sort((a, b) => a.name.localeCompare(b.name)).forEach(c => {
                     elements.editorCountry.innerHTML += `<option value="${c.name}">${c.name}</option>`;
                 });
             }
@@ -1449,7 +1505,6 @@
         };
 
         const editTeam = (index) => showEditor(index);
-
         const deleteTeam = (index) => {
             showConfirm(`${t('delete_confirm') || 'Are you sure you want to delete'} ${teams[index].name}?`, () => {
                 teams.splice(index, 1);
@@ -1479,7 +1534,6 @@
                 const imported = JSON.parse(text);
                 if (Array.isArray(imported)) {
                     teams = imported;
-                    // Ensure all teams have division property
                     teams.forEach(t => {
                         if (!t.division) t.division = t.tier || 1;
                     });
@@ -1533,15 +1587,12 @@
         };
 
         const getPlayerKey = (teamSide, playerName) => `${teamSide}-${playerName}`;
-
         const applyYellowCard = (teamSide, playerName) => {
             const key = getPlayerKey(teamSide, playerName);
             playerYellowCards[key] = (playerYellowCards[key] || 0) + 1;
             return playerYellowCards[key];
         };
-
         const isPlayerSentOff = (teamSide, playerName) => (playerYellowCards[getPlayerKey(teamSide, playerName)] || 0) >= 2;
-
         const calculateTeamOverallWithRedCards = (team, teamSide) => {
             const starters = team.players.filter(p => p.starter);
             if (!starters.length) return 50;
@@ -1687,7 +1738,6 @@
         };
 
         const updateNarration = (text) => { elements.narrationText.textContent = text; };
-
         const formatMinute = (m) => m < 10 ? `0${m}'` : `${m}'`;
 
         const addEventToTimeline = (minute, text, side, type = 'goal') => {
@@ -1710,10 +1760,8 @@
         };
 
         const addPenaltyMissEvent = (m, p, side) => addEventToTimeline(m, `❌ ${t('penalty_missed') || 'Penalty missed'} - ${p}`, side, 'penalty');
-
         const addDisallowedGoalEvent = (m, s, r, side, varUsed) =>
             addEventToTimeline(m, `🚫 ${t('goal_disallowed') || 'Goal disallowed'} - ${s} (${r})${varUsed ? ' [VAR]' : ''}`, side, 'disallowed');
-
         const addRedCardEvent = (m, p, side, reason = '') => {
             addEventToTimeline(m, `🟥 ${reason || ''} - ${p}`, side, 'card');
         };
@@ -2000,7 +2048,7 @@
         window.setSpeed = setSpeed;
         window.returnToSetup = returnToSetup;
         window.validateDivisionInput = validateDivisionInput;
-        window.changeLanguage = changeLanguage;
+        window.toggleLanguageDropdown = toggleLanguageDropdown;
 
         // Initialize
         (async () => {

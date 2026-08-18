@@ -175,6 +175,32 @@
             color: #000;
         }
 
+        /* Away select - RTL */
+        .custom-select.away .custom-select-button {
+            direction: rtl;
+        }
+
+        .custom-select.away .custom-select-button .selected-content {
+            direction: rtl;
+        }
+
+        .custom-select.away .custom-select-button .arrow {
+            direction: ltr;
+        }
+
+        .custom-select.away .custom-select-dropdown {
+            direction: rtl;
+        }
+
+        .custom-select.away .custom-option {
+            direction: rtl;
+        }
+
+        .custom-select.away .custom-option .check {
+            margin-left: 0;
+            margin-right: auto;
+        }
+
         /* Language Selector Custom */
         .language-selector {
             position: relative;
@@ -631,7 +657,7 @@
                             <div class="custom-select-dropdown" id="home-continent-dropdown"></div>
                         </div>
                         <span class="label" data-i18n="continent">Continent</span>
-                        <div class="custom-select" id="away-continent-custom">
+                        <div class="custom-select away" id="away-continent-custom">
                             <button class="custom-select-button" onclick="toggleDropdown('away-continent-dropdown', 'away-continent-arrow')">
                                 <span class="selected-content" id="away-continent-display"><span class="selected-text">Select</span></span>
                                 <i class="fa-solid fa-chevron-down arrow" id="away-continent-arrow"></i>
@@ -649,7 +675,7 @@
                             <div class="custom-select-dropdown" id="home-country-dropdown"></div>
                         </div>
                         <span class="label" data-i18n="country">Country</span>
-                        <div class="custom-select" id="away-country-custom">
+                        <div class="custom-select away" id="away-country-custom">
                             <button class="custom-select-button" onclick="toggleDropdown('away-country-dropdown', 'away-country-arrow')">
                                 <span class="selected-content" id="away-country-display"><span class="selected-text">Select</span></span>
                                 <i class="fa-solid fa-chevron-down arrow" id="away-country-arrow"></i>
@@ -667,7 +693,7 @@
                             <div class="custom-select-dropdown" id="home-division-dropdown"></div>
                         </div>
                         <span class="label" data-i18n="division">Division</span>
-                        <div class="custom-select" id="away-division-custom">
+                        <div class="custom-select away" id="away-division-custom">
                             <button class="custom-select-button" onclick="toggleDropdown('away-division-dropdown', 'away-division-arrow')">
                                 <span class="selected-content" id="away-division-display"><span class="selected-text">Select</span></span>
                                 <i class="fa-solid fa-chevron-down arrow" id="away-division-arrow"></i>
@@ -685,7 +711,7 @@
                             <div class="custom-select-dropdown" id="home-team-dropdown"></div>
                         </div>
                         <span class="label" data-i18n="team">Team</span>
-                        <div class="custom-select" id="away-team-custom">
+                        <div class="custom-select away" id="away-team-custom">
                             <button class="custom-select-button" onclick="toggleDropdown('away-team-dropdown', 'away-team-arrow')">
                                 <span class="selected-content" id="away-team-display"><span class="selected-text">Select</span></span>
                                 <i class="fa-solid fa-chevron-down arrow" id="away-team-arrow"></i>
@@ -703,7 +729,7 @@
                             <div class="custom-select-dropdown" id="home-tactic-dropdown"></div>
                         </div>
                         <span class="label" data-i18n="tactic">Tactic</span>
-                        <div class="custom-select" id="away-tactic-custom">
+                        <div class="custom-select away" id="away-tactic-custom">
                             <button class="custom-select-button" onclick="toggleDropdown('away-tactic-dropdown', 'away-tactic-arrow')">
                                 <span class="selected-content" id="away-tactic-display"><i class="fa-solid fa-robot"></i><span class="selected-text">Auto</span></span>
                                 <i class="fa-solid fa-chevron-down arrow" id="away-tactic-arrow"></i>
@@ -721,7 +747,7 @@
                             <div class="custom-select-dropdown" id="home-pressure-dropdown"></div>
                         </div>
                         <span class="label" data-i18n="pressing">Pressing</span>
-                        <div class="custom-select" id="away-pressure-custom">
+                        <div class="custom-select away" id="away-pressure-custom">
                             <button class="custom-select-button" onclick="toggleDropdown('away-pressure-dropdown', 'away-pressure-arrow')">
                                 <span class="selected-content" id="away-pressure-display"><i class="fa-solid fa-robot"></i><span class="selected-text">Auto</span></span>
                                 <i class="fa-solid fa-chevron-down arrow" id="away-pressure-arrow"></i>
@@ -1383,7 +1409,7 @@
             return null;
         };
 
-        const initCustomSelect = (id, options, onSelect, defaultDisplay = null) => {
+        const initCustomSelect = (id, options, onSelect, defaultDisplay = null, autoSelectFirst = false) => {
             if (!customSelects[id]) {
                 customSelects[id] = {
                     options: options,
@@ -1396,6 +1422,11 @@
                 customSelects[id].onSelect = onSelect;
                 if (defaultDisplay) customSelects[id].defaultDisplay = defaultDisplay;
             }
+            
+            if (autoSelectFirst && options.length > 0 && (customSelects[id].selected === null || customSelects[id].selected === undefined || customSelects[id].selected === '')) {
+                customSelects[id].selected = options[0].value;
+            }
+            
             renderCustomSelect(id);
         };
 
@@ -1468,11 +1499,11 @@
             
             initCustomSelect('home-continent', homeContinentOptions, (value) => {
                 updateHomeCountries();
-            });
+            }, null, true);
             
             initCustomSelect('away-continent', awayContinentOptions, (value) => {
                 updateAwayCountries();
-            });
+            }, null, true);
             
             updateHomeCountries();
             updateAwayCountries();
@@ -1494,7 +1525,7 @@
             
             initCustomSelect('home-country', options, (value) => {
                 updateHomeDivisions();
-            }, `<span class="selected-text">Select</span>`);
+            }, null, true);
             
             updateHomeDivisions();
         };
@@ -1515,7 +1546,7 @@
             
             initCustomSelect('away-country', options, (value) => {
                 updateAwayDivisions();
-            }, `<span class="selected-text">Select</span>`);
+            }, null, true);
             
             updateAwayDivisions();
         };
@@ -1535,15 +1566,9 @@
                 });
             }
             
-            const prevSelected = customSelects['home-division']?.selected;
             initCustomSelect('home-division', options, (value) => {
                 updateHomeTeams();
-            }, `<span class="selected-text">Select</span>`);
-            
-            if (options.length > 0 && !prevSelected) {
-                customSelects['home-division'].selected = options[0].value;
-                renderCustomSelect('home-division');
-            }
+            }, null, true);
             
             updateHomeTeams();
         };
@@ -1563,15 +1588,9 @@
                 });
             }
             
-            const prevSelected = customSelects['away-division']?.selected;
             initCustomSelect('away-division', options, (value) => {
                 updateAwayTeams();
-            }, `<span class="selected-text">Select</span>`);
-            
-            if (options.length > 0 && !prevSelected) {
-                customSelects['away-division'].selected = options[0].value;
-                renderCustomSelect('away-division');
-            }
+            }, null, true);
             
             updateAwayTeams();
         };
@@ -1596,13 +1615,11 @@
                 });
             });
             
-            const prevSelected = customSelects['home-team']?.selected;
             initCustomSelect('home-team', options, (value) => {
                 selectTeam('home');
-            }, `<span class="selected-text">Select</span>`);
+            }, null, true);
             
-            if (options.length > 0 && !prevSelected) {
-                customSelects['home-team'].selected = options[0].value;
+            if (options.length > 0) {
                 renderCustomSelect('home-team');
                 selectTeam('home');
             }
@@ -1628,13 +1645,11 @@
                 });
             });
             
-            const prevSelected = customSelects['away-team']?.selected;
             initCustomSelect('away-team', options, (value) => {
                 selectTeam('away');
-            }, `<span class="selected-text">Select</span>`);
+            }, null, true);
             
-            if (options.length > 0 && !prevSelected) {
-                customSelects['away-team'].selected = options[0].value;
+            if (options.length > 0) {
                 renderCustomSelect('away-team');
                 selectTeam('away');
             }

@@ -1,7 +1,7 @@
 {
     "meta": {
         "name": "Español LATAM",
-        "nativeName": "Español (Latinoamérica)",
+        "nativeName": "Español (LATAM)",
         "flag": "https://flagsapi.com/MX/shiny/64.png",
         "direction": "ltr",
         "dateFormat": "DD/MM/YYYY"
@@ -92,7 +92,7 @@
         "moves_forward": "avanza",
         "tackle_by": "Entrada de",
         "foul_by": "Falta de",
-        "offside": "Fuera de juego",
+        "offside": "Offside",
         "loses_possession": "pierde la posesión",
         "red_card_second_yellow": "Tarjeta roja (segunda amarilla)",
         "free_kick_goal": "GOL DE TIRO LIBRE",

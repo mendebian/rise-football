@@ -664,7 +664,6 @@
             <button class="home-btn primary bg-white text-black px-8 py-4 text-lg border-none rounded-xl cursor-pointer transition-all duration-300 font-semibold flex items-center justify-center tracking-wide w-full hover:-translate-y-1 hover:shadow-2xl" data-i18n="simulate_match" onclick="showMatchTab()">Simulate Match</button>
             <button class="home-btn secondary bg-white/10 text-white border border-white/30 px-8 py-4 text-lg rounded-xl cursor-pointer transition-all duration-300 font-semibold flex items-center justify-center tracking-wide w-full hover:bg-white/20 hover:-translate-y-1 hover:shadow-2xl" data-i18n="team_editor" onclick="showTeamsTab()">Team Editor</button>
         </div>
-        <!-- Language Selector -->
         <div class="absolute top-5 right-5 language-selector" id="language-selector">
             <button class="language-selector-button" id="language-selector-button" onclick="toggleDropdown('language-selector-dropdown', 'language-arrow')">
                 <span id="current-language-display" style="display: flex; align-items: center; gap: 8px;"></span>
@@ -678,7 +677,6 @@
     <!-- Main App -->
     <div id="main-app" class="hidden">
         <div class="px-4 sm:px-6 lg:px-8 py-6">
-            <!-- Teams Tab -->
             <div class="tab-content" id="teams-tab">
                 <button class="back-btn bg-transparent border-none text-gray-500 text-2xl cursor-pointer p-2 transition-all duration-200 flex items-center gap-2 mb-6 hover:text-black" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i></button>
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
@@ -691,12 +689,10 @@
                 <div id="teams-list"></div>
             </div>
 
-            <!-- Match Tab -->
             <div class="tab-content" id="match-tab">
                 <div id="match-setup">
                     <button class="back-btn bg-transparent border-none text-gray-500 text-2xl cursor-pointer p-2 transition-all duration-200 flex items-center gap-2 mb-6 hover:text-black" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i></button>
                     
-                    <!-- Team Header with VS and controls -->
                     <div class="team-header">
                         <div class="team-info" id="home-header">
                             <div class="shield" id="home-shield">🏠</div>
@@ -718,7 +714,6 @@
                         </div>
                     </div>
 
-                    <!-- Selection Rows with shared labels -->
                     <div class="selection-row">
                         <div class="custom-select" id="home-continent-custom">
                             <button class="custom-select-button" onclick="toggleDropdown('home-continent-dropdown', 'home-continent-arrow')">
@@ -933,7 +928,6 @@
                 </div>
             </div>
 
-            <!-- Data Tab -->
             <div class="tab-content" id="data-tab">
                 <button class="back-btn bg-transparent border-none text-gray-500 text-2xl cursor-pointer p-2 transition-all duration-200 flex items-center gap-2 mb-6 hover:text-black" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i></button>
                 
@@ -980,7 +974,6 @@
         </div>
         
         <div class="editor-body">
-            <!-- Team Information Section -->
             <div class="editor-section">
                 <div class="editor-section-title">
                     <i class="fa-solid fa-circle-info"></i>
@@ -1006,7 +999,6 @@
                 </div>
             </div>
 
-            <!-- Colors Section -->
             <div class="editor-section">
                 <div class="editor-section-title">
                     <i class="fa-solid fa-palette"></i>
@@ -1024,7 +1016,6 @@
                 </div>
             </div>
 
-            <!-- Location Section -->
             <div class="editor-section">
                 <div class="editor-section-title">
                     <i class="fa-solid fa-earth-americas"></i>
@@ -1050,7 +1041,6 @@
                 </div>
             </div>
 
-            <!-- Squad Section -->
             <div class="editor-section">
                 <div class="editor-section-title">
                     <i class="fa-solid fa-users"></i>
@@ -1071,7 +1061,6 @@
         </div>
     </div>
 
-    <!-- Toast Container -->
     <div class="fixed top-5 right-5 z-[2000] flex flex-col gap-2" id="toast-container"></div>
 
     <script>
@@ -1111,9 +1100,7 @@
                             flag: data.meta?.flag || ''
                         });
                     }
-                } catch (e) {
-                    // Skip if not found
-                }
+                } catch (e) {}
             }
             
             if (!discovered.find(l => l.id === 'en')) {
@@ -1137,9 +1124,7 @@
             availableLanguages.forEach(lang => {
                 const option = document.createElement('div');
                 option.className = 'language-option';
-                if (lang.id === currentLanguage) {
-                    option.classList.add('selected');
-                }
+                if (lang.id === currentLanguage) option.classList.add('selected');
                 
                 option.innerHTML = `
                     <img src="${lang.flag}" alt="${lang.name}" onerror="this.style.display='none'">
@@ -1147,10 +1132,7 @@
                     ${lang.id === currentLanguage ? '<i class="fa-solid fa-check check"></i>' : ''}
                 `;
                 
-                option.addEventListener('click', () => {
-                    changeLanguage(lang.id);
-                });
-                
+                option.addEventListener('click', () => changeLanguage(lang.id));
                 dropdown.appendChild(option);
             });
             
@@ -1160,13 +1142,9 @@
         const updateCurrentLanguageDisplay = () => {
             const display = document.getElementById('current-language-display');
             if (!display) return;
-            
             const current = availableLanguages.find(l => l.id === currentLanguage);
             if (current) {
-                display.innerHTML = `
-                    <img src="${current.flag}" alt="${current.name}" onerror="this.style.display='none'">
-                    <span>${current.nativeName || current.name}</span>
-                `;
+                display.innerHTML = `<img src="${current.flag}" alt="${current.name}" onerror="this.style.display='none'"><span>${current.nativeName || current.name}</span>`;
             }
         };
 
@@ -1174,11 +1152,8 @@
             const dropdown = document.getElementById(dropdownId);
             const arrow = document.getElementById(arrowId);
             if (!dropdown || !arrow) return;
-            
             const isOpen = dropdown.classList.contains('open');
-            
             closeAllDropdowns();
-            
             if (!isOpen) {
                 dropdown.classList.add('open');
                 arrow.classList.add('open');
@@ -1188,15 +1163,9 @@
         };
 
         const closeAllDropdowns = () => {
-            document.querySelectorAll('.custom-select-dropdown.open, .language-selector-dropdown.open').forEach(d => {
-                d.classList.remove('open');
-            });
-            document.querySelectorAll('.arrow.open').forEach(a => {
-                a.classList.remove('open');
-            });
-            document.querySelectorAll('.custom-select-button.open, .language-selector-button.open').forEach(b => {
-                b.classList.remove('open');
-            });
+            document.querySelectorAll('.custom-select-dropdown.open, .language-selector-dropdown.open').forEach(d => d.classList.remove('open'));
+            document.querySelectorAll('.arrow.open').forEach(a => a.classList.remove('open'));
+            document.querySelectorAll('.custom-select-button.open, .language-selector-button.open').forEach(b => b.classList.remove('open'));
         };
 
         const changeLanguage = (lang) => {
@@ -1208,50 +1177,29 @@
         };
 
         document.addEventListener('click', (e) => {
-            if (!e.target.closest('.custom-select') && !e.target.closest('.language-selector')) {
-                closeAllDropdowns();
-            }
+            if (!e.target.closest('.custom-select') && !e.target.closest('.language-selector')) closeAllDropdowns();
         });
 
         const applyTranslations = () => {
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (translations[key]) {
-                    el.textContent = translations[key];
-                }
+                if (translations[key]) el.textContent = translations[key];
             });
             updateTeamsList();
             populateFilterDropdowns();
             populateTacticDropdowns();
-            if (elements.editorModal && !elements.editorModal.classList.contains('hidden')) {
-                updateEditorCountries();
-            }
-            if (currentMatch) {
-                updateMatchDisplay();
-            }
+            if (elements.editorModal && !elements.editorModal.classList.contains('hidden')) updateEditorCountries();
+            if (currentMatch) updateMatchDisplay();
         };
 
         const t = (key) => translations[key] || key;
 
         const getDivisionName = (num) => {
-            const ordinals = {
-                1: t('1st') || '1st',
-                2: t('2nd') || '2nd',
-                3: t('3rd') || '3rd',
-                4: t('4th') || '4th',
-                5: t('5th') || '5th',
-                6: t('6th') || '6th',
-                7: t('7th') || '7th',
-                8: t('8th') || '8th',
-                9: t('9th') || '9th',
-                10: t('10th') || '10th'
-            };
+            const ordinals = {1: t('1st') || '1st', 2: t('2nd') || '2nd', 3: t('3rd') || '3rd', 4: t('4th') || '4th', 5: t('5th') || '5th', 6: t('6th') || '6th', 7: t('7th') || '7th', 8: t('8th') || '8th', 9: t('9th') || '9th', 10: t('10th') || '10th'};
             return ordinals[num] || `${num}th`;
         };
 
-        const getDivisionLabel = (num) => {
-            return `${getDivisionName(num)} ${t('division') || 'Division'}`;
-        };
+        const getDivisionLabel = (num) => `${getDivisionName(num)} ${t('division') || 'Division'}`;
 
         const TACTICS = [
             { id: 'auto', name: 'Auto', icon: 'fa-robot', attack: 1.0, defense: 1.0, fouls: 1.0, isAuto: true },
@@ -1281,69 +1229,26 @@
         const $$ = (sel) => document.querySelectorAll(sel);
 
         const elements = {
-            homeScreen: $('home-screen'),
-            mainApp: $('main-app'),
-            matchSetup: $('match-setup'),
-            matchLive: $('match-live'),
-            teamsList: $('teams-list'),
-            homeShield: $('home-shield'),
-            awayShield: $('away-shield'),
-            homeName: $('home-name'),
-            awayName: $('away-name'),
-            homeOverall: $('home-overall'),
-            awayOverall: $('away-overall'),
-            liveHomeShield: $('live-home-shield'),
-            liveAwayShield: $('live-away-shield'),
-            liveHomeName: $('live-home-name'),
-            liveAwayName: $('live-away-name'),
-            homeScore: $('home-score'),
-            awayScore: $('away-score'),
-            matchTime: $('match-time'),
-            narrationText: $('narration-text'),
-            eventsTimeline: $('events-timeline'),
-            fieldHome: $('field-zone-home'),
-            fieldAway: $('field-zone-away'),
-            fieldDivider: $('field-divider-line'),
-            jsonOutput: $('json-output'),
-            jsonInput: $('json-input'),
-            pauseBtn: $('pause-btn'),
-            pauseIcon: $('pause-icon'),
-            pauseText: $('pause-text'),
-            speed1x: $('speed-1x'),
-            speed2x: $('speed-2x'),
-            speed4x: $('speed-4x'),
-            neutralVenue: $('neutral-venue'),
-            venueInfo: $('venue-info'),
-            refereeInfo: $('referee-info'),
-            editorModal: $('editor-modal'),
-            confirmModal: $('confirm-modal'),
-            confirmMessage: $('confirm-message'),
-            confirmAccept: $('confirm-accept'),
-            teamName: $('team-name'),
-            teamAbbr: $('team-abbreviation'),
-            teamShieldUrl: $('team-shield-url'),
-            teamStadium: $('team-stadium'),
-            teamColor1: $('team-color1'),
-            teamColor2: $('team-color2'),
-            editorContinent: $('editor-continent'),
-            editorCountry: $('editor-country'),
-            editorDivision: $('editor-division'),
-            playersList: $('players-list'),
-            toastContainer: $('toast-container'),
-            homePossessionStat: $('home-possession-stat'),
-            awayPossessionStat: $('away-possession-stat'),
-            homeShotsStat: $('home-shots-stat'),
-            awayShotsStat: $('away-shots-stat'),
-            homeShotsTargetStat: $('home-shots-target-stat'),
-            awayShotsTargetStat: $('away-shots-target-stat'),
-            homeCornersStat: $('home-corners-stat'),
-            awayCornersStat: $('away-corners-stat'),
-            homeFoulsStat: $('home-fouls-stat'),
-            awayFoulsStat: $('away-fouls-stat'),
-            homeOffsidesStat: $('home-offsides-stat'),
-            awayOffsidesStat: $('away-offsides-stat'),
-            homeCardsStat: $('home-cards-stat'),
-            awayCardsStat: $('away-cards-stat'),
+            homeScreen: $('home-screen'), mainApp: $('main-app'), matchSetup: $('match-setup'), matchLive: $('match-live'),
+            teamsList: $('teams-list'), homeShield: $('home-shield'), awayShield: $('away-shield'),
+            homeName: $('home-name'), awayName: $('away-name'), homeOverall: $('home-overall'), awayOverall: $('away-overall'),
+            liveHomeShield: $('live-home-shield'), liveAwayShield: $('live-away-shield'), liveHomeName: $('live-home-name'), liveAwayName: $('live-away-name'),
+            homeScore: $('home-score'), awayScore: $('away-score'), matchTime: $('match-time'), narrationText: $('narration-text'),
+            eventsTimeline: $('events-timeline'), fieldHome: $('field-zone-home'), fieldAway: $('field-zone-away'), fieldDivider: $('field-divider-line'),
+            jsonOutput: $('json-output'), jsonInput: $('json-input'), pauseBtn: $('pause-btn'), pauseIcon: $('pause-icon'), pauseText: $('pause-text'),
+            speed1x: $('speed-1x'), speed2x: $('speed-2x'), speed4x: $('speed-4x'), neutralVenue: $('neutral-venue'),
+            venueInfo: $('venue-info'), refereeInfo: $('referee-info'), editorModal: $('editor-modal'), confirmModal: $('confirm-modal'),
+            confirmMessage: $('confirm-message'), confirmAccept: $('confirm-accept'), teamName: $('team-name'), teamAbbr: $('team-abbreviation'),
+            teamShieldUrl: $('team-shield-url'), teamStadium: $('team-stadium'), teamColor1: $('team-color1'), teamColor2: $('team-color2'),
+            editorContinent: $('editor-continent'), editorCountry: $('editor-country'), editorDivision: $('editor-division'),
+            playersList: $('players-list'), toastContainer: $('toast-container'),
+            homePossessionStat: $('home-possession-stat'), awayPossessionStat: $('away-possession-stat'),
+            homeShotsStat: $('home-shots-stat'), awayShotsStat: $('away-shots-stat'),
+            homeShotsTargetStat: $('home-shots-target-stat'), awayShotsTargetStat: $('away-shots-target-stat'),
+            homeCornersStat: $('home-corners-stat'), awayCornersStat: $('away-corners-stat'),
+            homeFoulsStat: $('home-fouls-stat'), awayFoulsStat: $('away-fouls-stat'),
+            homeOffsidesStat: $('home-offsides-stat'), awayOffsidesStat: $('away-offsides-stat'),
+            homeCardsStat: $('home-cards-stat'), awayCardsStat: $('away-cards-stat'),
         };
 
         let teams = [];
@@ -1361,9 +1266,7 @@
         let celebrationInterval = null;
         let isCelebrating = false;
 
-        const generateShieldUrl = (abbr, c1, c2) =>
-            `https://placehold.co/64/${c1.replace('#','')}/${c2.replace('#','')}/png?text=${abbr}`;
-
+        const generateShieldUrl = (abbr, c1, c2) => `https://placehold.co/64/${c1.replace('#','')}/${c2.replace('#','')}/png?text=${abbr}`;
         const sortTeamsAlphabetically = () => teams.sort((a, b) => a.name.localeCompare(b.name));
 
         const showToast = (message, type = 'info') => {
@@ -1427,7 +1330,6 @@
                 if (!response.ok) throw new Error('Failed to load referees');
                 referees = await response.json();
             } catch (e) {
-                console.error('Error loading referees:', e);
                 referees = [{ name: "Carlos Henrique Silva", nationality: "BR", age: 42, strictness: 4 }];
             }
         };
@@ -1438,7 +1340,6 @@
                 if (!response.ok) throw new Error('Failed to load countries');
                 countriesData = await response.json();
             } catch (e) {
-                console.error('Error loading countries:', e);
                 countriesData = {
                     "Africa": [{"name": "Nigeria", "code": "NG", "flag": "https://flagsapi.com/NG/shiny/64.png"}],
                     "South America": [{"name": "Brazil", "code": "BR", "flag": "https://flagsapi.com/BR/shiny/64.png"}]
@@ -1449,9 +1350,7 @@
         const loadTeams = () => {
             const saved = localStorage.getItem('sfa_teams');
             if (saved) teams = JSON.parse(saved);
-            teams.forEach(t => {
-                if (!t.division) t.division = t.tier || 1;
-            });
+            teams.forEach(t => { if (!t.division) t.division = t.tier || 1; });
             sortTeamsAlphabetically();
             updateTeamsList();
             populateFilterDropdowns();
@@ -1511,22 +1410,20 @@
             return null;
         };
 
-        const initCustomSelect = (id, options, onSelect, defaultDisplay = null, autoSelectFirst = false) => {
+        const initCustomSelect = (id, options, onSelect, defaultDisplay = null, autoSelectFirst = false, forceReset = false) => {
             if (!customSelects[id]) {
-                customSelects[id] = {
-                    options: options,
-                    selected: null,
-                    onSelect: onSelect,
-                    defaultDisplay: defaultDisplay
-                };
+                customSelects[id] = { options: options, selected: null, onSelect: onSelect, defaultDisplay: defaultDisplay };
             } else {
                 customSelects[id].options = options;
                 customSelects[id].onSelect = onSelect;
                 if (defaultDisplay) customSelects[id].defaultDisplay = defaultDisplay;
             }
             
-            if (autoSelectFirst && options.length > 0 && (customSelects[id].selected === null || customSelects[id].selected === undefined || customSelects[id].selected === '')) {
+            // Always select first option if autoSelectFirst is true
+            if (autoSelectFirst && options.length > 0) {
                 customSelects[id].selected = options[0].value;
+            } else if (forceReset) {
+                customSelects[id].selected = null;
             }
             
             renderCustomSelect(id);
@@ -1535,7 +1432,6 @@
         const renderCustomSelect = (id) => {
             const select = customSelects[id];
             if (!select) return;
-            
             const dropdown = document.getElementById(id + '-dropdown');
             const display = document.getElementById(id + '-display');
             if (!dropdown || !display) return;
@@ -1545,22 +1441,13 @@
             select.options.forEach((option) => {
                 const div = document.createElement('div');
                 div.className = 'custom-option';
-                if (String(select.selected) === String(option.value)) {
-                    div.classList.add('selected');
-                }
+                if (String(select.selected) === String(option.value)) div.classList.add('selected');
                 
                 let iconHtml = '';
-                if (option.icon) {
-                    iconHtml = `<i class="fa-solid ${option.icon}"></i>`;
-                } else if (option.image) {
-                    iconHtml = `<img src="${option.image}" alt="${option.label}" onerror="this.style.display='none'">`;
-                }
+                if (option.icon) iconHtml = `<i class="fa-solid ${option.icon}"></i>`;
+                else if (option.image) iconHtml = `<img src="${option.image}" alt="${option.label}" onerror="this.style.display='none'">`;
                 
-                div.innerHTML = `
-                    ${iconHtml}
-                    <span>${option.label}</span>
-                    ${String(select.selected) === String(option.value) ? '<i class="fa-solid fa-check check"></i>' : ''}
-                `;
+                div.innerHTML = `${iconHtml}<span>${option.label}</span>${String(select.selected) === String(option.value) ? '<i class="fa-solid fa-check check"></i>' : ''}`;
                 
                 div.addEventListener('click', () => {
                     select.selected = option.value;
@@ -1575,11 +1462,8 @@
             const selectedOption = select.options.find(o => String(o.value) === String(select.selected));
             if (selectedOption) {
                 let iconHtml = '';
-                if (selectedOption.icon) {
-                    iconHtml = `<i class="fa-solid ${selectedOption.icon}"></i>`;
-                } else if (selectedOption.image) {
-                    iconHtml = `<img src="${selectedOption.image}" alt="${selectedOption.label}" onerror="this.style.display='none'">`;
-                }
+                if (selectedOption.icon) iconHtml = `<i class="fa-solid ${selectedOption.icon}"></i>`;
+                else if (selectedOption.image) iconHtml = `<img src="${selectedOption.image}" alt="${selectedOption.label}" onerror="this.style.display='none'">`;
                 display.innerHTML = `${iconHtml}<span class="selected-text">${selectedOption.label}</span>`;
             } else if (select.defaultDisplay) {
                 display.innerHTML = select.defaultDisplay;
@@ -1588,22 +1472,54 @@
             }
         };
 
+        // Smart tactic/pressure auto-selection
+        const updateAutoTacticAndPressure = () => {
+            const homeTeamIdx = customSelects['home-team']?.selected;
+            const awayTeamIdx = customSelects['away-team']?.selected;
+            
+            if (homeTeamIdx === null || homeTeamIdx === undefined || homeTeamIdx === '' ||
+                awayTeamIdx === null || awayTeamIdx === undefined || awayTeamIdx === '') return;
+            
+            const homeTeam = teams[homeTeamIdx];
+            const awayTeam = teams[awayTeamIdx];
+            
+            if (!homeTeam || !awayTeam) return;
+            
+            const homeTactic = determineAutoTactic(homeTeam, awayTeam, true);
+            const awayTactic = determineAutoTactic(awayTeam, homeTeam, false);
+            const homePressure = determineAutoPressure(homeTeam, awayTeam, true);
+            const awayPressure = determineAutoPressure(awayTeam, homeTeam, false);
+            
+            if (customSelects['home-tactic']) {
+                customSelects['home-tactic'].selected = homeTactic;
+                renderCustomSelect('home-tactic');
+            }
+            if (customSelects['away-tactic']) {
+                customSelects['away-tactic'].selected = awayTactic;
+                renderCustomSelect('away-tactic');
+            }
+            if (customSelects['home-pressure']) {
+                customSelects['home-pressure'].selected = homePressure;
+                renderCustomSelect('home-pressure');
+            }
+            if (customSelects['away-pressure']) {
+                customSelects['away-pressure'].selected = awayPressure;
+                renderCustomSelect('away-pressure');
+            }
+        };
+
         const populateFilterDropdowns = () => {
             const continents = getContinentsWithTeams();
             
-            const homeContinentOptions = continents.length === 0 
+            const continentOptions = continents.length === 0 
                 ? [{ value: '', label: t('no_teams_available') || 'No teams available' }]
                 : continents.map(c => ({ value: c, label: c }));
             
-            const awayContinentOptions = continents.length === 0 
-                ? [{ value: '', label: t('no_teams_available') || 'No teams available' }]
-                : continents.map(c => ({ value: c, label: c }));
-            
-            initCustomSelect('home-continent', homeContinentOptions, (value) => {
+            initCustomSelect('home-continent', continentOptions, (value) => {
                 updateHomeCountries();
             }, null, true);
             
-            initCustomSelect('away-continent', awayContinentOptions, (value) => {
+            initCustomSelect('away-continent', continentOptions, (value) => {
                 updateAwayCountries();
             }, null, true);
             
@@ -1614,42 +1530,24 @@
         const updateHomeCountries = () => {
             const continent = customSelects['home-continent']?.selected;
             const options = [];
-            
             if (continent) {
                 getCountriesWithTeams(continent).forEach(c => {
-                    options.push({
-                        value: c,
-                        label: c,
-                        image: getCountryFlag(c)
-                    });
+                    options.push({ value: c, label: c, image: getCountryFlag(c) });
                 });
             }
-            
-            initCustomSelect('home-country', options, (value) => {
-                updateHomeDivisions();
-            }, null, true);
-            
+            initCustomSelect('home-country', options, (value) => { updateHomeDivisions(); }, null, true);
             updateHomeDivisions();
         };
 
         const updateAwayCountries = () => {
             const continent = customSelects['away-continent']?.selected;
             const options = [];
-            
             if (continent) {
                 getCountriesWithTeams(continent).forEach(c => {
-                    options.push({
-                        value: c,
-                        label: c,
-                        image: getCountryFlag(c)
-                    });
+                    options.push({ value: c, label: c, image: getCountryFlag(c) });
                 });
             }
-            
-            initCustomSelect('away-country', options, (value) => {
-                updateAwayDivisions();
-            }, null, true);
-            
+            initCustomSelect('away-country', options, (value) => { updateAwayDivisions(); }, null, true);
             updateAwayDivisions();
         };
 
@@ -1657,21 +1555,12 @@
             const continent = customSelects['home-continent']?.selected;
             const country = customSelects['home-country']?.selected;
             const options = [];
-            
             if (continent && country) {
-                const divisions = getDivisionsWithTeams(continent, country);
-                divisions.forEach(d => {
-                    options.push({
-                        value: d,
-                        label: getDivisionLabel(d)
-                    });
+                getDivisionsWithTeams(continent, country).forEach(d => {
+                    options.push({ value: d, label: getDivisionLabel(d) });
                 });
             }
-            
-            initCustomSelect('home-division', options, (value) => {
-                updateHomeTeams();
-            }, null, true);
-            
+            initCustomSelect('home-division', options, (value) => { updateHomeTeams(); }, null, true);
             updateHomeTeams();
         };
 
@@ -1679,21 +1568,12 @@
             const continent = customSelects['away-continent']?.selected;
             const country = customSelects['away-country']?.selected;
             const options = [];
-            
             if (continent && country) {
-                const divisions = getDivisionsWithTeams(continent, country);
-                divisions.forEach(d => {
-                    options.push({
-                        value: d,
-                        label: getDivisionLabel(d)
-                    });
+                getDivisionsWithTeams(continent, country).forEach(d => {
+                    options.push({ value: d, label: getDivisionLabel(d) });
                 });
             }
-            
-            initCustomSelect('away-division', options, (value) => {
-                updateAwayTeams();
-            }, null, true);
-            
+            initCustomSelect('away-division', options, (value) => { updateAwayTeams(); }, null, true);
             updateAwayTeams();
         };
 
@@ -1702,7 +1582,6 @@
             const country = customSelects['home-country']?.selected;
             const division = customSelects['home-division']?.selected;
             const options = [];
-            
             teams.filter(t => {
                 if (continent && t.continent !== continent) return false;
                 if (country && t.country !== country) return false;
@@ -1710,20 +1589,16 @@
                 return true;
             }).forEach(team => {
                 const idx = teams.indexOf(team);
-                options.push({
-                    value: idx,
-                    label: team.name,
-                    image: team.shield || generateShieldUrl(team.abbreviation, team.colors?.[0] || '#000000', team.colors?.[1] || '#ffffff')
-                });
+                options.push({ value: idx, label: team.name, image: team.shield || generateShieldUrl(team.abbreviation, team.colors?.[0] || '#000000', team.colors?.[1] || '#ffffff') });
             });
-            
-            initCustomSelect('home-team', options, (value) => {
+            initCustomSelect('home-team', options, (value) => { 
                 selectTeam('home');
+                updateAutoTacticAndPressure();
             }, null, true);
-            
             if (options.length > 0) {
                 renderCustomSelect('home-team');
                 selectTeam('home');
+                updateAutoTacticAndPressure();
             }
         };
 
@@ -1732,7 +1607,6 @@
             const country = customSelects['away-country']?.selected;
             const division = customSelects['away-division']?.selected;
             const options = [];
-            
             teams.filter(t => {
                 if (continent && t.continent !== continent) return false;
                 if (country && t.country !== country) return false;
@@ -1740,35 +1614,22 @@
                 return true;
             }).forEach(team => {
                 const idx = teams.indexOf(team);
-                options.push({
-                    value: idx,
-                    label: team.name,
-                    image: team.shield || generateShieldUrl(team.abbreviation, team.colors?.[0] || '#000000', team.colors?.[1] || '#ffffff')
-                });
+                options.push({ value: idx, label: team.name, image: team.shield || generateShieldUrl(team.abbreviation, team.colors?.[0] || '#000000', team.colors?.[1] || '#ffffff') });
             });
-            
-            initCustomSelect('away-team', options, (value) => {
+            initCustomSelect('away-team', options, (value) => { 
                 selectTeam('away');
+                updateAutoTacticAndPressure();
             }, null, true);
-            
             if (options.length > 0) {
                 renderCustomSelect('away-team');
                 selectTeam('away');
+                updateAutoTacticAndPressure();
             }
         };
 
         const populateTacticDropdowns = () => {
-            const tacticOptions = TACTICS.map(t => ({
-                value: t.id,
-                label: t.name,
-                icon: t.icon
-            }));
-            
-            const pressureOptions = PRESSURE_LEVELS.map(p => ({
-                value: p.id,
-                label: p.name,
-                icon: p.icon
-            }));
+            const tacticOptions = TACTICS.map(t => ({ value: t.id, label: t.name, icon: t.icon }));
+            const pressureOptions = PRESSURE_LEVELS.map(p => ({ value: p.id, label: p.name, icon: p.icon }));
             
             initCustomSelect('home-tactic', tacticOptions, () => {}, `<i class="fa-solid fa-robot"></i><span class="selected-text">Auto</span>`);
             initCustomSelect('away-tactic', tacticOptions, () => {}, `<i class="fa-solid fa-robot"></i><span class="selected-text">Auto</span>`);
@@ -1789,7 +1650,6 @@
         const selectTeam = (side) => {
             const select = side === 'home' ? customSelects['home-team'] : customSelects['away-team'];
             if (!select || select.selected === null || select.selected === undefined || select.selected === '') return;
-            
             const idx = select.selected;
             const team = teams[idx];
             if (!team) return;
@@ -1809,40 +1669,29 @@
         };
 
         const swapTeams = () => {
-            const hc = customSelects['home-continent']?.selected;
-            const ac = customSelects['away-continent']?.selected;
-            const hco = customSelects['home-country']?.selected;
-            const aco = customSelects['away-country']?.selected;
-            const hdi = customSelects['home-division']?.selected;
-            const adi = customSelects['away-division']?.selected;
-            const ht = customSelects['home-team']?.selected;
-            const at = customSelects['away-team']?.selected;
+            // Swap all values
+            const swapSelect = (homeId, awayId) => {
+                const home = customSelects[homeId];
+                const away = customSelects[awayId];
+                if (home && away) {
+                    const temp = home.selected;
+                    home.selected = away.selected;
+                    away.selected = temp;
+                    renderCustomSelect(homeId);
+                    renderCustomSelect(awayId);
+                }
+            };
             
-            if (customSelects['home-continent']) customSelects['home-continent'].selected = ac;
-            if (customSelects['away-continent']) customSelects['away-continent'].selected = hc;
+            swapSelect('home-continent', 'away-continent');
+            swapSelect('home-country', 'away-country');
+            swapSelect('home-division', 'away-division');
+            swapSelect('home-team', 'away-team');
+            swapSelect('home-tactic', 'away-tactic');
+            swapSelect('home-pressure', 'away-pressure');
             
-            updateHomeCountries();
-            updateAwayCountries();
-            
-            if (customSelects['home-country']) customSelects['home-country'].selected = aco;
-            if (customSelects['away-country']) customSelects['away-country'].selected = hco;
-            
-            updateHomeDivisions();
-            updateAwayDivisions();
-            
-            if (customSelects['home-division']) customSelects['home-division'].selected = adi;
-            if (customSelects['away-division']) customSelects['away-division'].selected = hdi;
-            
-            updateHomeTeams();
-            updateAwayTeams();
-            
-            if (customSelects['home-team']) customSelects['home-team'].selected = at;
-            if (customSelects['away-team']) customSelects['away-team'].selected = ht;
-            
-            renderCustomSelect('home-team');
-            renderCustomSelect('away-team');
             selectTeam('home');
             selectTeam('away');
+            updateAutoTacticAndPressure();
         };
 
         const toggleNeutralVenue = () => { neutralVenueActive = elements.neutralVenue.checked; };
@@ -1869,20 +1718,20 @@
             elements.editorCountry.innerHTML = `<option value="">${t('select_country') || 'Select Country'}</option>`;
             
             if (teamIndex !== null) {
-                const t = teams[teamIndex];
-                elements.teamName.value = t.name;
-                elements.teamAbbr.value = t.abbreviation;
-                elements.teamShieldUrl.value = t.shield || '';
-                elements.teamStadium.value = t.stadium;
-                elements.editorContinent.value = t.continent;
+                const tm = teams[teamIndex];
+                elements.teamName.value = tm.name;
+                elements.teamAbbr.value = tm.abbreviation;
+                elements.teamShieldUrl.value = tm.shield || '';
+                elements.teamStadium.value = tm.stadium;
+                elements.editorContinent.value = tm.continent;
                 updateEditorCountries();
-                elements.editorCountry.value = t.country;
-                elements.editorDivision.value = t.division || 1;
-                if (t.colors?.length >= 2) {
-                    elements.teamColor1.value = t.colors[0];
-                    elements.teamColor2.value = t.colors[1];
+                elements.editorCountry.value = tm.country;
+                elements.editorDivision.value = tm.division || 1;
+                if (tm.colors?.length >= 2) {
+                    elements.teamColor1.value = tm.colors[0];
+                    elements.teamColor2.value = tm.colors[1];
                 }
-                t.players.forEach(p => addPlayer(p));
+                tm.players.forEach(p => addPlayer(p));
             } else {
                 for (let i = 0; i < 11; i++) addPlayer();
             }
@@ -2003,9 +1852,7 @@
                 const imported = JSON.parse(text);
                 if (Array.isArray(imported)) {
                     teams = imported;
-                    teams.forEach(t => {
-                        if (!t.division) t.division = t.tier || 1;
-                    });
+                    teams.forEach(t => { if (!t.division) t.division = t.tier || 1; });
                     sortTeamsAlphabetically();
                     saveTeams();
                     updateTeamsList();
@@ -2069,9 +1916,7 @@
             let totalWeight = 0, weightedSum = 0;
             starters.forEach(p => {
                 let rating = p.rating;
-                if (isPlayerSentOff(teamSide, p.name)) {
-                    rating *= 0.5;
-                }
+                if (isPlayerSentOff(teamSide, p.name)) rating *= 0.5;
                 const w = weights[p.position] || 1.0;
                 weightedSum += rating * w;
                 totalWeight += w;
@@ -2080,10 +1925,7 @@
         };
 
         const startCelebration = (scoringTeam, isHome) => {
-            if (matchInterval) {
-                clearInterval(matchInterval);
-                matchInterval = null;
-            }
+            if (matchInterval) { clearInterval(matchInterval); matchInterval = null; }
             isCelebrating = true;
             
             const fieldHome = elements.fieldHome;
@@ -2105,7 +1947,6 @@
                 toggleState = !toggleState;
                 const currentColor = toggleState ? color1 : color2;
                 const textColor = toggleState ? color2 : color1;
-                
                 fieldHome.style.background = currentColor;
                 fieldAway.style.background = currentColor;
                 scoreElement.style.backgroundColor = currentColor;
@@ -2115,32 +1956,20 @@
             celebrationTimeout = setTimeout(() => {
                 clearInterval(celebrationInterval);
                 celebrationInterval = null;
-                
                 fieldHome.style.background = originalHomeColor;
                 fieldAway.style.background = originalAwayColor;
                 scoreElement.style.backgroundColor = originalScoreBackground;
                 scoreElement.style.color = originalScoreColor;
-                
                 isCelebrating = false;
                 celebrationTimeout = null;
-                
-                if (!isPaused) {
-                    startMatchInterval();
-                }
+                if (!isPaused) startMatchInterval();
             }, celebrationDuration);
         };
 
         const stopCelebration = () => {
-            if (celebrationInterval) {
-                clearInterval(celebrationInterval);
-                celebrationInterval = null;
-            }
-            if (celebrationTimeout) {
-                clearTimeout(celebrationTimeout);
-                celebrationTimeout = null;
-            }
+            if (celebrationInterval) { clearInterval(celebrationInterval); celebrationInterval = null; }
+            if (celebrationTimeout) { clearTimeout(celebrationTimeout); celebrationTimeout = null; }
             isCelebrating = false;
-            
             if (currentMatch) {
                 elements.fieldHome.style.background = currentMatch.homeTeam.colors?.[0] || '#000000';
                 elements.fieldAway.style.background = currentMatch.awayTeam.colors?.[0] || '#000000';
@@ -2186,11 +2015,8 @@
             addedTime = Math.floor(Math.random() * 5) + 4;
             addedTimeAnnounced = false;
             currentMatch = {
-                homeTeam, awayTeam,
-                homeTactic, awayTactic,
-                homePressure, awayPressure,
-                homeScore: 0, awayScore: 0, minute: 0, zone: 2,
-                possessionTeam: 'home',
+                homeTeam, awayTeam, homeTactic, awayTactic, homePressure, awayPressure,
+                homeScore: 0, awayScore: 0, minute: 0, zone: 2, possessionTeam: 'home',
                 stats: { homePossession: 0, awayPossession: 0, homeShots: 0, awayShots: 0, homeShotsOnTarget: 0, awayShotsOnTarget: 0, homeFouls: 0, awayFouls: 0, homeTackles: 0, awayTackles: 0, homeCorners: 0, awayCorners: 0, homePenalties: 0, awayPenalties: 0, homeSaves: 0, awaySaves: 0, homeYellowCards: 0, awayYellowCards: 0, homeRedCards: 0, awayRedCards: 0, homeOffsides: 0, awayOffsides: 0 },
                 goalScorers: [], assists: [], keyEvents: []
             };
@@ -2553,10 +2379,8 @@
             elements.awayFoulsStat.textContent = currentMatch.stats.awayFouls;
             elements.homeOffsidesStat.textContent = currentMatch.stats.homeOffsides;
             elements.awayOffsidesStat.textContent = currentMatch.stats.awayOffsides;
-            const totalHomeCards = currentMatch.stats.homeRedCards;
-            const totalAwayCards = currentMatch.stats.awayRedCards;
-            elements.homeCardsStat.textContent = totalHomeCards;
-            elements.awayCardsStat.textContent = totalAwayCards;
+            elements.homeCardsStat.textContent = currentMatch.stats.homeRedCards;
+            elements.awayCardsStat.textContent = currentMatch.stats.awayRedCards;
             const homeProgress = ((5 - currentMatch.zone) / 5) * 100;
             elements.fieldHome.style.flex = `${homeProgress} 1 0%`;
             elements.fieldAway.style.flex = `${100 - homeProgress} 1 0%`;
@@ -2571,7 +2395,6 @@
             currentMatch = null;
         };
 
-        // Make functions globally accessible
         window.goHome = goHome;
         window.showMatchTab = showMatchTab;
         window.showTeamsTab = showTeamsTab;
@@ -2596,7 +2419,6 @@
         window.toggleDropdown = toggleDropdown;
         window.closeAllDropdowns = closeAllDropdowns;
 
-        // Initialize
         (async () => {
             const savedLanguage = localStorage.getItem('rise_language') || 'en';
             currentLanguage = savedLanguage;
